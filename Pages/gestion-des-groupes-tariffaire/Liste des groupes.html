@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiro'o World</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">   
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'kiroo-dark': '#4A5568',
+                        'kiroo-purple': '#9F7AEA',
+                        'kiroo-green': '#48BB78'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-100">
+   
+        <div class="flex min-h-screen">
+                   <!-- Sidebar -->
+        <div class="fixed top-0 left-0 z-30 flex-shrink-0 hidden h-screen overflow-y-auto text-white bg-gray-800 w-80 lg:block">
+            <!-- Header avec logo -->
+            <div class="flex items-center justify-center p-3 border-b border-gray-700">
+                <img src="https://kirooworld.com/img/font-img/logo_horizontal.png" alt="logo-kirooworld" class="w-40 h-16">
+            </div>
+
+            <!-- Dashboard actif -->
+            <div class="px-4 py-2">
+                <a href="../dashboard.html">
+                     <div class="px-4 py-3 font-semibold text-center text-white bg-green-500 rounded-lg">
+                        DASHBOARD
+                    </div>
+                </a>
+               
+            </div>
+
+            <!-- Menu -->
+            <div class="px-4 py-4">
+                <div class="px-4 py-2 font-semibold text-white bg-purple-600 rounded-t-lg">
+                    MENU
+                </div>
+                <nav class="bg-gray-700 rounded-b-lg">
+                    <ul class="py-2">
+                        <!-- Campagnes -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-pink-400"><i class="fa-solid fa-bullhorn"style="color: #a9d336;"></i></span>
+                                <span>Campagnes</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Campagnes/Creer un filtre.html">Liste des audiences</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-campagnes.html">Liste des campagnes</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-filtres.html">Liste des filtres</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/Creer un filtre.html">Creer un filtre</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Données systèmes -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-blue-400"><i class="fa-solid fa-database"style="color: #a9d336;"></i></span>
+                                <span>Données systèmes</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-monnaies.html">Gestion des monnaies</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-pays.html">Gestion des Pays</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des annonces -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-orange-400"><i class="fa-solid fa-bell"style="color: #a9d336;"></i></span>
+                                <span>Gestion des annonces</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/corbeil-des-annonces.html">Corbeille des annonces</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/creer-des-annonces.html">Créer des annonces</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/liste-des-annonces.html">Liste des annonces</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des cadeaux -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-yellow-400"><i class="fa-light fa-gift" style="color: #a9d336;"></i></span>
+                                <span>Gestion des Cadeaux</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-cadeaux/typeRecompenses.html">Types de cadeaux</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des groupes tarifaires -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-purple-400"><i class="fa-solid fa-credit-card"style="color: #a9d336;"></i></span>
+                                <span>Gestion des groupes tarifaires</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Creer un groupe.html">Creer un grpoupe</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Groupes supprimés.html">Groupes supprimé</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Liste des groupes.html">Liste des grpoupes</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des missions -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-yellow-400"><i class="fa-solid fa-bullseye"style="color: #a9d336;"></i></span>
+                                <span>Gestion des Missions</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Corbeille des missions.html">Corbeille des missions</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Creer une mission.html">Créer une mission</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Liste des mission.html">Liste des missions</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des promos -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-green-400"><i class="fa-solid fa-tags"style="color: #a9d336;"></i></span>
+                                <span>Gestion des promos</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos supprimé.html">Liste des promos supprimé</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos.html">Liste des promos </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des tunnels de ventes -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-indigo-400"><i class="fa-solid fa-cart-shopping"style="color: #a9d336;"></i></span>
+                                <span>Gestion des tunnels de ventes</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Creer un tunell.html">Créer un tunnel</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Liste des tunnels.html">Liste des tunnels</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des utilisateurs -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-green-400"><i class="fa-solid fa-users"style="color: #a9d336;"></i></span>
+                                <span>Gestion des utilisateurs</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/ajoutUtilisateurs.html">Ajouter utilisateur</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeSupprimes.html">Groupe supprimé</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeUtilisateur.html">Groupe d'utilisateur</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/listeUtilisateurs.html">Liste utilisateurs</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Paiement & Factures -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-green-400"><i class="fa-solid fa-money-bill-wave"style="color: #a9d336;"></i></span>
+                                <span>Paiements & Factures</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Gestion des systemes de paiements.html">Gestion des systèmes de paiements</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Historique des paiements.html">Historique des paiements</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement echoué.html">Paiement échoué</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement en cour.html">Paiement en cours</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement offert.html">Paiement offert</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Rôles & Permissions -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-blue-400"><i class="fa-solid fa-user-shield"style="color: #a9d336;"></i></span>
+                                <span>Rôles & Permissions</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Categorie de permissions.html">Catégorie de permissions</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des permissions.html">Liste des permissions</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des roles.html">Liste des rôles</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Signalements de problèmes KGF -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-red-400"><i class="fa-solid fa-triangle-exclamation"style="color: #a9d336;"></i></span>
+                                <span>Signalements de problèmes KGF</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Signalements de problemes KGF/Liste des problemes.html">Liste des problèmes</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Bottom icons -->
+            <div class="flex items-center justify-center py-4 px-4 space-x-4 text-gray-400 bg-gray-900 border-t border-gray-700 mt-auto">
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">🏠</span>
+                </div>
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">⚙️</span>
+                </div>
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">🔗</span>
+                </div>
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">📋</span>
+                </div>
+            </div>
+        </div>
+
+           
+        <!-- Mobile sidebar overlay -->
+        <div id="mobile-sidebar" class="fixed inset-0 z-40 text-white transition-transform duration-300 transform -translate-x-full bg-gray-800 lg:hidden">
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-orange-400">
+                            <div class="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                                <div class="w-4 h-4 bg-gray-800 rounded-full"></div>
+                            </div>
+                        </div>
+                        <span class="text-xl font-semibold text-orange-300">Kiro'o World</span>
+                    </div>
+                    <button id="close-mobile-menu" class="text-2xl">×</button>
+                </div>
+            </div>
+            
+            <div class="px-4 py-2">
+                <a href="../dashboard.html">
+                    <div class="px-4 py-3 font-semibold text-center text-white bg-green-500 rounded-lg">
+                        DASHBOARD
+                    </div>
+                </a>
+            </div>
+            <!-- Mobile menu items -->
+            <div class="px-4 py-4">
+            <div class="px-4 py-2 font-semibold text-white bg-purple-600 rounded-t-lg">
+                MENU
+            </div>
+            <nav class="bg-gray-700 rounded-b-lg">
+                <ul class="py-2">
+                    <!-- Campagnes -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-pink-400"><i class="fa-solid fa-bullhorn"style="color: #a9d336;"></i></span>
+                            <span>Campagnes</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-audiences.html">Liste des audiences</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-campagnes.html">Liste des campagnes</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-filtres.html">Liste des filtres</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/Creer un filtre.html">Creer un filtre</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Données systèmes -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-blue-400"><i class="fa-solid fa-database"style="color: #a9d336;"></i></span>
+                            <span>Données systèmes</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-monnaies.html">Gestion des monnaies</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-pays.html">Gestion des Pays</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Gestion des annonces -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-orange-400"><i class="fa-solid fa-bell"style="color: #a9d336;"></i></span>
+                            <span>Gestion des annonces</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/corbeil-des-annonces.html">Corbeille des annonces</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/creer-des-annonces.html">Créer des annonces</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/liste-des-annonces.html">Liste des annonces</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Gestion des cadeaux -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-yellow-400"><i class="fa-light fa-gift" style="color: #a9d336;"></i></span>
+                            <span>Gestion des Cadeaux</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-cadeaux/typeRecompenses.html">Types de cadeaux</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Gestion des groupes tarifaires -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-purple-400"><i class="fa-solid fa-credit-card"style="color: #a9d336;"></i></span>
+                            <span>Gestion des groupes tarifaires</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Creer un groupe.html">Creer un groupe</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Groupes supprimés.html">Groupe supprimé</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Liste des groupes.html">Liste des groupe</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Gestion des missions -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-yellow-400"><i class="fa-solid fa-bullseye"style="color: #a9d336;"></i></span>
+                            <span>Gestion des Missions</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Corbeille des missions.html">Corbeille des missions</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Creer une mission.html">Créer une mission</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Liste des mission.html">Liste des missions</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Gestion des promos -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-green-400"><i class="fa-solid fa-tags"style="color: #a9d336;"></i></span>
+                            <span>Gestion des promos</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos supprimé.html">Liste des promos supprimé</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos.html">Liste des promos</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Gestion des tunnels de ventes -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-indigo-400"><i class="fa-solid fa-cart-shopping"style="color: #a9d336;"></i></span>
+                            <span>Gestion des tunnels de ventes</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Creer un tunell.html">Créer un tunnel</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Liste des tunnels.html">Liste des tunnels</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Gestion des utilisateurs -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-green-400"><i class="fa-solid fa-users"style="color: #a9d336;"></i></span>
+                            <span>Gestion des utilisateurs</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/ajoutUtilisateurs.html">Ajouter utilisateur</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeSupprimes.html">Groupe supprimé</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeUtilisateur.html">Groupe d'utilisateur</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/listeUtilisateurs.html">Liste utilisateurs</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Paiement & Factures -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-green-400"><i class="fa-solid fa-money-bill-wave"style="color: #a9d336;"></i></span>
+                            <span>Paiements & Factures</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Gestion des systemes de paiements.html">Gestion des systèmes de paiements</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Historique des paiements.html">Historique des paiements</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement echoué.html">Paiement échoué</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement en cour.html">Paiement en cours</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement offert.html">Paiement offert</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Rôles & Permissions -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-blue-400"><i class="fa-solid fa-user-shield"style="color: #a9d336;"></i></span>
+                            <span>Rôles & Permissions</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Categorie de permissions.html">Catégorie de permissions</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des permissions.html">Liste des permissions</a></li>
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des roles.html">Liste des rôles</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Signalements de problèmes KGF -->
+                    <li class="relative group">
+                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                            <span class="text-red-400"><i class="fa-solid fa-triangle-exclamation"style="color: #a9d336;"></i></span>
+                            <span>Signalements de problèmes KGF</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Signalements de problemes KGF/Liste des problemes.html">Liste des problèmes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Bottom icons -->
+        <div class="flex items-center justify-center py-4 px-4 space-x-4 text-gray-400 bg-gray-900 border-t border-gray-700 mt-auto">
+            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                <span class="text-xl">🏠</span>
+            </div>
+            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                <span class="text-xl">⚙️</span>
+            </div>
+            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                <span class="text-xl">🔗</span>
+            </div>
+            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                <span class="text-xl">📋</span>
+            </div>
+        </div>
+        </div>
+            <!-- Main content -->
+            <div class="relative flex-1 min-h-screen pl-0 lg:pl-80">
+                <!-- Hamburger sur la barre latérale du main content -->
+                <div class="absolute left-0 z-50 items-start justify-center ml-5 top-4 lg:hidden" >
+                    <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
+                        ☰
+                    </button>
+                </div>
+                <div class="flex-1 min-h-screen bg-white ">
+                    
+                    <!-- Top bar -->
+                    <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 ">
+                        <div class="ml-10 text-lg font-semibold text-white lg:hidden sm:">
+                            <a href="../dashboard.html">DASHBOARD</a>
+                        </div>
+                        <div class="ml-auto">
+                            <div class="flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer bg-opacity-20">
+                                <span class="text-xl text-white">👤</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenu principal -->
+
+                    <!-- Tableau des types de récompense -->
+                    <div class="max-w-7xl mx-auto my-10 overflow-x-auto bg-white border border-gray-100 shadow-xl "> 
+                        <div class=" items-center  pl-2 py-4 border-b border-gray-100 justify-items-start">
+                            <h2 class="flex items-center gap-2 text-2xl font-bold text-kiroo-purple flex-1">
+                                <svg class="w-6 h-6 text-kiroo-purple" fill="none" stroke="currentColor"></svg>
+                                Liste des Groupes Tarifaires
+                            </h2>
+                             <p class="px-6 py-2 text-gray-700">
+                                Cette section contient la liste des groupes tarifaire du système ainsi que les différentes informations qui leurs sont associées. Vous pourrez effectuer une recherches, activer ou désactiver certains groupes tarifaires                        
+                            </p> 
+                        </div>
+                       
+                        <div class="flex gap-2 items-center justify-end px-6 pb-2 border-b bg-gray-200 max-w-7xl mr-10 ml-9 ">
+                            <button class=" items-center gap-1 px-4 py-2 mt-2 text-xs font-semibold text-white transition rounded-sm bg-blue-700 hover:bg-green-600" disabled>
+                                SUPPRIMER
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto px-6 py-4 block">
+                            <div class=" justify-between px-6 py-4 border-b">
+                                <label for="" class="text-lg text-gray-600 font-bold"> Filtrer par:</label>
+
+                                <div class="flex items-center gap-1 mt-1">
+                                    <select class="px-24 py-2 border border-black rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                                        <option value="all"></option>
+                                        <option value="active">Actifs</option>
+                                        <option value="inactive">Inactifs</option>
+                                        <option value="inactive">Tous</option>
+                                    </select>
+                                    <button class="px-5 py-2 text-white bg-green-500 rounded-md hover:bg-green-600 text-lg font-semibold">
+                                        voir
+                                    </button>
+                                   
+                                </div>
+                                <label for="">Show:</label>
+                                <select class="px-2 py-0.5 mt-3 border border-gray-400  focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                                    <option value="active">10</option>
+                                    <option value="inactive">25</option>
+                                    <option value="inactive">50</option>
+                                    <option value="inactive">100</option>
+                                    
+                                </select>
+                                <label for="">entries</label>
+                            </div>
+                            <div class="flex items-center gap-2 justify-end px-6 pt-4">
+                                <label for="">Search</label>
+                                <input type="text" placeholder="Rechercher..." class="px-3 py-1 border border-gray-400 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                            </div>
+                        </div>
+                        <table class="min-w-full text-base text-left ">
+                            <thead class="bg-gray-50 border-b border-t-2 border-green-500">
+                            <tr>
+                                <th class="px-6 py-9 font-bold text-gray-700 text-lg flex" filterable>
+                                    <input type="checkbox" name="" id="" class="">
+                                    <i class="fa-thin fa-arrow-down"></i>
+                                    <i class="fa-thin fa-arrow-up"></i>
+
+                                </th>
+                                <th class="px-6 py-3 font-bold text-gray-700 text-lg">#</th>
+                                <th class="px-6 py-3 font-bold text-gray-700 text-lg">Nom du groupe</th>
+                                <th class="px-6 py-3 font-bold text-gray-700 text-lg">devise</th>
+                                <th class="px-6 py-3 font-bold text-gray-700 text-lg">pays associés</th>
+                                <th class="px-6 py-3 font-bold text-gray-700 text-lg">Nombre de pack associé</th>
+                                <th class="px-6 py-3 font-bold text-center text-gray-700 text-lg">Creé par</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="border-t hover:bg-gray-50">
+                                <td class="px-6 py-4"><input type="checkbox" name="" id=""></td>
+                                <td class="px-6 py-4">1</td>
+                                <td class="px-6 py-4"><a href="" class="text-blue-600 font-semibold">Aurion PC Eng</a><br> #aurionpc_eng</td>
+                                <td class="px-6 py-4">US Dollar(USD)</td>
+                                <td class="px-6 py-4">Aucun pays associés</td>
+                                <td class="px-6 py-4 ">1</td>
+                                <td class="px-6 py-4 text-blue-600">	HONLA EVELINE ROSETTE5</td>
+                               
+                            </tr>
+                             <tr class="border-t hover:bg-gray-50">
+                                <td class="px-6 py-4"><input type="checkbox" name="" id=""></td>
+                                <td class="px-6 py-4">2</td>
+                                <td class="px-6 py-4"><a href="" class="text-blue-600 font-semibold">Grpe Tarifaire-KGF Premieum - Par defaut V1</a><br> #aurionpc_eng</td>
+                                <td class="px-6 py-4">US Dollar(USD)</td>
+                                <td class="px-6 py-4">Aucun pays associés</td>
+                                <td class="px-6 py-4 ">16</td>
+                                <td class="px-6 py-4 text-blue-600">	HONLA EVELINE ROSETTE5</td>
+                               
+                            </tr>
+                             <tr class="border-t hover:bg-gray-50">
+                                <td class="px-6 py-4"><input type="checkbox" name="" id=""></td>
+                                <td class="px-6 py-4">3</td>
+                                <td class="px-6 py-4"><a href="" class="text-blue-600 font-semibold">Aurion PC Eng</a><br> #aurionpc_eng</td>
+                                <td class="px-6 py-4">US Dollar(USD)</td>
+                                <td class="px-6 py-4">Aucun pays associés</td>
+                                <td class="px-6 py-4 ">1</td>
+                                <td class="px-6 py-4 text-blue-600">	HONLA EVELINE ROSETTE5</td>
+                               
+                            </tr>
+                             <tr class="border-t hover:bg-gray-50">
+                                <td class="px-6 py-4"><input type="checkbox" name="" id=""></td>
+                                <td class="px-6 py-4">4</td>
+                                <td class="px-6 py-4"><a href="" class="text-blue-600 font-semibold">Grpe Tarifaire-KGF Fremieum - XAF</a><br> #kgffreemium_xaf</td>
+                                <td class="px-6 py-4">CFA Frank BEAC(XAF)</td>
+                                <td class="px-6 py-4">
+                                    <a href="" title="voir le pays" class="text-blue-500"></a>
+                                    <ul>
+                                        <li>
+                                            <div class="flex items-center space-x-2">
+                                                <img class="w-7 rounded-sm"src="https://kirooworld.com/countries-flag/cm.png" alt="Drapeau du Cameroun" class="w-6 h-4">
+                                                <span class="text-blue-600">Cameroun</span>
+                                            </div>
+                                        </li>
+                                         <li>
+                                            <div class="flex items-center space-x-2">
+                                                <img class="w-7 rounded-sm"src="https://kirooworld.com/countries-flag/cd.png" alt="Drapeau du Congo-Kinshasa" class="w-6 h-4">
+                                                <span class="text-blue-600">Congo-Kinshasa</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="flex items-center space-x-2">
+                                                <img class="w-7 rounded-sm" src="https://kirooworld.com/countries-flag/ga.png" alt="Drapeau du Gabon" class="w-6 h-4">
+                                                <span class="text-blue-600">Gabon</span>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 ">1</td>
+                                <td class="px-6 py-4 text-blue-600">	HONLA EVELINE ROSETTE5</td>
+                               
+                            </tr>
+                                <tr class="border-t hover:bg-gray-50">
+                                    <td class="px-6 py-4"><input type="checkbox" name="" id=""></td>
+                                    <td class="px-6 py-4">5</td>
+                                    <td class="px-6 py-4"><a href="" class="text-blue-600 font-semibold">Grpe Tarifaire-KGF Fremieum - XOF</a><br> #kgffreemium_xof</td>
+                                    <td class="px-6 py-4">CFA Frank BCEAO(XOF)</td>
+                                    <td class="px-6 py-4">
+                                        <a href="" title="voir le pays" class="text-blue-500"></a>
+                                        <ul>
+                                            <li>
+                                                <div class="flex items-center space-x-2">
+                                                    <img class="w-7 rounded-sm"src="https://kirooworld.com/countries-flag/bj.png" alt="Drapeau du Bénin" class="w-6 h-4">
+                                                    <span class="text-blue-600">Bénin</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="flex items-center space-x-2">
+                                                    <img class="w-7 rounded-sm"src="https://kirooworld.com/countries-flag/ci.png" alt="Drapeau de la Côte d'Ivoire" class="w-6 h-4">
+                                                    <span class="text-blue-600">Côte d'Ivoire</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="flex items-center space-x-2">
+                                                    <img class="w-7 rounded-sm"src="https://kirooworld.com/countries-flag/mr.png" alt="Drapeau de la Mauritanie" class="w-6 h-4">
+                                                    <span class="text-blue-600">Mauritanie</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="px-6 py-4 ">1</td>
+                                    <td class="px-6 py-4 text-blue-600">	HONLA EVELINE ROSETTE5</td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <footer class="w-full px-4 pb-4 text-center text-black bg-white">
+                        <hr class="mb-2 border-gray-300">
+                        Copyright 2025 - Created by <a href="#" class="text-blue-700">KIROO GAMES</a>
+                    </footer>
+                
+                </div>
+            </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileSidebar.classList.remove('-translate-x-full');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileSidebar.classList.add('-translate-x-full');
+        });
+
+        // Close mobile menu when clicking outside
+        mobileSidebar.addEventListener('click', (e) => {
+            if (e.target === mobileSidebar) {
+                mobileSidebar.classList.add('-translate-x-full');
+            }
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const menu = this.parentElement.querySelector('.dropdown-menu');
+                document.querySelectorAll('.dropdown-menu').forEach(m => {
+                    if (m !== menu) m.classList.add('hidden');
+                });
+                menu.classList.toggle('hidden');
+            });
+        });
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+        });
+    </script>
+    <script>
+        function updateSidebarLinks() {
+            const path = window.location.pathname;
+            const depth = path.split('/').filter(part => part !== '').length - 1;
+            const basePath = '../'.repeat(depth);
+            
+            const sidebarLinks = document.querySelectorAll('a[href*="../"]');
+            
+            sidebarLinks.forEach(link => {
+                const originalHref = link.getAttribute('href');
+                const cleanPath = originalHref.replace(/^\.\.\/+/, '');
+                link.setAttribute('href', basePath + cleanPath);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', updateSidebarLinks);
+    </script>
+</body>
+</html>
+
+
+
