@@ -24,6 +24,86 @@
             }
         }
     </script>
+     <style>
+        /* Styles personnalisés */
+        .status-initiale { color: #6b7280; }
+        .status-paye { color: #22c55e; font-weight: 600; }
+        .status-annule { color: #ef4444; font-weight: 600; }
+        .status-encours { color: #f59e0b; font-weight: 600; }
+        
+        /* Table responsive */
+        @media (max-width: 1024px) {
+            .responsive-table {
+                font-size: 0.8rem;
+            }
+            .responsive-table th,
+            .responsive-table td {
+                padding: 0.5rem;
+                white-space: nowrap;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .responsive-table {
+                font-size: 0.7rem;
+            }
+            .responsive-table th,
+            .responsive-table td {
+                padding: 0.25rem;
+            }
+        }
+        
+        /* Custom scrollbar for table */
+        .table-wrapper {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 #f7fafc;
+        }
+        
+        .table-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #f7fafc;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background-color: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .mobile-stack {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .mobile-full-width {
+                width: 100% !important;
+            }
+            .mobile-block {
+                display: block !important;
+            }
+            .mobile-text-center {
+                text-align: center;
+            }
+            .mobile-pagination {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .mobile-pagination-nav {
+                order: 2;
+                width: 100%;
+                justify-content: center;
+                margin-top: 0.5rem;
+            }
+            .mobile-pagination-go {
+                order: 1;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body class="font-sans bg-gray-100">
    
@@ -477,6 +557,267 @@
                     <!-- Contenu principal -->
 
                     <!-- Tableau des types de récompense -->
+                       <!-- Contenu principal -->
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-7xl">
+        <!-- Header -->
+        <div class="mb-4 sm:mb-8">
+            <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2 mobile-text-center">HISTORIQUE DES PAIEMENTS KIROO</h1>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+            <!-- Left Section - Formulaire -->
+            <div class="lg:col-span-8 space-y-4 sm:space-y-6">  
+                <div class="w-full px-3 sm:px-4 py-4 sm:py-6 bg-white shadow-md rounded-md">
+                    <h2 class="text-lg sm:text-xl font-bold text-gray-700 mb-3 sm:mb-4">Formulaire d'exemple</h2>
+                    <form class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <!-- Ligne 1 -->
+                        <div class="flex flex-col">
+                            <label for="nom" class="mb-1 text-sm font-medium text-gray-600">Nom</label>
+                            <input type="text" id="nom" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="prenom" class="mb-1 text-sm font-medium text-gray-600">Prénom</label>
+                            <input type="text" id="prenom" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+
+                        <!-- Ligne 2 -->
+                        <div class="flex flex-col">
+                            <label for="email" class="mb-1 text-sm font-medium text-gray-600">Email</label>
+                            <input type="email" id="email" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="tel" class="mb-1 text-sm font-medium text-gray-600">Téléphone</label>
+                            <input type="tel" id="tel" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+
+                        <!-- Ligne 3 -->
+                        <div class="flex flex-col">
+                            <label for="adresse" class="mb-1 text-sm font-medium text-gray-600">Adresse</label>
+                            <input type="text" id="adresse" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="ville" class="mb-1 text-sm font-medium text-gray-600">Ville</label>
+                            <input type="text" id="ville" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+
+                        <!-- Ligne 4 -->
+                        <div class="flex flex-col">
+                            <label for="pays" class="mb-1 text-sm font-medium text-gray-600">Pays</label>
+                            <input type="text" id="pays" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="codePostal" class="mb-1 text-sm font-medium text-gray-600">Code Postal</label>
+                            <input type="text" id="codePostal" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+
+                        <!-- Ligne 5 -->
+                        <div class="flex flex-col">
+                            <label for="profession" class="mb-1 text-sm font-medium text-gray-600">Profession</label>
+                            <input type="text" id="profession" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="entreprise" class="mb-1 text-sm font-medium text-gray-600">Entreprise</label>
+                            <input type="text" id="entreprise" class="px-3 py-2 text-sm border rounded-md w-full" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Section - Statistiques -->
+            <div class="lg:col-span-4 space-y-4 sm:space-y-6">  
+                <!-- Statistics Cards -->
+                <div class="bg-white rounded-lg shadow-sm border p-3 sm:p-4">
+                    <div class="w-full sm:w-3/4 mx-auto">
+                        <table class="w-full">
+                            <thead class="border-t-2 border-yellow-400">
+                                <tr class="text-left text-sm">
+                                    <th class="px-2 sm:px-3 py-2 sm:py-3 font-semibold">Montant</th>
+                                    <th class="px-2 sm:px-3 py-2 sm:py-3 font-semibold">Devise</th>                                           
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">500</td>
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">AFN</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">10 619 100,00</td>
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">CDF</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">58 000</td>
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">GNF</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">2 403 950</td>
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">CFA</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">62 389 031</td>
+                                    <td class="px-2 sm:px-3 py-2 sm:py-4 text-sm">FCFA</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="bg-cyan-100 border-l-4 border-cyan-500 p-3 sm:p-4 rounded">
+                    <div class="text-sm text-cyan-800 mb-2">
+                        <span class="font-bold">1 987</span> personnes ont effectué au moins un paiement.
+                    </div>
+                    <div class="text-xs sm:text-sm text-cyan-700">
+                        <i class="fas fa-circle text-red-500 mr-1"></i>
+                        Les prix répertoriés dans le tableau ci-dessus incluent tous les statuts de transactions (Payé, En cours, Échoué...), sauf filtrage spécifique.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons and Table -->
+        <div class="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 bg-slate-300 p-3 sm:p-4 mobile-stack">
+                <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-center sm:justify-start">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-semibold mobile-full-width sm:mobile-auto-width">
+                        NEW PAIEMENT
+                    </button>
+                    <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-semibold mobile-full-width sm:mobile-auto-width">
+                        MODIFIER
+                    </button>
+                    <button class="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-semibold mobile-full-width sm:mobile-auto-width">
+                        SUPPRIMER
+                    </button>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-center sm:justify-end">
+                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md text-xs sm:text-sm mobile-full-width sm:mobile-auto-width">
+                        EXPORTER PAIEMENTS
+                    </button>
+                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md text-xs sm:text-sm mobile-full-width sm:mobile-auto-width">
+                        PAIEMENTS MANUELS
+                    </button>
+                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md text-xs sm:text-sm mobile-full-width sm:mobile-auto-width">
+                        GESTION PAIEMENTS TESTS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="bg-white rounded-lg shadow-sm border">
+                <!-- Pagination Top -->
+                <div class="p-3 sm:p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mobile-pagination">
+                    <div class="text-xs sm:text-sm text-gray-600 mobile-text-center sm:mobile-text-left">*IRL: In Real Life</div>
+                    <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+                        <nav class="flex items-center gap-1 mobile-pagination-nav">
+                            <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-blue-500 text-white rounded text-xs sm:text-sm">1</button>
+                            <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">2</button>
+                            <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">3</button>
+                            <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">4</button>
+                            <span class="px-1 sm:px-2 text-xs sm:text-sm text-gray-500">...</span>
+                            <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">454</button>
+                            <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">
+                                <i class="fas fa-chevron-right text-xs sm:text-sm"></i>
+                            </button>
+                        </nav>
+                        <div class="flex items-center gap-2 mobile-pagination-go">
+                            <span class="text-xs sm:text-sm text-gray-600">Aller à la page</span>
+                            <input type="text" class="w-12 sm:w-16 px-1 sm:px-2 py-1 border border-gray-300 rounded text-xs sm:text-sm">
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm">Go</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+               <!-- Table Section - Version corrigée -->
+<div class="bg-white rounded-lg shadow-sm border overflow-hidden">
+    <!-- Pagination Top -->
+    <div class="p-3 sm:p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+        <div class="text-xs sm:text-sm text-gray-600">*IRL: In Real Life</div>
+        <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+            <nav class="flex items-center gap-1">
+                <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-blue-500 text-white rounded text-xs sm:text-sm">1</button>
+                <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">2</button>
+                <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">3</button>
+                <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">4</button>
+                <span class="px-1 sm:px-2 text-xs sm:text-sm text-gray-500">...</span>
+                <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">454</button>
+                <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xs sm:text-sm">
+                    <i class="fas fa-chevron-right text-xs sm:text-sm"></i>
+                </button>
+            </nav>
+            <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm text-gray-600">Aller à la page</span>
+                <input type="text" class="w-12 sm:w-16 px-1 sm:px-2 py-1 border border-gray-300 rounded text-xs sm:text-sm">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm">Go</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Container - Solution finale -->
+    <div class="relative">
+        <div class="overflow-x-auto">
+            <div class="inline-block min-w-full align-middle">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-yellow-200">
+                        <tr class="text-left text-xs sm:text-sm">
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">
+                                <input type="checkbox" class="rounded">
+                            </th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Id</th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Nom & Prénom</th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Pack payé</th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Montant</th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Paiement</th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Statut</th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Référence</th>
+                            <th scope="col" class="px-3 py-3 font-medium whitespace-nowrap">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        <!-- Exemple de ligne -->
+                        <tr class="hover:bg-gray-50">
+                            <td class="whitespace-nowrap px-3 py-4">
+                                <input type="checkbox" class="rounded">
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm">23134</td>
+                            <td class="px-3 py-4">
+                                <div class="text-sm">
+                                    <div class="text-blue-600 font-medium">[235553]</div>
+                                    <div class="text-blue-600">hamiliyang pere</div>
+                                    <div class="text-blue-600 text-xs">hamiliangpere44@gmail.com</div>
+                                </div>
+                            </td>
+                            <td class="px-3 py-4 text-sm">
+                                Dieu du Mboa<br>
+                                <span class="text-gray-500 text-xs">(dieu-du-mboa)</span>
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm">$2,000.00</td>
+                            <td class="px-3 py-4 text-sm"></td>
+                            <td class="whitespace-nowrap px-3 py-4">
+                                <span class="status-initiale text-sm">Initialisé</span>
+                            </td>
+                            <td class="px-3 py-4 text-sm">
+                                <div class="text-blue-600">
+                                    <div class="text-xs"><strong>Facture:</strong></div>
+                                    <div>RC1520250806J20374</div>
+                                </div>
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm">
+                                6 août 2025<br>12:12
+                            </td>
+                        </tr>
+                        <!-- Ajoutez d'autres lignes ici -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
                     
                     <footer class="w-full p-4 text-center text-black bg-white fixed bottom-0">
                         <hr class="border-gray-300 mb-2">
@@ -546,6 +887,9 @@
     </script>
 </body>
 </html>
+
+
+
 
 
 

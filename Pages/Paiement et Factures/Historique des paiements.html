@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiro'o World</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">   
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'kiroo-dark': '#4A5568',
+                        'kiroo-purple': '#9F7AEA',
+                        'kiroo-green': '#48BB78'
+                    }
+                }
+            }
+        }
+    </script>
+     <style>
+        /* Styles personnalisés */
+        .status-initiale { color: #6b7280; }
+        .status-paye { color: #22c55e; font-weight: 600; }
+        .status-annule { color: #ef4444; font-weight: 600; }
+        .status-encours { color: #f59e0b; font-weight: 600; }
+        
+        /* Table responsive */
+        @media (max-width: 768px) {
+            .responsive-table {
+                font-size: 0.75rem;
+            }
+            .responsive-table th,
+            .responsive-table td {
+                padding: 0.5rem 0.25rem;
+            }
+        }
+        
+        /* Custom scrollbar for table */
+        .table-wrapper {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 #f7fafc;
+        }
+        
+        .table-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #f7fafc;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background-color: #cbd5e0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+   
+        <div class="flex min-h-screen">
+            <!-- Sidebar -->
+            <div class="fixed top-0 left-0 z-30 flex-shrink-0 hidden h-screen overflow-y-auto text-white bg-gray-800 w-80 lg:block">
+                <!-- Header avec logo -->
+                <div class="flex items-center justify-center p-3 border-b border-gray-700">
+                    <img src="https://kirooworld.com/img/font-img/logo_horizontal.png" alt="logo-kirooworld" class="w-40 h-16">
+                </div>
+
+                <!-- Dashboard actif -->
+                <div class="px-4 py-2">
+                    <a href="../dashboard.html">
+                        <div class="px-4 py-3 font-semibold text-center text-white bg-green-500 rounded-lg">
+                            DASHBOARD
+                        </div>
+                    </a>
+                
+                </div>
+
+                <!-- Menu -->
+                <div class="px-4 py-4">
+                    <div class="px-4 py-2 font-semibold text-white bg-purple-600 rounded-t-lg">
+                        MENU
+                    </div>
+                    <nav class="bg-gray-700 rounded-b-lg">
+                        <ul class="py-2">
+                            <!-- Campagnes -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-pink-400"><i class="fa-solid fa-bullhorn"style="color: #a9d336;"></i></span>
+                                    <span>Campagnes</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Campagnes/Creer un filtre.html">Liste des audiences</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-campagnes.html">Liste des campagnes</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-filtres.html">Liste des filtres</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/Creer un filtre.html">Creer un filtre</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Données systèmes -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-blue-400"><i class="fa-solid fa-database"style="color: #a9d336;"></i></span>
+                                    <span>Données systèmes</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-monnaies.html">Gestion des monnaies</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-pays.html">Gestion des Pays</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Gestion des annonces -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-orange-400"><i class="fa-solid fa-bell"style="color: #a9d336;"></i></span>
+                                    <span>Gestion des annonces</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/corbeil-des-annonces.html">Corbeille des annonces</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/creer-des-annonces.html">Créer des annonces</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/liste-des-annonces.html">Liste des annonces</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../gestion-des-annonces/detail-pack.html">Details d'un Pack</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../gestion-des-annonces/detail-annonce.html">Liste des annonces</a></li>
+
+                                </ul>
+                            </li>
+
+                            <!-- Gestion des cadeaux -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-yellow-400"><i class="fa-light fa-gift" style="color: #a9d336;"></i></span>
+                                    <span>Gestion des Cadeaux</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-cadeaux/typeRecompenses.html">Types de cadeaux</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Gestion des groupes tarifaires -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-purple-400"><i class="fa-solid fa-credit-card"style="color: #a9d336;"></i></span>
+                                    <span>Gestion des groupes tarifaires</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Creer un groupe.html">Creer un grpoupe</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Groupes supprimés.html">Groupes supprimé</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Liste des groupes.html">Liste des grpoupes</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Gestion des missions -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-yellow-400"><i class="fa-solid fa-bullseye"style="color: #a9d336;"></i></span>
+                                    <span>Gestion des Missions</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Corbeille des missions.html">Corbeille des missions</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Creer une mission.html">Créer une mission</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Liste des mission.html">Liste des missions</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Gestion des promos -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-green-400"><i class="fa-solid fa-tags"style="color: #a9d336;"></i></span>
+                                    <span>Gestion des promos</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos supprimé.html">Liste des promos supprimé</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos.html">Liste des promos </a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Gestion des tunnels de ventes -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-indigo-400"><i class="fa-solid fa-cart-shopping"style="color: #a9d336;"></i></span>
+                                    <span>Gestion des tunnels de ventes</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Creer un tunell.html">Créer un tunnel</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Liste des tunnels.html">Liste des tunnels</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Gestion des utilisateurs -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-green-400"><i class="fa-solid fa-users"style="color: #a9d336;"></i></span>
+                                    <span>Gestion des utilisateurs</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/ajoutUtilisateurs.html">Ajouter utilisateur</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeSupprimes.html">Groupe supprimé</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeUtilisateur.html">Groupe d'utilisateur</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/listeUtilisateurs.html">Liste utilisateurs</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Paiement & Factures -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-green-400"><i class="fa-solid fa-money-bill-wave"style="color: #a9d336;"></i></span>
+                                    <span>Paiements & Factures</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Gestion des systemes de paiements.html">Gestion des systèmes de paiements</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Historique des paiements.html">Historique des paiements</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement echoué.html">Paiement échoué</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement en cour.html">Paiement en cours</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement offert.html">Paiement offert</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Rôles & Permissions -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-blue-400"><i class="fa-solid fa-user-shield"style="color: #a9d336;"></i></span>
+                                    <span>Rôles & Permissions</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Categorie de permissions.html">Catégorie de permissions</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des permissions.html">Liste des permissions</a></li>
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des roles.html">Liste des rôles</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Signalements de problèmes KGF -->
+                            <li class="relative group">
+                                <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                    <span class="text-red-400"><i class="fa-solid fa-triangle-exclamation"style="color: #a9d336;"></i></span>
+                                    <span>Signalements de problèmes KGF</span>
+                                    <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                    <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Signalements de problemes KGF/Liste des problemes.html">Liste des problèmes</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="bg-slate-900 py-3 px-4 font-semibold">SERVICES KIRO'O WORLD</p>
+                        <ul class="py-2">
+                            <!-- KGF -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/aurionkgflejeumobile.png" alt="KGF"></span>
+                                        <span class="font-medium">Aurion: Kugita Gems Fighters</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Kori Odan -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/aurionlkolejeu.png" alt="Kori odan"></span>
+                                        <span class="font-medium">Aurion: l'heritage des Kori-Odan</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Le Responsable -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/responsablemboajeumobile.png" alt="Le Responsable"></span>
+                                        <span class="font-medium">Le Responsable Mboa</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!--Aurion la bde -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/aurionlkolabd.png" alt="Aurion la bd"></span>
+                                        <span class="font-medium">Aurion la BD</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Le Guide Illustré -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/kiroorebuntuleguide.png" alt="Le Guide Illustré"></span>
+                                        <span class="font-medium">Le Guide Illustré</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- shareholders -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/shareholders.png" alt="shareholders"></span>
+                                        <span class="font-medium">Shareholders</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Mboa starter -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/mboa-starter.jpg" alt="mboa-starter"></span>
+                                        <span class="font-medium">Mboa-Starter</span>
+                                    </div> 
+                                </li>
+                            </a>
+                        </ul>   
+                    </nav>
+                </div>
+
+                <!-- Bottom icons -->
+                <div class="flex items-center justify-center py-4 px-4 space-x-4 text-gray-400 bg-gray-900 border-t border-gray-700 mt-auto">
+                    <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                        <span class="text-xl">🏠</span>
+                    </div>
+                    <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                        <span class="text-xl">⚙️</span>
+                    </div>
+                    <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                        <span class="text-xl">🔗</span>
+                    </div>
+                    <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                        <span class="text-xl">📋</span>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Mobile sidebar overlay -->
+            <div id="mobile-sidebar" class="fixed inset-0 z-40 text-white transition-transform duration-300 transform -translate-x-full bg-gray-800 lg:hidden">
+                <div class="p-6 border-b border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-orange-400">
+                                <div class="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                                    <div class="w-4 h-4 bg-gray-800 rounded-full"></div>
+                                </div>
+                            </div>
+                            <span class="text-xl font-semibold text-orange-300">Kiro'o World</span>
+                        </div>
+                        <button id="close-mobile-menu" class="text-2xl">×</button>
+                    </div>
+                </div>
+                
+                <div class="px-4 py-2">
+                    <a href="../dashboard.html">
+                        <div class="px-4 py-3 font-semibold text-center text-white bg-green-500 rounded-lg">
+                            DASHBOARD
+                        </div>
+                    </a>
+                </div>
+                <!-- Mobile menu items -->
+                <div class="px-4 py-4">
+                <div class="px-4 py-2 font-semibold text-white bg-purple-600 rounded-t-lg">
+                    MENU
+                </div>
+                <nav class="bg-gray-700 rounded-b-lg">
+                    <ul class="py-2">
+                        <!-- Campagnes -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-pink-400"><i class="fa-solid fa-bullhorn"style="color: #a9d336;"></i></span>
+                                <span>Campagnes</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-audiences.html">Liste des audiences</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-campagnes.html">Liste des campagnes</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-filtres.html">Liste des filtres</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/Creer un filtre.html">Creer un filtre</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Données systèmes -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-blue-400"><i class="fa-solid fa-database"style="color: #a9d336;"></i></span>
+                                <span>Données systèmes</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-monnaies.html">Gestion des monnaies</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-pays.html">Gestion des Pays</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des annonces -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-orange-400"><i class="fa-solid fa-bell"style="color: #a9d336;"></i></span>
+                                <span>Gestion des annonces</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/corbeil-des-annonces.html">Corbeille des annonces</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/creer-des-annonces.html">Créer des annonces</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/liste-des-annonces.html">Liste des annonces</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des cadeaux -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-yellow-400"><i class="fa-light fa-gift" style="color: #a9d336;"></i></span>
+                                <span>Gestion des Cadeaux</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-cadeaux/typeRecompenses.html">Types de cadeaux</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des groupes tarifaires -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-purple-400"><i class="fa-solid fa-credit-card"style="color: #a9d336;"></i></span>
+                                <span>Gestion des groupes tarifaires</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Creer un groupe.html">Creer un groupe</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Groupes supprimés.html">Groupe supprimé</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Liste des groupes.html">Liste des groupe</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des missions -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-yellow-400"><i class="fa-solid fa-bullseye"style="color: #a9d336;"></i></span>
+                                <span>Gestion des Missions</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Corbeille des missions.html">Corbeille des missions</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Creer une mission.html">Créer une mission</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Liste des mission.html">Liste des missions</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des promos -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-green-400"><i class="fa-solid fa-tags"style="color: #a9d336;"></i></span>
+                                <span>Gestion des promos</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos supprimé.html">Liste des promos supprimé</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos.html">Liste des promos</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des tunnels de ventes -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-indigo-400"><i class="fa-solid fa-cart-shopping"style="color: #a9d336;"></i></span>
+                                <span>Gestion des tunnels de ventes</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Creer un tunell.html">Créer un tunnel</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Liste des tunnels.html">Liste des tunnels</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Gestion des utilisateurs -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-green-400"><i class="fa-solid fa-users"style="color: #a9d336;"></i></span>
+                                <span>Gestion des utilisateurs</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/ajoutUtilisateurs.html">Ajouter utilisateur</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeSupprimes.html">Groupe supprimé</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeUtilisateur.html">Groupe d'utilisateur</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/listeUtilisateurs.html">Liste utilisateurs</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Paiement & Factures -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-green-400"><i class="fa-solid fa-money-bill-wave"style="color: #a9d336;"></i></span>
+                                <span>Paiements & Factures</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Gestion des systemes de paiements.html">Gestion des systèmes de paiements</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Historique des paiements.html">Historique des paiements</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement echoué.html">Paiement échoué</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement en cour.html">Paiement en cours</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement offert.html">Paiement offert</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Rôles & Permissions -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-blue-400"><i class="fa-solid fa-user-shield"style="color: #a9d336;"></i></span>
+                                <span>Rôles & Permissions</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Categorie de permissions.html">Catégorie de permissions</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des permissions.html">Liste des permissions</a></li>
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des roles.html">Liste des rôles</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Signalements de problèmes KGF -->
+                        <li class="relative group">
+                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
+                                <span class="text-red-400"><i class="fa-solid fa-triangle-exclamation"style="color: #a9d336;"></i></span>
+                                <span>Signalements de problèmes KGF</span>
+                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
+                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Signalements de problemes KGF/Liste des problemes.html">Liste des problèmes</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="bg-slate-900 py-3 px-4 font-semibold">SERVICES KIRO'O WORLD</p>
+                        <ul class="py-2">
+                            <!-- KGF -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/aurionkgflejeumobile.png" alt="KGF"></span>
+                                        <span class="font-medium">Aurion: Kugita Gems Fighters</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Kori Odan -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/aurionlkolejeu.png" alt="Kori odan"></span>
+                                        <span class="font-medium">Aurion: l'heritage des Kori-Odan</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Le Responsable -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/responsablemboajeumobile.png" alt="Le Responsable"></span>
+                                        <span class="font-medium">Le Responsable Mboa</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!--Aurion la bde -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/aurionlkolabd.png" alt="Aurion la bd"></span>
+                                        <span class="font-medium">Aurion la BD</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Le Guide Illustré -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/kiroorebuntuleguide.png" alt="Le Guide Illustré"></span>
+                                        <span class="font-medium">Le Guide Illustré</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- shareholders -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/shareholders.png" alt="shareholders"></span>
+                                        <span class="font-medium">Shareholders</span>
+                                    </div> 
+                                </li>
+                            </a>
+                            <!-- Mboa starter -->
+                            <a href="">
+                                <li class="relative group">
+                                    <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600">
+                                        <span class="max-w-7 max-h-7"><img src="https://kirooworld.com/images/asset/mboa-starter.jpg" alt="mboa-starter"></span>
+                                        <span class="font-medium">Mboa-Starter</span>
+                                    </div> 
+                                </li>
+                            </a>
+                        </ul>   
+                </nav>
+            </div>
+
+            <!-- Bottom icons -->
+            <div class="flex items-center justify-center py-4 px-4 space-x-4 text-gray-400 bg-gray-900 border-t border-gray-700 mt-auto">
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">🏠</span>
+                </div>
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">⚙️</span>
+                </div>
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">🔗</span>
+                </div>
+                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
+                    <span class="text-xl">📋</span>
+                </div>
+            </div>
+            </div>
+            <!-- Main content -->
+            <div class="relative flex-1 min-h-screen pl-0 lg:pl-80">
+                <!-- Hamburger sur la barre latérale du main content -->
+                <div class="absolute left-0 z-50 items-start justify-center ml-5 top-4 lg:hidden" >
+                    <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
+                        ☰
+                    </button>
+                </div>
+                <div class="flex-1 min-h-screen bg-white ">
+                    
+                    <!-- Top bar -->
+                    <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 ">
+                        <div class="ml-10 text-lg font-semibold text-white lg:hidden sm:">
+                            <a href="../dashboard.html">DASHBOARD</a>
+                        </div>
+                        <div class="ml-auto">
+                            <div class="flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer bg-opacity-20">
+                                <span class="text-xl text-white">👤</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenu principal -->
+                    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        
+                        <!-- Header -->
+                        <div class="mb-8">
+                            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">HISTORIQUE DES PAIEMENTS KIROO</h1>
+                        </div>
+
+                        <!-- Main Content Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            
+                            <div class="lg:col-span-8 space-y-6">  
+                                
+                                <div class="w-full px-4 py-6 bg-white shadow-md rounded-md">
+                                    <h2 class="text-xl font-bold text-gray-700 mb-4">Formulaire d'exemple</h2>
+
+                                    <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <!-- Ligne 1 -->
+                                        <div class="flex flex-col">
+                                        <label for="nom" class="mb-1 text-sm font-medium text-gray-600">Nom</label>
+                                        <input type="text" id="nom" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <div class="flex flex-col">
+                                        <label for="prenom" class="mb-1 text-sm font-medium text-gray-600">Prénom</label>
+                                        <input type="text" id="prenom" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <!-- Ligne 2 -->
+                                        <div class="flex flex-col">
+                                        <label for="email" class="mb-1 text-sm font-medium text-gray-600">Email</label>
+                                        <input type="email" id="email" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <div class="flex flex-col">
+                                        <label for="tel" class="mb-1 text-sm font-medium text-gray-600">Téléphone</label>
+                                        <input type="tel" id="tel" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <!-- Ligne 3 -->
+                                        <div class="flex flex-col">
+                                        <label for="adresse" class="mb-1 text-sm font-medium text-gray-600">Adresse</label>
+                                        <input type="text" id="adresse" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <div class="flex flex-col">
+                                        <label for="ville" class="mb-1 text-sm font-medium text-gray-600">Ville</label>
+                                        <input type="text" id="ville" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <!-- Ligne 4 -->
+                                        <div class="flex flex-col">
+                                        <label for="pays" class="mb-1 text-sm font-medium text-gray-600">Pays</label>
+                                        <input type="text" id="pays" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <div class="flex flex-col">
+                                        <label for="codePostal" class="mb-1 text-sm font-medium text-gray-600">Code Postal</label>
+                                        <input type="text" id="codePostal" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <!-- Ligne 5 -->
+                                        <div class="flex flex-col">
+                                        <label for="profession" class="mb-1 text-sm font-medium text-gray-600">Profession</label>
+                                        <input type="text" id="profession" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+
+                                        <div class="flex flex-col">
+                                        <label for="entreprise" class="mb-1 text-sm font-medium text-gray-600">Entreprise</label>
+                                        <input type="text" id="entreprise" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-4 space-y-6">  
+                                
+                                <!-- Statistics Cards -->
+                                <div class="bg-white rounded-lg shadow-sm border p-4">
+                                    <div class="flex justify-center">  <!-- Conteneur pour centrer le tableau -->
+                                        <div class="w-3/4">  <!-- 3/4 de la largeur parente -->
+                                            <table class="w-full responsive-table">
+                                                <thead class="border-t-2 border-yellow-400">
+                                                    <tr class="text-left text-sm">
+                                                        <th class="px-3 py-3 font-semibold">Montant</th>
+                                                        <th class="px-3 py-3 font-semibold">Devise</th>                                           
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="divide-y divide-gray-200">
+                                                    <tr class="hover:bg-gray-50">
+                                                        <td class="px-3 py-4 text-sm">500</td>
+                                                        <td class="px-3 py-4 text-sm">AFN</td>
+                                                    </tr>
+                                                    <tr class="hover:bg-gray-50">
+                                                        <td class="px-3 py-4 text-sm">10 619 100,00</td>
+                                                        <td class="px-3 py-4 text-sm">CDF</td>
+                                                    </tr>
+                                                    <tr class="hover:bg-gray-50">
+                                                        <td class="px-3 py-4 text-sm">58 000</td>
+                                                        <td class="px-3 py-4 text-sm">GNF</td>
+                                                    </tr>
+                                                    <tr class="hover:bg-gray-50">
+                                                        <td class="px-3 py-4 text-sm">2 403 950</td>
+                                                        <td class="px-3 py-4 text-sm">CFA</td>
+                                                    </tr>
+                                                    <tr class="hover:bg-gray-50">
+                                                        <td class="px-3 py-4 text-sm">62 389 031</td>
+                                                        <td class="px-3 py-4 text-sm">FCFA</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+   
+
+                                <!-- Info Box -->
+                                <div class="bg-cyan-100 border-l-4 border-cyan-500 p-4 rounded">
+                                    <div class="text-sm text-cyan-800 mb-2">
+                                        <span class="font-bold">1 987</span> personnes ont effectués au moins un paiements.
+                                    </div>
+                                    <div class="text-sm text-cyan-700">
+                                        <i class="fas fa-circle text-red-500 mr-1"></i>
+                                        Les prix reportoriés dans le tableau ci dessus sont ceux relatif à tous les status de transactions (Payé, En cours, Échoué...), à moins que vous précisiez un statut particulier dans le filtre.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Action Buttons and Table -->
+                        <div class="mt-6 space-y-6">
+                            <!-- Action Buttons -->
+                            <div class="flex justify-between items-center mb-4 bg-slate-300 p-4">
+                                    <div class="flex flex-wrap gap-2">
+                                    <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
+                                        NEW PAIEMENT
+                                    </button>
+                                    <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-semibold">
+                                        MODIFIER
+                                    </button>
+                                    <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
+                                        SUPPRIMER
+                                    </button>
+                                    </div>
+                                <!-- Bottom Buttons -->
+                                <div class="flex flex-wrap gap-2 justify-end">
+                                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm">
+                                        EXPORTER PAIEMENTS
+                                    </button>
+                                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm">
+                                        PAIEMENTS MANUELS
+                                    </button>
+                                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm">
+                                        GESTION PAIEMENTS TESTS
+                                    </button>
+                                </div>
+                            </div>
+                                
+
+                            <!-- Table Section -->
+                            <div class="bg-white rounded-lg shadow-sm border">
+                                <!-- Pagination Top -->
+                                <div class="p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                    <div class="text-sm text-gray-600">*IRL: In Real Life</div>
+                                    <div class="flex items-center gap-2">
+                                        <nav class="flex items-center gap-1">
+                                            <button class="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded text-sm">1</button>
+                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">2</button>
+                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">3</button>
+                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">4</button>
+                                            <span class="px-2 text-gray-500">...</span>
+                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">454</button>
+                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </nav>
+                                        <div class="flex items-center gap-2 ml-4">
+                                            <span class="text-sm text-gray-600">Aller à la page</span>
+                                            <input type="text" class="w-16 px-2 py-1 border border-gray-300 rounded text-sm">
+                                            <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">Go</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Table -->
+                                <div class="table-wrapper overflow-x-auto">
+                                    <table class="w-full responsive-table">
+                                        <thead class="bg-yellow-200">
+                                            <tr class="text-left text-sm">
+                                                <th class="px-3 py-3 font-semibold">
+                                                    <input type="checkbox" class="rounded">
+                                                </th>
+                                                <th class="px-3 py-3 font-semibold">Id</th>
+                                                <th class="px-3 py-3 font-semibold">[iakw] Nom & Prénom<br>Email</th>
+                                                <th class="px-3 py-3 font-semibold">Pack payé (tag)</th>
+                                                <th class="px-3 py-3 font-semibold">Montant reçu</th>
+                                                <th class="px-3 py-3 font-semibold">Système paiement(Numéro Payeur)</th>
+                                                <th class="px-3 py-3 font-semibold">Statut <i class="fas fa-info-circle text-gray-400"></i></th>
+                                                <th class="px-3 py-3 font-semibold">Reference & Code Facture</th>
+                                                <th class="px-3 py-3 font-semibold">Date paiement</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200">
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-4">
+                                                    <input type="checkbox" class="rounded">
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">23134</td>
+                                                <td class="px-3 py-4">
+                                                    <div class="text-sm">
+                                                        <div class="text-blue-600 font-medium">[235553]</div>
+                                                        <div class="text-blue-600">hamiliyang pere</div>
+                                                        <div class="text-blue-600">hamiliangpere44@gmail.com</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    Dieu du Mboa<br>
+                                                    <span class="text-gray-500">(dieu-du-mboa)</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">$2,000.00</td>
+                                                <td class="px-3 py-4 text-sm"></td>
+                                                <td class="px-3 py-4">
+                                                    <span class="status-initiale">Initialisé</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    <div class="text-blue-600">
+                                                        <div><strong>Code Facture :</strong></div>
+                                                        <div>RC1520250806J20374</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    6 août<br>2025<br>12:12
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-4">
+                                                    <input type="checkbox" class="rounded">
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">23133</td>
+                                                <td class="px-3 py-4">
+                                                    <div class="text-sm">
+                                                        <div class="text-blue-600 font-medium">[235553]</div>
+                                                        <div class="text-blue-600">hamiliyang pere</div>
+                                                        <div class="text-blue-600">hamiliangpere44@gmail.com</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    Dieu du Mboa<br>
+                                                    <span class="text-gray-500">(dieu-du-mboa)</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">$2,000.00</td>
+                                                <td class="px-3 py-4 text-sm">Stripe</td>
+                                                <td class="px-3 py-4">
+                                                    <span class="status-annule">Annulé</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    <div class="text-blue-600">
+                                                        <div><strong>Code Facture :</strong></div>
+                                                        <div>RC1520250806J20374</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    6 août<br>2025<br>12:12
+                                                </td>
+                                            </tr>
+
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-4">
+                                                    <input type="checkbox" class="rounded">
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">23132</td>
+                                                <td class="px-3 py-4">
+                                                    <div class="text-sm">
+                                                        <div class="text-blue-600 font-medium">[237476]</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    Pack Aurionic Lv1<br>
+                                                    <span class="text-gray-500">(kgffreemium_apaurionic01)</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">$4.99</td>
+                                                <td class="px-3 py-4 text-sm">Google Pay</td>
+                                                <td class="px-3 py-4">
+                                                    <span class="status-paye">Payé</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    <div class="text-blue-600">
+                                                        <div><strong>Reference Transaction :</strong></div>
+                                                        <div>GPA.3356-1753-6819-20350...</div>
+                                                        <div><strong>Code Facture :</strong></div>
+                                                        <div>RC0120250806X20373</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    6 août<br>2025<br>11:34
+                                                </td>
+                                            </tr>
+
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-4">
+                                                    <input type="checkbox" class="rounded">
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">23131</td>
+                                                <td class="px-3 py-4">
+                                                    <div class="text-sm">
+                                                        <div class="text-blue-600 font-medium">[26519]</div>
+                                                        <div class="text-blue-600">abessolo annick</div>
+                                                        <div class="text-blue-600">abessannick@gmail.com</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    Elite du village<br>
+                                                    <span class="text-gray-500">(elite-du-village)</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">10 000 FCFA</td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    Orange Money<br>
+                                                    <div class="text-gray-500 text-xs">Via : Pawapay</div>
+                                                    <div class="text-gray-500 text-xs">(691355723)</div>
+                                                </td>
+                                                <td class="px-3 py-4">
+                                                    <span class="status-paye">Payé</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    <div class="text-blue-600">
+                                                        <div><strong>Reference Transaction :</strong></div>
+                                                        <div>efifa823-76bd-4438-871c-e77cf0a8d9b2...</div>
+                                                        <div><strong>Code Facture :</strong></div>
+                                                        <div>RC1520250805K20372</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    5 août<br>2025<br>22:24
+                                                </td>
+                                            </tr>
+
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-4">
+                                                    <input type="checkbox" class="rounded">
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">23130</td>
+                                                <td class="px-3 py-4">
+                                                    <div class="text-sm">
+                                                        <div class="text-blue-600 font-medium">[230473]</div>
+                                                        <div class="text-blue-600 break-all">aloissilence07@gmail.com</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    Budget Divin<br>
+                                                    <span class="text-gray-500">(mboabbiopromo_mboa_defaut)</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">500 FCFA</td>
+                                                <td class="px-3 py-4 text-sm">MTN Cameroun</td>
+                                                <td class="px-3 py-4">
+                                                    <span class="status-encours">En Cours</span>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    <div class="text-blue-600">
+                                                        <div><strong>Reference Transaction :</strong></div>
+                                                        <div>9d29709b-1788-4fb4-9b8d-51faabb6b9d3...</div>
+                                                        <div><strong>Code Facture :</strong></div>
+                                                        <div>RC0520250805E20369</div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm">
+                                                    5 août<br>2025<br>21:05
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <footer class="w-full p-4 text-center text-black bg-white">
+                        <hr class="border-gray-300 mb-2">
+                        Copyright 2025 - Created by <a href="#" class="text-blue-700">KIROO GAMES</a>
+                    </footer>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileSidebar.classList.remove('-translate-x-full');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileSidebar.classList.add('-translate-x-full');
+        });
+
+        // Close mobile menu when clicking outside
+        mobileSidebar.addEventListener('click', (e) => {
+            if (e.target === mobileSidebar) {
+                mobileSidebar.classList.add('-translate-x-full');
+            }
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const menu = this.parentElement.querySelector('.dropdown-menu');
+                document.querySelectorAll('.dropdown-menu').forEach(m => {
+                    if (m !== menu) m.classList.add('hidden');
+                });
+                menu.classList.toggle('hidden');
+            });
+        });
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+        });
+    </script>
+    <script>
+        function updateSidebarLinks() {
+            const path = window.location.pathname;
+            const depth = path.split('/').filter(part => part !== '').length - 1;
+            const basePath = '../'.repeat(depth);
+            
+            const sidebarLinks = document.querySelectorAll('a[href*="../"]');
+            
+            sidebarLinks.forEach(link => {
+                const originalHref = link.getAttribute('href');
+                const cleanPath = originalHref.replace(/^\.\.\/+/, '');
+                link.setAttribute('href', basePath + cleanPath);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', updateSidebarLinks);
+    </script>
+</body>
+</html>
+
+
+
