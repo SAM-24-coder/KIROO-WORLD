@@ -1,95 +1,39 @@
-/* Media Query pour tablettes (768px à 1024px) */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .rounded-lg.overflow-hidden.w-full.mx-auto.mb-8.lg\:mb-0.flex.shadow-lg {
-    max-width: 90%;
-    margin-bottom: 2rem;
-    flex-direction: row;
-  }
-  
-  /* Bloc image - ajustements tablette */
-  .relative.flex-shrink-0.w-1\/2 {
-    width: 45%;
-  }
-  
-  /* Image background avec hauteur optimisée */
-  .bg-\[url\(\'https\:\/\/kirooworld\.com\/images\/asset\/responsablemboajeumobile\.png\'\)\].bg-cover.bg-center.sm\:h-96.h-64 {
-    height: 280px;
-  }
-  
-  /* Badge numéroté */
-  .absolute.top-4.right-4.bg-white.rounded-full.w-8.h-8 {
-    width: 2.5rem;
-    height: 2.5rem;
-    top: 1rem;
-    right: 1rem;
-  }
-  
-  /* Bloc infos - ajustements tablette */
-  .p-6.bg-gray-800.text-white.w-1\/2.flex.flex-col.justify-center {
-    width: 55%;
-    padding: 2rem;
-  }
-  
-  /* Titre principal */
-  .font-bold.sm\:text-xl.text-sm.mb-2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Hashtag */
-  .text-gray-400.mb-4.sm\:text-base.text-xs {
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Icône centrale */
-  .w-8.h-8.bg-gray-600.rounded-full {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1.2rem;
-  }
-  
-  /* Statistiques principales */
-  .sm\:text-2xl.text-sm.font-bold {
-    font-size: 1.75rem;
-  }
-  
-  /* Texte "utilisateurs" */
-  .text-gray-400.sm\:text-base.text-xs {
-    font-size: 1rem;
-  }
-  
-  /* Texte de croissance */
-  .sm\:text-base.text-xs.text-gray-500.mt-1 {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
+*,*::before,*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
-/* Media Query spécifique pour orientation paysage sur tablette */
-@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  .bg-\[url\(\'https\:\/\/kirooworld\.com\/images\/asset\/responsablemboajeumobile\.png\'\)\].bg-cover.bg-center.sm\:h-96.h-64 {
-    height: 250px;
+@media only screen and (max-width: 700px) 
+{
+  table, thead, tbody, tr, th, td {
+      display: block;
   }
-  
-  .p-6.bg-gray-800.text-white.w-1\/2.flex.flex-col.justify-center {
-    padding: 1.5rem;
+  td {
+      position: relative;
+      padding-left: 150px;
+    
   }
-}
-
-/* Media Query pour tablettes en portrait */
-@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .rounded-lg.overflow-hidden.w-full.mx-auto.mb-8.lg\:mb-0.flex.shadow-lg {
-    flex-direction: column;
-    max-width: 85%;
-  }
-  
-  .relative.flex-shrink-0.w-1\/2,
-  .p-6.bg-gray-800.text-white.w-1\/2.flex.flex-col.justify-center {
-    width: 100%;
-  }
-  
-  .bg-\[url\(\'https\:\/\/kirooworld\.com\/images\/asset\/responsablemboajeumobile\.png\'\)\].bg-cover.bg-center.sm\:h-96.h-64 {
-    height: 320px;
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 130px;
+    padding: 10px;
+    font-weight: bold;
+    text-align: left;
+    top: 0;
+    bottom: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    
+    
+    align-items: center;
+    font-weight:bold;
   }
 }
