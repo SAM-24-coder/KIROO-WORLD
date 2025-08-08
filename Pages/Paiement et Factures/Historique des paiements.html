@@ -25,41 +25,597 @@
         }
     </script>
      <style>
-        /* Styles personnalisés */
-        .status-initiale { color: #6b7280; }
-        .status-paye { color: #22c55e; font-weight: 600; }
-        .status-annule { color: #ef4444; font-weight: 600; }
-        .status-encours { color: #f59e0b; font-weight: 600; }
-        
-        /* Table responsive */
-        @media (max-width: 768px) {
-            .responsive-table {
-                font-size: 0.75rem;
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Style pour le conteneur principal */
+/* Par défaut : 1 colonne (mobile first) */
+.formulaire-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 1000px) {
+  .formulaire-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .formulaire-grid label,
+  .formulaire-grid input {
+    font-size: 0.85rem;
+  }
+}
+/* De 300px à 1000px : 2 colonnes */
+@media (min-width: 400px) and (max-width: 1000px) {
+  .formulaire-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .formulaire-grid label,
+  .formulaire-grid input {
+    font-size: 0.85rem;
+  }
+}
+
+/* Pour ≤ 299px : 1 seule colonne + texte réduit */
+@media (max-width: 299px) {
+  .formulaire-grid {
+    grid-template-columns: 1fr;
+  }
+  .formulaire-grid label,
+  .formulaire-grid input,
+  .statistics-cards,
+  .info-box {
+    font-size: 0.75rem;
+  }
+}
+
+/* Réorganisation des blocs en vertical sur < 1000px */
+@media (max-width: 1000px) {
+  .main-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .statistics-cards {
+    order: 1;
+    margin-top: 1rem;
+  }
+  .info-box {
+    order: 2;
+    margin-top: 1rem;
+  }
+}
+        /* Style pour le tableau responsive */
+
+        @media only screen and (max-width: 960px) and (min-width: 460px) {
+            .table-responsive table,
+            .table-responsive thead,
+            .table-responsive tbody,
+            .table-responsive tr,
+            .table-responsive th,
+            .table-responsive td {
+                display: block;
             }
-            .responsive-table th,
-            .responsive-table td {
-                padding: 0.5rem 0.25rem;
+            
+            .table-responsive thead {
+                display: none;
+            }
+            
+            /* Container pour affichage en 2x2 */
+            .table-responsive tbody {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                padding: 20px;
+                background: #f8fafc;
+            }
+            
+            /* Style carte moderne */
+            .table-responsive tr {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border-radius: 16px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e2e8f0;
+                padding: 24px;
+                margin: 0;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .table-responsive tr:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+                border-color: #3b82f6;
+            }
+            
+            /* Badge ID en haut à droite */
+            .table-responsive tr::before {
+                content: "#" attr(data-id);
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                color: white;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: bold;
+                box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+            }
+            
+            .table-responsive td {
+                display: none; /* Masquer tous les td par défaut */
+                padding: 0;
+                margin: 0;
+                background: transparent;
+                border: none;
+                position: static;
+            }
+            
+            /* Afficher seulement les td spécifiques sous forme de sections */
+            .table-responsive td:nth-child(2) { /* ID - masqué car affiché dans ::before */
+                display: none;
+            }
+            
+            .table-responsive td:nth-child(3) { /* Nom & Email */
+                display: block;
+                margin-bottom: 16px;
+            }
+            
+            .table-responsive td:nth-child(4) { /* Pack */
+                display: block;
+                margin-bottom: 12px;
+            }
+            
+            .table-responsive td:nth-child(5) { /* Montant */
+                display: block;
+                margin-bottom: 12px;
+            }
+            
+            .table-responsive td:nth-child(6) { /* Système paiement */
+                display: block;
+                margin-bottom: 12px;
+            }
+            
+            .table-responsive td:nth-child(7) { /* Statut */
+                display: block;
+                margin-bottom: 12px;
+            }
+            
+            .table-responsive td:nth-child(8) { /* Référence */
+                display: block;
+                margin-bottom: 12px;
+            }
+            
+            .table-responsive td:nth-child(9) { /* Date */
+                display: block;
+            }
+            
+            /* Styles pour chaque section */
+            .table-responsive td:nth-child(3) {
+                border-bottom: 2px solid #e2e8f0;
+                padding-bottom: 16px;
+            }
+            
+            .table-responsive td:nth-child(3) .text-blue-600 {
+                color: #1e40af !important;
+            }
+            
+            .table-responsive td:nth-child(3) .font-semibold {
+                font-size: 18px;
+                margin-bottom: 4px;
+            }
+            
+            .table-responsive td:nth-child(3) .font-medium {
+                font-size: 16px;
+                color: #374151;
+                margin-bottom: 4px;
+            }
+            
+            .table-responsive td:nth-child(3) .text-xs {
+                color: #6b7280;
+                font-size: 13px;
+            }
+            
+            /* Pack */
+            .table-responsive td:nth-child(4)::before {
+                content: "📦 ";
+                margin-right: 8px;
+            }
+            
+            .table-responsive td:nth-child(4) .font-medium {
+                color: #7c3aed;
+                font-weight: 600;
+                font-size: 15px;
+            }
+            
+            /* Montant */
+            .table-responsive td:nth-child(5)::before {
+                content: "💰 ";
+                margin-right: 8px;
+            }
+            
+            .table-responsive td:nth-child(5) {
+                font-size: 20px;
+                font-weight: bold;
+                color: #059669 !important;
+            }
+            
+            /* Système de paiement */
+            .table-responsive td:nth-child(6)::before {
+                content: "💳 ";
+                margin-right: 8px;
+            }
+            
+            .table-responsive td:nth-child(6) {
+                color: #6b7280;
+                font-size: 14px;
+            }
+            
+            /* Statut */
+            .table-responsive td:nth-child(7) {
+                text-align: center;
+            }
+            
+            .table-responsive td:nth-child(7) .inline-flex {
+                display: inline-flex;
+                padding: 8px 16px;
+                border-radius: 25px;
+                font-weight: 600;
+                font-size: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            /* Date */
+            .table-responsive td:nth-child(9)::before {
+                content: "📅 ";
+                margin-right: 8px;
+            }
+            
+            .table-responsive td:nth-child(9) {
+                color: #374151;
+                font-size: 14px;
+                text-align: right;
+                font-weight: 500;
+            }
+            
+            /* Référence */
+            .table-responsive td:nth-child(8) {
+                background: #f1f5f9;
+                padding: 12px;
+                border-radius: 8px;
+                border-left: 4px solid #3b82f6;
+            }
+            
+            .table-responsive td:nth-child(8)::before {
+                content: "🔖 ";
+                margin-right: 8px;
+            }
+            
+            .table-responsive td:nth-child(8) .font-mono {
+                background: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                color: #1e40af;
+                border: 1px solid #dbeafe;
             }
         }
-        
-        /* Custom scrollbar for table */
-        .table-wrapper {
-            scrollbar-width: thin;
-            scrollbar-color: #cbd5e0 #f7fafc;
+
+        @media only screen and (max-width: 459px)  {
+            .table-responsive table,
+            .table-responsive thead,
+            .table-responsive tbody,
+            .table-responsive tr,
+            .table-responsive th,
+            .table-responsive td {
+                display: block;
+            }
+            
+            .table-responsive thead {
+                display: none;
+            }
+            
+            /* Container pour affichage en 1x1 */
+            .table-responsive tbody {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px;
+                background: #f8fafc;
+            }
+            
+            /* Style carte compact */
+            .table-responsive tr {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border-radius: 12px;
+                box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e2e8f0;
+                padding: 16px;
+                margin: 0;
+              
+                position: relative;
+            }
+            
+            .table-responsive tr:hover {
+               
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+            }
+            
+            /* Badge ID compact */
+            .table-responsive tr::before {
+                content: "#" attr(data-id);
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                color: white;
+                padding: 2px 8px;
+                border-radius: 15px;
+                font-size: 15px;
+                font-weight: bold;
+            }
+            
+            .table-responsive td {
+                display: none;
+                padding: 0;
+                margin: 0;
+                background: transparent;
+                border: none;
+            }
+            
+            /* Affichage adapté pour mobile */
+            .table-responsive td:nth-child(3),
+            .table-responsive td:nth-child(4),
+            .table-responsive td:nth-child(5),
+            .table-responsive td:nth-child(7),
+            .table-responsive td:nth-child(8), 
+            .table-responsive td:nth-child(9) {
+                display: block;
+                margin-bottom: 8px;
+            }
+            
+            /* Styles compacts */
+            .table-responsive td:nth-child(3) .font-semibold {
+                font-size: 18px;
+                line-height: 1.5;
+                color: #1e40af;
+            }
+            
+            .table-responsive td:nth-child(3) .font-medium {
+                font-size: 16px;
+                color: #374151;
+            }
+            
+            .table-responsive td:nth-child(3) .text-xs {
+                font-size: 13px;
+                color: #6b7280;
+            }
+            /* Pack */
+            .table-responsive td:nth-child(4)::before {
+                content: "📦 ";
+                margin-right: 8px;
+            }
+            
+            .table-responsive td:nth-child(4) .font-medium {
+                color: #7c3aed;
+                font-weight: 600;
+                font-size: 15px;
+            }
+            
+            /* Montant */
+            .table-responsive td:nth-child(5)::before {
+                content: "💰";
+                margin-right: 8px;
+                
+            }
+           
+            
+            .table-responsive td:nth-child(5) {
+                font-size: 18px;
+                font-weight: bold;
+                color: #059669 !important;
+            }
+            
+            .table-responsive td:nth-child(7) .inline-flex {
+                padding: 4px 12px;
+                font-size: 10px;
+                border-radius: 20px;
+            }
+            
+             /* Référence */
+            .table-responsive td:nth-child(8) {
+                background: #f1f5f9;
+                padding: 12px;
+                border-radius: 8px;
+                border-left: 4px solid #3b82f6;
+            }
+            
+            .table-responsive td:nth-child(8)::before {
+                content: "🔖 ";
+                margin-right: 8px;
+            }
+            
+            .table-responsive td:nth-child(8) .font-mono {
+                background: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                color: #1e40af;
+                border: 1px solid #dbeafe;
+            }
+
+            .table-responsive td:nth-child(9) {
+                font-size: 12px;
+                color: #6b7280;
+                text-align: right;
+            }
         }
+
+        @media only screen and (max-width: 380px) {
+    .table-responsive table,
+    .table-responsive thead,
+    .table-responsive tbody,
+    .table-responsive tr,
+    .table-responsive th,
+    .table-responsive td {
+        display: block;
+        width: 100%;
+        margin-left: 10px;
+        align-items: center;
+    }
+    
+    .table-responsive thead {
+        display: none;
+    }
+    
+    /* Container adaptatif */
+    .table-responsive {
+        font-size: 13px;
+        max-width: 80%;
+        overflow: hidden;
+    }
+    
+    .table-responsive tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px;
         
-        .table-wrapper::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        .table-wrapper::-webkit-scrollbar-track {
-            background: #f7fafc;
-        }
-        
-        .table-wrapper::-webkit-scrollbar-thumb {
-            background-color: #cbd5e0;
-            border-radius: 4px;
-        }
+        background: #f8fafc;
+    }
+    
+    /* Cartes adaptatives */
+    .table-responsive tr {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e2e8f0;
+        padding: 8px 8px 8px 8px;
+        margin: 0;
+        transition: all 0.3s ease;
+        position: relative;
+        min-width: 0;
+        overflow: hidden;
+       
+        padding-right: 70px; 
+    }
+    
+    .table-responsive tr:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Badge ID adaptatif - repositionné */
+    .table-responsive tr::before {
+        content: "#" attr(data-id);
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 10px;
+        font-size: 10px;
+        font-weight: bold;
+        max-width: 55px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: 1;
+    }
+    
+    .table-responsive td {
+        display: none;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        border: none;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Affichage des colonnes sélectionnées */
+    .table-responsive td:nth-child(3),
+    .table-responsive td:nth-child(4),
+    .table-responsive td:nth-child(5),
+    .table-responsive td:nth-child(7),
+    .table-responsive td:nth-child(8), 
+    .table-responsive td:nth-child(9) {
+        display: block;
+        margin-bottom: 4px;
+    }
+    
+    /* Styles des éléments */
+    .table-responsive td:nth-child(3) .font-semibold {
+        font-size: 13px;
+        color: #1e40af;
+        line-height: 1.2;
+    }
+    
+    .table-responsive td:nth-child(3) .font-medium {
+        font-size: 11px;
+        color: #374151;
+        line-height: 1.2;
+    }
+    
+    .table-responsive td:nth-child(3) .text-xs {
+        font-size: 9px;
+        color: #6b7280;
+        line-height: 1.2;
+    }
+    
+    .table-responsive td:nth-child(4) {
+        font-size: 10px;
+        color: #7c3aed;
+        font-weight: 600;
+    }
+    
+    .table-responsive td:nth-child(5) {
+        font-size: 12px;
+        font-weight: bold;
+        color: #059669 !important;
+    }
+    
+    .table-responsive td:nth-child(7) .inline-flex {
+        padding: 1px 6px;
+        font-size: 8px;
+        border-radius: 12px;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .table-responsive td:nth-child(8) {
+        background: #f1f5f9;
+        padding: 6px;
+        border-radius: 4px;
+        border-left: 2px solid #3b82f6;
+        margin-top: 4px;
+    }
+    
+    .table-responsive td:nth-child(8)::before {
+        content: "🔖 ";
+        margin-right: 4px;
+    }
+    
+    .table-responsive td:nth-child(8) .font-mono {
+        background: white;
+        padding: 1px 3px;
+        border-radius: 2px;
+        font-size: 8px;
+        color: #1e40af;
+        border: 1px solid #dbeafe;
+        word-break: break-all;
+    }
+    
+    .table-responsive td:nth-child(9) {
+        font-size: 10px;
+        color: #6b7280;
+        text-align: right;
+        margin-top: 4px;
+    }
+}
     </style>
 </head>
 <body class="font-sans bg-gray-100">
@@ -655,14 +1211,15 @@
                         </div>
 
                         <!-- Main Content Grid -->
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                            
-                            <div class="lg:col-span-8 space-y-6">  
-                                
-                                <div class="w-full px-4 py-6 bg-white shadow-md rounded-md">
-                                    <h2 class="text-xl font-bold text-gray-700 mb-4">Formulaire d'exemple</h2>
+                        
 
-                                    <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 main-grid">
+  <div class="lg:col-span-8 space-y-6">  
+    <div class="w-full px-4 py-6 bg-white shadow-md rounded-md">
+      <h2 class="text-xl font-bold text-gray-700 mb-4">Formulaire d'exemple</h2>
+      <form class="formulaire-grid">
+        <!-- Champs du formulaire -->
+      
                                         <!-- Ligne 1 -->
                                         <div class="flex flex-col">
                                         <label for="nom" class="mb-1 text-sm font-medium text-gray-600">Nom</label>
@@ -718,14 +1275,12 @@
                                         <input type="text" id="entreprise" class="px-3 py-2 text-sm border rounded-md w-full" />
                                         </div>
                                     </form>
-                                </div>
-                            </div>
+    </div>
+  </div>
 
-                            <div class="lg:col-span-4 space-y-6">  
-                                
-                                <!-- Statistics Cards -->
-                                <div class="bg-white rounded-lg shadow-sm border p-4">
-                                    <div class="flex justify-center">  <!-- Conteneur pour centrer le tableau -->
+  <div class="lg:col-span-4 space-y-6">  
+    <div class="bg-white rounded-lg shadow-sm border p-4 statistics-cards">
+      <div class="flex justify-center">  <!-- Conteneur pour centrer le tableau -->
                                         <div class="w-3/4">  <!-- 3/4 de la largeur parente -->
                                             <table class="w-full responsive-table">
                                                 <thead class="border-t-2 border-yellow-400">
@@ -759,22 +1314,21 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+    </div>
 
-   
-
-                                <!-- Info Box -->
-                                <div class="bg-cyan-100 border-l-4 border-cyan-500 p-4 rounded">
-                                    <div class="text-sm text-cyan-800 mb-2">
+    <div class="bg-cyan-100 border-l-4 border-cyan-500 p-4 rounded info-box">
+      <div class="text-sm text-cyan-800 mb-2">
                                         <span class="font-bold">1 987</span> personnes ont effectués au moins un paiements.
                                     </div>
                                     <div class="text-sm text-cyan-700">
                                         <i class="fas fa-circle text-red-500 mr-1"></i>
                                         Les prix reportoriés dans le tableau ci dessus sont ceux relatif à tous les status de transactions (Payé, En cours, Échoué...), à moins que vous précisiez un statut particulier dans le filtre.
                                     </div>
-                                </div>
-                            </div>
+    </div>
+  </div>
                         </div>
+
+
                         <!-- Action Buttons and Table -->
                         <div class="mt-6 space-y-6">
                             <!-- Action Buttons -->
@@ -806,7 +1360,7 @@
                                 
 
                             <!-- Table Section -->
-                            <div class="bg-white rounded-lg shadow-sm border">
+                            <div class="bg-white rounded-lg shadow-sm border overflow-x-auto ">
                                 <!-- Pagination Top -->
                                 <div class="p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                                     <div class="text-sm text-gray-600">*IRL: In Real Life</div>
@@ -831,194 +1385,171 @@
                                 </div>
 
                                 <!-- Table -->
-                                <div class="table-wrapper overflow-x-auto">
-                                    <table class="w-full responsive-table">
-                                        <thead class="bg-yellow-200">
-                                            <tr class="text-left text-sm">
-                                                <th class="px-3 py-3 font-semibold">
-                                                    <input type="checkbox" class="rounded">
-                                                </th>
-                                                <th class="px-3 py-3 font-semibold">Id</th>
-                                                <th class="px-3 py-3 font-semibold">[iakw] Nom & Prénom<br>Email</th>
-                                                <th class="px-3 py-3 font-semibold">Pack payé (tag)</th>
-                                                <th class="px-3 py-3 font-semibold">Montant reçu</th>
-                                                <th class="px-3 py-3 font-semibold">Système paiement(Numéro Payeur)</th>
-                                                <th class="px-3 py-3 font-semibold">Statut <i class="fas fa-info-circle text-gray-400"></i></th>
-                                                <th class="px-3 py-3 font-semibold">Reference & Code Facture</th>
-                                                <th class="px-3 py-3 font-semibold">Date paiement</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="divide-y divide-gray-200">
-                                            <tr class="hover:bg-gray-50">
-                                                <td class="px-3 py-4">
-                                                    <input type="checkbox" class="rounded">
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">23134</td>
-                                                <td class="px-3 py-4">
-                                                    <div class="text-sm">
-                                                        <div class="text-blue-600 font-medium">[235553]</div>
-                                                        <div class="text-blue-600">hamiliyang pere</div>
-                                                        <div class="text-blue-600">hamiliangpere44@gmail.com</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    Dieu du Mboa<br>
-                                                    <span class="text-gray-500">(dieu-du-mboa)</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">$2,000.00</td>
-                                                <td class="px-3 py-4 text-sm"></td>
-                                                <td class="px-3 py-4">
-                                                    <span class="status-initiale">Initialisé</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    <div class="text-blue-600">
-                                                        <div><strong>Code Facture :</strong></div>
-                                                        <div>RC1520250806J20374</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    6 août<br>2025<br>12:12
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr class="hover:bg-gray-50">
-                                                <td class="px-3 py-4">
-                                                    <input type="checkbox" class="rounded">
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">23133</td>
-                                                <td class="px-3 py-4">
-                                                    <div class="text-sm">
-                                                        <div class="text-blue-600 font-medium">[235553]</div>
-                                                        <div class="text-blue-600">hamiliyang pere</div>
-                                                        <div class="text-blue-600">hamiliangpere44@gmail.com</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    Dieu du Mboa<br>
-                                                    <span class="text-gray-500">(dieu-du-mboa)</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">$2,000.00</td>
-                                                <td class="px-3 py-4 text-sm">Stripe</td>
-                                                <td class="px-3 py-4">
-                                                    <span class="status-annule">Annulé</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    <div class="text-blue-600">
-                                                        <div><strong>Code Facture :</strong></div>
-                                                        <div>RC1520250806J20374</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    6 août<br>2025<br>12:12
-                                                </td>
-                                            </tr>
-
-                                            <tr class="hover:bg-gray-50">
-                                                <td class="px-3 py-4">
-                                                    <input type="checkbox" class="rounded">
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">23132</td>
-                                                <td class="px-3 py-4">
-                                                    <div class="text-sm">
-                                                        <div class="text-blue-600 font-medium">[237476]</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    Pack Aurionic Lv1<br>
-                                                    <span class="text-gray-500">(kgffreemium_apaurionic01)</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">$4.99</td>
-                                                <td class="px-3 py-4 text-sm">Google Pay</td>
-                                                <td class="px-3 py-4">
-                                                    <span class="status-paye">Payé</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    <div class="text-blue-600">
-                                                        <div><strong>Reference Transaction :</strong></div>
-                                                        <div>GPA.3356-1753-6819-20350...</div>
-                                                        <div><strong>Code Facture :</strong></div>
-                                                        <div>RC0120250806X20373</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    6 août<br>2025<br>11:34
-                                                </td>
-                                            </tr>
-
-                                            <tr class="hover:bg-gray-50">
-                                                <td class="px-3 py-4">
-                                                    <input type="checkbox" class="rounded">
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">23131</td>
-                                                <td class="px-3 py-4">
-                                                    <div class="text-sm">
-                                                        <div class="text-blue-600 font-medium">[26519]</div>
-                                                        <div class="text-blue-600">abessolo annick</div>
-                                                        <div class="text-blue-600">abessannick@gmail.com</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    Elite du village<br>
-                                                    <span class="text-gray-500">(elite-du-village)</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">10 000 FCFA</td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    Orange Money<br>
-                                                    <div class="text-gray-500 text-xs">Via : Pawapay</div>
-                                                    <div class="text-gray-500 text-xs">(691355723)</div>
-                                                </td>
-                                                <td class="px-3 py-4">
-                                                    <span class="status-paye">Payé</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    <div class="text-blue-600">
-                                                        <div><strong>Reference Transaction :</strong></div>
-                                                        <div>efifa823-76bd-4438-871c-e77cf0a8d9b2...</div>
-                                                        <div><strong>Code Facture :</strong></div>
-                                                        <div>RC1520250805K20372</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    5 août<br>2025<br>22:24
-                                                </td>
-                                            </tr>
-
-                                            <tr class="hover:bg-gray-50">
-                                                <td class="px-3 py-4">
-                                                    <input type="checkbox" class="rounded">
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">23130</td>
-                                                <td class="px-3 py-4">
-                                                    <div class="text-sm">
-                                                        <div class="text-blue-600 font-medium">[230473]</div>
-                                                        <div class="text-blue-600 break-all">aloissilence07@gmail.com</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    Budget Divin<br>
-                                                    <span class="text-gray-500">(mboabbiopromo_mboa_defaut)</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">500 FCFA</td>
-                                                <td class="px-3 py-4 text-sm">MTN Cameroun</td>
-                                                <td class="px-3 py-4">
-                                                    <span class="status-encours">En Cours</span>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    <div class="text-blue-600">
-                                                        <div><strong>Reference Transaction :</strong></div>
-                                                        <div>9d29709b-1788-4fb4-9b8d-51faabb6b9d3...</div>
-                                                        <div><strong>Code Facture :</strong></div>
-                                                        <div>RC0520250805E20369</div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-3 py-4 text-sm">
-                                                    5 août<br>2025<br>21:05
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                
                             </div>
+                                <!-- Tableau des types de récompense -->
+                 <div class="max-w-7xl mx-auto min-w-0 px-1">
+        <div class=" rounded-lg shadow-lg  items-center justify-center  mt-6">
+            <!-- En-tête -->
+           
+            <!-- Tableau -->
+            <div class="table-responsive items-center justify-center py-6 ">
+                <table class="w-full">
+                    <thead class="bg-yellow-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <input type="checkbox" class="rounded border-gray-300">
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nom & Prénom Email</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Pack payé</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Montant reçu</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Système paiement</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                Statut <i class="fas fa-info-circle text-gray-400 ml-1"></i>
+                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Référence Code</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Date paiement</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-4">
+                                <input type="checkbox" class="rounded border-gray-300">
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-900">23134</td>
+                            <td class="px-4 py-4">
+                                <div class="text-sm">
+                                    <div class="text-blue-600 font-semibold">[235553]</div>
+                                    <div class="text-blue-600 font-medium">Hamilyang Père</div>
+                                    <div class="text-blue-500 text-xs">hamiliangpere44@gmail.com</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 text-sm">
+                                <div class="font-medium">Dieu du Mboa</div>
+                                <div class="text-gray-500 text-xs">(dieu-du-mboa)</div>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-bold text-green-600">$2,000.00</td>
+                            <td class="px-4 py-4 text-sm text-gray-500">Mobile Money</td>
+                            <td class="px-4 py-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Initialisé
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 text-sm">
+                                <div class="text-blue-600">
+                                    <div class="font-semibold text-xs">Code Facture :</div>
+                                    <div class="font-mono text-xs">RC1520250806J20374</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 text-sm text-gray-600">
+                                <div class="font-medium">6 août 2025</div>
+                                <div class="text-xs">12:12</div>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-4">
+                                <input type="checkbox" class="rounded border-gray-300">
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-900">23135</td>
+                            <td class="px-4 py-4">
+                                <div class="text-sm">
+                                    <div class="text-blue-600 font-semibold">[235554]</div>
+                                    <div class="text-blue-600 font-medium">Marie Dupont</div>
+                                    <div class="text-blue-500 text-xs">marie.dupont@email.com</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 text-sm">
+                                <div class="font-medium">Pack Premium</div>
+                                <div class="text-gray-500 text-xs">(premium)</div>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-bold text-green-600">$1,500.00</td>
+                            <td class="px-4 py-4 text-sm text-gray-500">Orange Money</td>
+                            <td class="px-4 py-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    Validé
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 text-sm">
+                                <div class="text-blue-600">
+                                    <div class="font-semibold text-xs">Code Facture :</div>
+                                    <div class="font-mono text-xs">RC1520250806J20375</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 text-sm text-gray-600">
+                                <div class="font-medium">7 août 2025</div>
+                                <div class="text-xs">09:30</div>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-4">
+                                <input type="checkbox" class="rounded border-gray-300">
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-900">23136</td>
+                            <td class="px-4 py-4">
+                                <div class="text-sm">
+                                    <div class="text-blue-600 font-semibold">[235555]</div>
+                                    <div class="text-blue-600 font-medium">Jean Martin</div>
+                                    <div class="text-blue-500 text-xs">jean.martin@gmail.com</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 text-sm">
+                                <div class="font-medium">Pack Starter</div>
+                                <div class="text-gray-500 text-xs">(starter)</div>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-bold text-green-600">$500.00</td>
+                            <td class="px-4 py-4 text-sm text-gray-500">MTN Money</td>
+                            <td class="px-4 py-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    <i class="fas fa-times-circle mr-1"></i>
+                                    Échoué
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 text-sm">
+                                <div class="text-blue-600">
+                                    <div class="font-semibold text-xs">Code Facture :</div>
+                                    <div class="font-mono text-xs">RC1520250806J20376</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 text-sm text-gray-600">
+                                <div class="font-medium">7 août 2025</div>
+                                <div class="text-xs">14:45</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer avec pagination -->
+            <div class=" bg-gray-100 px-6 py-4 border-t border-gray-200 max-w-96 sm:max-w-7xl  sm:block items-center">
+                <div class="flex items-center justify-between">
+                    <div class="text-xs sm:text-sm text-gray-700">
+                        Affichage de <span class="font-medium">1</span> à <span class="font-medium">3</span> sur <span class="font-medium">12</span> résultats
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            <i class="fas fa-chevron-left mr-1 "></i>
+                            Précédent
+                        </button>
+                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2  bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                            1
+                        </button>
+                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            2
+                        </button>
+                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            Suivant
+                            <i class="fas fa-chevron-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
                         </div>
                     </div>
                     
