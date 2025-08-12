@@ -30,10 +30,11 @@
         .main-content {
             max-width: 1400px;
             margin: 0 auto;
+            font-family: 'Times New Roman', Times, serif;
         }
         
         /* Ajustements pour mobile */
-        @media (max-width: 640px) {
+        @media (max-width: 340px) {
             .mobile-center {
                 display: flex;
                 flex-direction: column;
@@ -49,6 +50,195 @@
                 align-items: start;
             }
         }
+       
+    /* Media query pour écrans entre 340px et 1023px */
+    @media screen and (min-width: 340px) and (max-width: 1023px) {
+        
+    /* Container principal de la colonne gauche - utilise tout l'espace */
+.space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Force le container parent à utiliser toute la largeur disponible */
+@media (min-width: 500px) and (max-width: 1023px) {
+    .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 {
+        max-width: none !important;
+        width: 100% !important;
+    }
+    
+    /* Assure que tous les containers parents utilisent la largeur complète */
+    .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 > * {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Styles pour écrans entre 500px et 1023px */
+@media (min-width: 500px) and (max-width: 1023px) {
+    /* Container principal - passage en flex horizontal et utilise toute la largeur */
+    .bg-white.pt-4.shadow.rounded.px-4 {
+        display: flex !important;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+    
+    /* Container de l'image - occupe 40% de l'espace */
+    .bg-white.pt-4.shadow.rounded.px-4 > div:first-child {
+        flex: 0 0 40%; /* 40% de l'espace parent */
+        margin-bottom: 0 !important;
+    }
+    
+    /* Image - s'adapte à son container */
+    .bg-white.pt-4.shadow.rounded.px-4 img {
+        height: auto !important;
+        max-width: 100% !important;
+        width: 80% !important;
+        object-fit: contain;
+        align-items: center !important;
+    }
+    
+    /* Section sous-sec2 - occupe 60% de l'espace à droite */
+    .sous-sec2 {
+        flex: 0 0 60%; /* 60% de l'espace parent */
+        text-align: left !important;
+    }
+    
+    /* Titre aligné à droite */
+    .sous-sec2 h2 {
+        text-align: left !important;
+    }
+    
+    /* Paragraphe du code aligné à droite */
+    .sous-sec2 > p {
+        text-align: left !important;
+    }
+    
+    /* Contenu textuel aligné à droite */
+    .sous-sec2 .mt-2.text-xs.sm\:text-base.text-left {
+        text-align: left !important;
+    }
+    
+    /* Paragraphes dans le contenu textuel */
+    .sous-sec2 .mt-2.text-xs.sm\:text-base.text-left p {
+        text-align: left !important;
+    }
+    
+    /* Liste alignée à droite */
+    .sous-sec2 ul {
+        text-align: left !important;
+        list-style-position: inside;
+    }
+    
+    /* Boutons alignés à droite */
+    .sous-sec2 .mt-3.flex.flex-wrap.gap-2.justify-center {
+        justify-content: flex-end !important;
+    }
+}
+        
+         /* sous section vissioning */
+       .flex-col1 {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1rem;
+        }
+        .flex-col {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 600px) { 
+            .flex-col1 {
+                flex-direction: row !important; 
+            }
+            
+            .flex-col1 > div {
+                flex: 1;
+            }
+            
+           .flex-col {
+                flex-direction: row !important; 
+            }
+            
+            .flex-col > div {
+                flex: 1;
+            }
+            .flex.flex-col>div:first-child{
+                 flex: 0 0 60%;
+            }
+            .flex.flex-col > div:nth-child(2) {
+                flex: 0 0 40%;
+                align-self: flex-start;
+                margin-top: 0; /* Supprime toute marge supérieure */
+            }
+        }
+
+    
+    }
+
+    /* Répartition équitable 50%-50% pour écrans > 1024px */
+    @media (min-width: 1024px) {
+
+        .flex-col {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1rem;
+        }
+        .flex-col {
+                flex-direction: row !important; 
+            }
+            
+            .flex-col > div {
+                flex: 1;
+            }
+            .flex.flex-col>div:first-child{
+                 flex: 0 0 60%;
+            }
+            .flex.flex-col > div:nth-child(2) {
+                flex: 0 0 40%;
+                align-self: flex-start;
+                margin-top: 0; /* Supprime toute marge supérieure */
+}
+        /* Container principal - passe en 2 colonnes égales */
+        .grid.grid-cols-1.lg\:grid-cols-3.gap-6 {
+            grid-template-columns: 1fr 1fr !important; /* 2 colonnes égales au lieu de 3 */
+            gap: 2rem;
+        }
+        
+        /* Colonne gauche - occupe 1 fraction */
+        .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 {
+            grid-column: span 1 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+        
+        /* Colonne droite - occupe 1 fraction */
+        .space-y-5.lg\:col-span-2.w-full.max-w-4xl.mx-auto.lg\:mx-0 {
+            grid-column: span 1 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+        
+        /* Assure que le container principal utilise toute la largeur */
+        .lg-center-grid.max-w-7xl {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+        
+        /* Supprime les limitations de largeur sur les colonnes */
+        .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0,
+        .space-y-5.lg\:col-span-2.w-full.max-w-4xl.mx-auto.lg\:mx-0 {
+            max-width: none !important;
+        }
+    }
     </style>
 </head>
 <body class="font-sans bg-gray-100">
@@ -655,59 +845,65 @@
                             </div>
 
                             <!-- Content layout centré -->
-                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6 lg-center-grid max-w-7xl mx-auto">
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg-center-grid max-w-7xl mx-auto ">
                                 
                                 <!-- Colonne gauche -->
-                                <div class="space-y-4 lg:col-span-1 w-full max-w-md mx-auto lg:mx-0">
+                                <div class="space-y-0 lg:col-span-1 w-full max-w-md mx-auto lg:mx-0 ">
                             
-                                    <div class="bg-white pt-4 shadow rounded px-4 sm:px-6 lg:px-10">
+                                    <div class="bg-white pt-4 shadow rounded px-4 sm:px-6 lg:px-10 ">
                                         <div class="flex justify-center mb-4">
                                             <img src="https://kirooworld-public-bucket.s3.eu-west-3.amazonaws.com/packs/1660738397_PackAP3.png" alt="Pack" class="h-40 sm:h-48 lg:h-50 object-contain" />
                                         </div>
-                                        <h2 class="font-bold text-gray-800 text-center text-sm sm:text-xl">Pack Visionnaire Lv2 (Pack Visionary Lv2)</h2>
-                                        <p class="text-base text-gray-400 text-center">#kgffreemium_apvisio2</p>
-                                        <div class="mt-2 text-xs sm:text-base text-left">
-                                            <p class="text-xs sm:text-base"><strong>#FR</strong><br>Donne 1 400 000 AP pour faire évoluer vos héros.</p>
-                                            <p class="mt-2 text-xs sm:text-base"><strong>#ENG</strong><br>Gives 1 400 000 AP to upgrade your heroes.</p>
-                                            <p class="mt-2 text-xs sm:text-base"><strong>Quantité disponible :</strong></p>
-                                            <ul class="list-disc list-inside">
-                                                <li class="text-xs sm:text-base">Service associé : Aurion: Kajuta Gems Fighters</li>
-                                            </ul>
+                                        <div class="sous-sec2">
+                                            <h2 class="font-bold text-gray-800 text-center text-sm sm:text-xl">Pack Visionnaire Lv2 (Pack Visionary Lv2)</h2>
+                                            <p class="text-base text-gray-400 text-center">#kgffreemium_apvisio2</p>
+                                            <div class="mt-2 text-xs sm:text-base text-left">
+                                                <p class="text-xs sm:text-base"><strong>#FR</strong><br>Donne 1 400 000 AP pour faire évoluer vos héros.</p>
+                                                <p class="mt-2 text-xs sm:text-base"><strong>#ENG</strong><br>Gives 1 400 000 AP to upgrade your heroes.</p>
+                                                <p class="mt-2 text-xs sm:text-base"><strong>Quantité disponible :</strong></p>
+                                                <ul class="list-disc list-inside">
+                                                    <li class="text-xs sm:text-base">Service associé : Aurion: Kajuta Gems Fighters</li>
+                                                </ul>
+                                            </div>
+                                            <div class="mt-3 flex flex-wrap gap-2 justify-center pb-4">
+                                                <span class="bg-blue-600 text-white text-xs sm:text-sm font-bold px-2 py-1 rounded">VERSION : 0.16</span>
+                                                <button class="bg-yellow-500 hover:bg-yellow-600 text-white text-xs sm:text-sm px-3 py-1 rounded">EDITER</button>
+                                                <button class="bg-red-500 hover:bg-red-600 text-white text-xs sm:text-sm px-3 py-1 rounded">DÉSACTIVER</button>
+                                            </div>
                                         </div>
-                                        <div class="mt-3 flex flex-wrap gap-2 justify-center pb-4">
-                                            <span class="bg-blue-600 text-white text-xs sm:text-base font-bold px-2 py-1 rounded">VERSION : 0.16</span>
-                                            <button class="bg-yellow-500 hover:bg-yellow-600 text-white text-xs sm:text-base px-3 py-1 rounded">EDITER</button>
-                                            <button class="bg-red-500 hover:bg-red-600 text-white text-xs sm:text-base px-3 py-1 rounded">DÉSACTIVER</button>
-                                        </div>
+                                        
                                     </div>
+                                    
+                                    <div class="flex-col1">
+                                        <!-- Prix anciennes versions -->
+                                        <div class="bg-white p-4 shadow rounded">
+                                            <h3 class="text-gray-700 font-semibold mb-2 text-center sm:text-center text-lg">Prix anciennes versions du jeux</h3>
+                                            <div class="overflow-x-auto">
+                                                <table class="w-full text-sm text-left border">
+                                                    <thead class="border-t-2 border-green-500">
+                                                        <tr>
+                                                            <th class="border px-2 py-1">#</th>
+                                                            <th class="border px-2 py-1">Devise</th>
+                                                            <th class="border px-2 py-1">Valeur</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td class="border px-2 py-1">1</td><td class="border px-2 py-1">XAF</td><td class="border px-2 py-1">2000</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
 
-                                    <!-- Prix anciennes versions -->
-                                    <div class="bg-white p-4 shadow rounded">
-                                        <h3 class="text-gray-700 font-semibold mb-2 text-center sm:text-left">Prix anciennes versions du jeux</h3>
-                                        <div class="overflow-x-auto">
-                                            <table class="w-full text-xs text-left border">
-                                                <thead class="bg-green-200">
-                                                    <tr>
-                                                        <th class="border px-2 py-1">#</th>
-                                                        <th class="border px-2 py-1">Devise</th>
-                                                        <th class="border px-2 py-1">Valeur</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr><td class="border px-2 py-1">1</td><td class="border px-2 py-1">XAF</td><td class="border px-2 py-1">2000</td></tr>
-                                                </tbody>
-                                            </table>
+                                        <!-- Versionning -->
+                                        <div class="bg-gray-100 p-4 shadow rounded">
+                                            <h3 class="font-semibold text-gray-800 mb-2 text-center sm:text-left text-base">Versionning</h3>
+                                            <p class="text-xs sm:text-sm text-gray-600 text-center sm:text-left">Ce pack est actuellement en publication...</p>
+                                            <div class="mt-2 text-center">
+                                                <button class="bg-green-500 text-white px-4 py-1.5 text-xs rounded">VOIR LA VERSION BÊTA</button>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <!-- Versionning -->
-                                    <div class="bg-gray-100 p-4 shadow rounded">
-                                        <h3 class="font-semibold text-gray-800 mb-2 text-center sm:text-left">Versionning</h3>
-                                        <p class="text-xs sm:text-sm text-gray-600 text-center sm:text-left">Ce pack est actuellement en publication...</p>
-                                        <div class="mt-2 text-center">
-                                            <button class="bg-green-500 text-white px-4 py-1.5 text-xs rounded">VOIR LA VERSION BÊTA</button>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
 
                                 <!-- Colonne droite -->
@@ -717,11 +913,11 @@
                                     <div class="bg-white p-4 shadow rounded">
                                         <h3 class="font-semibold text-gray-800 mb-2 text-center sm:text-left text-xl sm:text-2xl">Groupes tarifaires</h3>
                                         <div class="space-y-1">
-                                            <div class="bg-blue-100 text-blue-700 pl-2  py-1 rounded text-xs sm:text-lg">GRPE TARIFAIRE – KGF FREEMIUM – XAF</div>
-                                            <div class="text-gray-500 text-xs sm:text-base">GRPE TARIFAIRE – KGF FREEMIUM – XOF</div>
-                                            <div class="text-gray-500 text-xs sm:text-base">GRPE TARIFAIRE – KGF FREEMIUM – EUROPE</div>
-                                            <div class="text-gray-500 text-xs sm:text-base">GRPE TARIFAIRE – KGF FREEMIUM – GUINÉE</div>
-                                            <div class="text-gray-500 text-xs sm:text-base">GRPE TARIFAIRE – KGF FREEMIUM – PAR DÉFAUT</div>
+                                            <div class="bg-blue-100 text-blue-700 pl-2  py-1 rounded text-xs sm:text-sm">GRPE TARIFAIRE – KGF FREEMIUM – XAF</div>
+                                            <div class="text-gray-500 text-xs sm:text-sm">GRPE TARIFAIRE – KGF FREEMIUM – XOF</div>
+                                            <div class="text-gray-500 text-xs sm:text-sm">GRPE TARIFAIRE – KGF FREEMIUM – EUROPE</div>
+                                            <div class="text-gray-500 text-xs sm:text-sm">GRPE TARIFAIRE – KGF FREEMIUM – GUINÉE</div>
+                                            <div class="text-gray-500 text-xs sm:text-sm">GRPE TARIFAIRE – KGF FREEMIUM – PAR DÉFAUT</div>
                                         </div>
                                         <ul class="mt-3 text-xs sm:text-sm space-y-1">
                                             <li><strong>Tag :</strong> kgffreemium_xaf</li>
@@ -734,7 +930,7 @@
 
                                     <!-- Métadonnées -->
                                     <div class="bg-white p-4 shadow rounded">
-                                        <h3 class="font-semibold text-gray-800 mb-2 text-center text-xs sm:text-base sm:text-left">Info des métadonnées</h3>
+                                        <h3 class="font-semibold text-gray-800 mb-2 text-center text-xs sm:text-lg sm:text-left">Info des métadonnées</h3>
                                         <p class="text-xs sm:text-base text-gray-700 text-center sm:text-left ">
                                             Les métadonnées sont présentes et leur dernière date de modifications est <strong>samedi 11 novembre 2023, 11:03:29</strong>
                                         </p>
@@ -742,10 +938,10 @@
 
                                     <!-- Archives -->
                                     <div class="bg-white p-4 shadow rounded">
-                                        <h3 class="font-semibold text-gray-800 mb-2 border-b pb-1 text-center text-xs sm:text-base sm:text-left">Archives de Packs</h3>
+                                        <h3 class="font-semibold text-gray-800 mb-2 border-b pb-1 text-center text-xs sm:text-xl sm:text-center underline">Archives de Packs</h3>
                                         <div class="overflow-x-auto">
-                                            <table class="w-full text-xs min-w-full">
-                                                <thead class="bg-green-200 text-left">
+                                            <table class="w-full text-xs min-w-full items-center justify-center">
+                                                <thead class="border-t-2 border-green-500">
                                                     <tr>
                                                         <th class="px-2 py-1 text-center text-xs sm:text-base">#</th>
                                                         <th class="px-2 py-1 text-xs sm:text-base">Nom version</th>
@@ -754,7 +950,7 @@
                                                         <th class="px-2 py-1 text-center text-xs sm:text-base">Détail</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody class="divide-y">
+                                                <tbody class="divide-y items-center justify-center">
                                                     <tr>
                                                         <td class="px-2 py-1 text-center text-xs sm:text-base">1</td>
                                                         <td class="px-2 py-1 text-xs sm:text-base">0.02</td>
