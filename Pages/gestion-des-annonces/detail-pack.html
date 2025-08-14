@@ -26,219 +26,639 @@
     </script>
 
    <style>
-        /* Centrage personnalisé pour le contenu principal */
-        .main-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            font-family: 'Times New Roman', Times, serif;
-        }
-        
-        /* Ajustements pour mobile */
-        @media (max-width: 340px) {
-            .mobile-center {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-        }
-        
-        /* Centrage des colonnes sur grands écrans */
-        @media (min-width: 1024px) {
-            .lg-center-grid {
-                justify-items: center;
-                align-items: start;
-            }
-        }
-       
-    /* Media query pour écrans entre 340px et 1023px */
-    @media screen and (min-width: 340px) and (max-width: 1023px) {
-        
-    /* Container principal de la colonne gauche - utilise tout l'espace */
-.space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin: 0 !important;
+        /* ========================================
+   MEDIA QUERIES POUR 300px - 767px
+   Adaptation responsive complète
+======================================== */
+
+/* ========================================
+   BASE - STYLES GÉNÉRAUX
+======================================== */
+* {
+    box-sizing: border-box;
 }
 
-/* Force le container parent à utiliser toute la largeur disponible */
-@media (min-width: 500px) and (max-width: 1023px) {
-    .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 {
-        max-width: none !important;
-        width: 100% !important;
+body {
+    overflow-x: hidden;
+}
+
+/* Image responsive de base */
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.square-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+/* ========================================
+   TRÈS PETITES TAILLES : 300px - 400px
+   Layout vertical, boutons 2x2, tout centré
+======================================== */
+@media (min-width: 300px) and (max-width: 400px) {
+    
+    /* Container principal */
+    .max-w-7xl {
+        max-width: 100%;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
     
-    /* Assure que tous les containers parents utilisent la largeur complète */
-    .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 > * {
-        width: 100% !important;
-        max-width: 100% !important;
+    /* Header - adaptation responsive */
+    .bg-white.shadow-sm .flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+    
+    /* Titre du header */
+    .bg-white.shadow-sm h1 {
+        font-size: 0.875rem;
+        text-align: center;
+        line-height: 1.2;
+    }
+    
+    /* Conteneur des boutons header */
+    .bg-white.shadow-sm .flex.flex-col {
+        width: 100%;
+        gap: 0.5rem;
+    }
+    
+    /* Bouton "Liste" */
+    .bg-white.shadow-sm .text-blue-600 {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        justify-self: center;
+        align-self: center;
+    }
+    
+    /* Container des boutons d'action - Grid 2x2 */
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    
+    /* Boutons d'action - taille réduite */
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 button {
+        padding: 0.375rem 0.5rem !important;
+        font-size: 0.7rem !important;
+        text-align: center;
+        white-space: nowrap;
+        min-height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Suppression des marges par défaut */
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 {
+        margin: 0 !important;
+    }
+    
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 > * {
+        margin: 0 !important;
+    }
+    
+    /* Onglets de langue */
+    .border-b.border-gray-200 nav {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .border-b.border-gray-200 nav button {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    /* Section principale - Layout vertical */
+    .bg-white.rounded-lg.shadow {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Container image + contenu */
+    .bg-white.rounded-lg.shadow .flex.flex-col.space-y-4 {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    /* Image - adaptative et centrée */
+    .bg-white.rounded-lg.shadow .w-full.md\\:w-auto {
+        width: 80% !important;
+        max-width: 200px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .bg-white.rounded-lg.shadow .square-image {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        aspect-ratio: 1;
+    }
+    
+    /* Section détails */
+    .bg-white.rounded-lg.shadow .flex-1 {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Titre et statut */
+    .bg-white.rounded-lg.shadow .flex.flex-col.space-y-2 {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .bg-white.rounded-lg.shadow h2 {
+        font-size: 0.875rem;
+        line-height: 1.3;
+        text-align: center;
+    }
+    
+    /* Badge statut */
+    .bg-white.rounded-lg.shadow .bg-yellow-400 {
+        align-self: center;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    /* Descriptions */
+    .bg-white.rounded-lg.shadow p {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+    
+    /* Liste des détails */
+    .bg-white.rounded-lg.shadow .grid.grid-cols-1 .flex {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.25rem;
+    }
+    
+    .bg-white.rounded-lg.shadow .grid.grid-cols-1 .flex span {
+        font-size: 0.7rem;
+        line-height: 1.3;
+    }
+    
+    /* Tags - centrage et adaptation */
+    .flex.flex-col.space-y-2.sm\\:flex-row {
+        flex-direction: column !important;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .flex.flex-col.space-y-2.sm\\:flex-row span {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+        text-align: center;
+    }
+    
+    /* Tables - scroll horizontal */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 0.5rem;
+        max-width: 100%;
+    }
+    
+    .table-responsive table {
+        min-width: 400px;
+        width: 100%;
+        font-size: 0.7rem;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        padding: 0.375rem 0.25rem;
+        white-space: nowrap;
+    }
+    
+    .table-responsive .compact-table th,
+    .table-responsive .compact-table td {
+        padding: 0.25rem 0.125rem;
+        font-size: 0.65rem;
+    }
+    
+    /* Tabs - adaptation */
+    .table-responsive nav {
+        min-width: 300px;
+    }
+    
+    .table-responsive nav button {
+        font-size: 0.65rem;
+        padding: 0.375rem 0.25rem;
+        white-space: nowrap;
+    }
+    
+    /* Titres des sections */
+    h3 {
+        font-size: 0.875rem !important;
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+    
+    h4 {
+        font-size: 0.8rem !important;
+        text-align: center;
+        margin-bottom: 0.5rem;
     }
 }
 
-/* Styles pour écrans entre 500px et 1023px */
-@media (min-width: 500px) and (max-width: 1023px) {
-    /* Container principal - passage en flex horizontal et utilise toute la largeur */
-    .bg-white.pt-4.shadow.rounded.px-4 {
-        display: flex !important;
+/* ========================================
+   PETITES TAILLES : 401px - 500px
+   Layout vertical amélioré
+======================================== */
+@media (min-width: 401px) and (max-width: 500px) {
+    
+    /* Container principal */
+    .max-w-7xl {
+        max-width: 100%;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    /* Header */
+    .bg-white.shadow-sm h1 {
+        font-size: 1rem;
+    }
+    
+    /* Boutons header - toujours 2x2 mais plus grands */
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        width: 100%;
+    }
+    
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 button {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
+        min-height: 2.25rem;
+    }
+    
+    /* Image plus grande */
+    .bg-white.rounded-lg.shadow .w-full.md\\:w-auto {
+        width: 70% !important;
+        max-width: 250px;
+    }
+    
+    .bg-white.rounded-lg.shadow .square-image {
+        max-width: 220px;
+    }
+    
+    /* Textes légèrement plus grands */
+    .bg-white.rounded-lg.shadow h2 {
+        font-size: 1rem;
+    }
+    
+    .bg-white.rounded-lg.shadow p {
+        font-size: 0.8rem;
+    }
+    
+    /* Tables */
+    .table-responsive table {
+        min-width: 450px;
+        font-size: 0.75rem;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        padding: 0.5rem 0.375rem;
+    }
+}
+
+/* ========================================
+   MOYENNES TAILLES : 501px - 676px
+   Transition vers layout horizontal
+======================================== */
+@media (min-width: 501px) and (max-width: 676px) {
+    
+    /* Container principal */
+    .max-w-7xl {
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Header - commence à passer en horizontal */
+    .bg-white.shadow-sm .flex {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    
+    .bg-white.shadow-sm h1 {
+        font-size: 1.125rem;
+        flex-shrink: 0;
+    }
+    
+    /* Boutons header - restent en 2x2 mais dans un container plus compact */
+    .bg-white.shadow-sm .flex.flex-col {
+        flex-direction: column;
+        width: auto;
+        min-width: 200px;
+    }
+    
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 button {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
+        min-height: 2rem;
+    }
+    
+    /* Section principale - DÉBUT du layout horizontal */
+    .bg-white.rounded-lg.shadow .flex.flex-col.space-y-4 {
+        flex-direction: row !important;
+        align-items: flex-start;
+        text-align: left;
+        gap: 1.5rem;
+    }
+    
+    /* Image à gauche - 35% de l'espace */
+    .bg-white.rounded-lg.shadow .w-full.md\\:w-auto {
+        flex: 0 0 35% !important;
+        width: 35% !important;
+        max-width: none !important;
+        display: flex;
+        justify-content: flex-start;
+    }
+    
+    .bg-white.rounded-lg.shadow .square-image {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+    }
+    
+    /* Contenu à droite - 65% de l'espace */
+    .bg-white.rounded-lg.shadow .flex-1 {
+        flex: 0 0 65% !important;
+        width: 65% !important;
+        text-align: left;
+    }
+    
+    /* Titre et statut - horizontal */
+    .bg-white.rounded-lg.shadow .flex.flex-col.space-y-2 {
+        flex-direction: row !important;
+        justify-content: space-between;
         align-items: flex-start;
         gap: 1rem;
-        padding: 1rem !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box;
     }
     
-    /* Container de l'image - occupe 40% de l'espace */
-    .bg-white.pt-4.shadow.rounded.px-4 > div:first-child {
-        flex: 0 0 40%; /* 40% de l'espace parent */
-        margin-bottom: 0 !important;
+    .bg-white.rounded-lg.shadow h2 {
+        font-size: 1.125rem;
+        text-align: left;
+        flex: 1;
     }
     
-    /* Image - s'adapte à son container */
-    .bg-white.pt-4.shadow.rounded.px-4 img {
-        height: auto !important;
-        max-width: 100% !important;
-        width: 80% !important;
-        object-fit: contain;
-        align-items: center !important;
+    .bg-white.rounded-lg.shadow .bg-yellow-400 {
+        flex-shrink: 0;
+        align-self: flex-start;
     }
     
-    /* Section sous-sec2 - occupe 60% de l'espace à droite */
-    .sous-sec2 {
-        flex: 0 0 60%; /* 60% de l'espace parent */
-        text-align: left !important;
+    /* Descriptions */
+    .bg-white.rounded-lg.shadow p {
+        font-size: 0.875rem;
+        text-align: left;
     }
     
-    /* Titre aligné à droite */
-    .sous-sec2 h2 {
-        text-align: left !important;
+    /* Liste des détails - format plus compact */
+    .bg-white.rounded-lg.shadow .grid.grid-cols-1 .flex {
+        flex-direction: row !important;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: left;
+        gap: 0.5rem;
     }
     
-    /* Paragraphe du code aligné à droite */
-    .sous-sec2 > p {
-        text-align: left !important;
+    .bg-white.rounded-lg.shadow .grid.grid-cols-1 .flex span:first-child {
+        min-width: 100px;
+        font-weight: 600;
     }
     
-    /* Contenu textuel aligné à droite */
-    .sous-sec2 .mt-2.text-xs.sm\:text-base.text-left {
-        text-align: left !important;
+    /* Tags - horizontal et alignés à droite */
+    .flex.flex-col.space-y-2.sm\\:flex-row {
+        flex-direction: row !important;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 0.5rem;
     }
     
-    /* Paragraphes dans le contenu textuel */
-    .sous-sec2 .mt-2.text-xs.sm\:text-base.text-left p {
-        text-align: left !important;
+    /* Tables - plus d'espace */
+    .table-responsive table {
+        min-width: 500px;
+        font-size: 0.8rem;
     }
     
-    /* Liste alignée à droite */
-    .sous-sec2 ul {
-        text-align: left !important;
-        list-style-position: inside;
+    .table-responsive th,
+    .table-responsive td {
+        padding: 0.75rem 0.5rem;
     }
     
-    /* Boutons alignés à droite */
-    .sous-sec2 .mt-3.flex.flex-wrap.gap-2.justify-center {
-        justify-content: flex-end !important;
+    /* Sections conditions - grid 2 colonnes */
+    .space-y-4.lg\\:space-y-0.lg\\:grid.lg\\:grid-cols-2 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
     }
 }
-        
-         /* sous section vissioning */
-       .flex-col1 {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 1rem;
-        }
-        .flex-col {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 1rem;
-        }
-        
-        @media (min-width: 600px) { 
-            .flex-col1 {
-                flex-direction: row !important; 
-            }
-            
-            .flex-col1 > div {
-                flex: 1;
-            }
-            
-           .flex-col {
-                flex-direction: row !important; 
-            }
-            
-            .flex-col > div {
-                flex: 1;
-            }
-            .flex.flex-col>div:first-child{
-                 flex: 0 0 60%;
-            }
-            .flex.flex-col > div:nth-child(2) {
-                flex: 0 0 40%;
-                align-self: flex-start;
-                margin-top: 0; /* Supprime toute marge supérieure */
-            }
-        }
 
+/* ========================================
+   GRANDES TAILLES : 677px - 767px
+   Layout horizontal optimisé
+======================================== */
+@media (min-width: 677px) and (max-width: 767px) {
     
+    /* Container principal */
+    .max-w-7xl {
+        max-width: 100%;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
     }
-
-    /* Répartition équitable 50%-50% pour écrans > 1024px */
-    @media (min-width: 1024px) {
-
-        .flex-col {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 1rem;
-        }
-        .flex-col {
-                flex-direction: row !important; 
-            }
-            
-            .flex-col > div {
-                flex: 1;
-            }
-            .flex.flex-col>div:first-child{
-                 flex: 0 0 60%;
-            }
-            .flex.flex-col > div:nth-child(2) {
-                flex: 0 0 40%;
-                align-self: flex-start;
-                margin-top: 0; /* Supprime toute marge supérieure */
+    
+    /* Header - layout horizontal complet */
+    .bg-white.shadow-sm .flex {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 1rem;
+    }
+    
+    .bg-white.shadow-sm h1 {
+        font-size: 1.25rem;
+    }
+    
+    /* Boutons header - passage en ligne */
+    .bg-white.shadow-sm .flex.flex-col {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.5rem;
+        width: auto;
+    }
+    
+    .bg-white.shadow-sm .flex.flex-col.sm\\:flex-row.sm\\:space-x-2 button {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap;
+    }
+    
+    /* Section principale - layout horizontal optimisé */
+    .bg-white.rounded-lg.shadow .flex.flex-col.space-y-4 {
+        flex-direction: row !important;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+    
+    /* Image à gauche - 30% de l'espace */
+    .bg-white.rounded-lg.shadow .w-full.md\\:w-auto {
+        flex: 0 0 30% !important;
+        width: 30% !important;
+    }
+    
+    .bg-white.rounded-lg.shadow .square-image {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    /* Contenu à droite - 70% de l'espace */
+    .bg-white.rounded-lg.shadow .flex-1 {
+        flex: 0 0 70% !important;
+        width: 70% !important;
+    }
+    
+    /* Titre et statut */
+    .bg-white.rounded-lg.shadow h2 {
+        font-size: 1.25rem;
+    }
+    
+    /* Descriptions */
+    .bg-white.rounded-lg.shadow p {
+        font-size: 0.9rem;
+    }
+    
+    /* Tables - taille normale */
+    .table-responsive table {
+        min-width: 600px;
+        font-size: 0.875rem;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        padding: 0.75rem 0.75rem;
+    }
+    
+    /* Titres des sections */
+    h3 {
+        font-size: 1.125rem !important;
+    }
+    
+    h4 {
+        font-size: 1rem !important;
+    }
 }
-        /* Container principal - passe en 2 colonnes égales */
-        .grid.grid-cols-1.lg\:grid-cols-3.gap-6 {
-            grid-template-columns: 1fr 1fr !important; /* 2 colonnes égales au lieu de 3 */
-            gap: 2rem;
-        }
-        
-        /* Colonne gauche - occupe 1 fraction */
-        .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0 {
-            grid-column: span 1 !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            margin: 0 !important;
-        }
-        
-        /* Colonne droite - occupe 1 fraction */
-        .space-y-5.lg\:col-span-2.w-full.max-w-4xl.mx-auto.lg\:mx-0 {
-            grid-column: span 1 !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            margin: 0 !important;
-        }
-        
-        /* Assure que le container principal utilise toute la largeur */
-        .lg-center-grid.max-w-7xl {
-            max-width: 100% !important;
-            width: 100% !important;
-        }
-        
-        /* Supprime les limitations de largeur sur les colonnes */
-        .space-y-0.lg\:col-span-1.w-full.max-w-md.mx-auto.lg\:mx-0,
-        .space-y-5.lg\:col-span-2.w-full.max-w-4xl.mx-auto.lg\:mx-0 {
-            max-width: none !important;
-        }
+
+/* ========================================
+   STYLES COMMUNS POUR TOUTES LES TAILLES
+======================================== */
+@media (min-width: 300px) and (max-width: 767px) {
+    
+    /* Éviter les débordements */
+    .overflow-hidden {
+        overflow: hidden;
     }
+    
+    .no-overflow {
+        overflow-x: hidden;
+    }
+    
+    /* Responsive des containers */
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Images adaptatives */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Textes adaptatifs */
+    .break-all {
+        word-break: break-all;
+    }
+    
+    .truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    /* Espacement adaptatif */
+    .space-y-responsive > * + * {
+        margin-top: 0.75rem;
+    }
+    
+    /* Flex responsive */
+    .flex-responsive {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    /* Grid responsive */
+    .grid-responsive {
+        display: grid;
+        gap: 0.75rem;
+    }
+    
+    /* Boutons adaptatifs */
+    button {
+        min-height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        word-wrap: break-word;
+    }
+    
+    /* Navigation tabs responsive */
+    nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    nav button {
+        flex-shrink: 0;
+    }
+}
     </style>
 </head>
 <body class="font-sans bg-gray-100">
