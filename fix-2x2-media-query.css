@@ -1,0 +1,114 @@
+/* Fix for media query 1023px - 1313px: 2x2 grid with labels on top */
+@media (min-width: 1023px) and (max-width: 1313px) {
+    /* Container principal */
+    .container {
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        overflow-x: hidden;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Section du formulaire et tableau */
+    .lg\:col-span-8,
+    .lg\:col-span-4 {
+        grid-column: span 1 / span 1;
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Formulaire - grille 2x2 avec labels au-dessus */
+    .formulaire-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    /* Chaque groupe label+input en colonne */
+    .formulaire-grid > div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Labels en haut avec espacement */
+    .formulaire-grid label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #374151;
+        width: 100%;
+    }
+
+    /* Inputs et selects en dessous */
+    .formulaire-grid input,
+    .formulaire-grid select {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 0.85rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        background-color: white;
+    }
+
+    /* Focus states */
+    .formulaire-grid input:focus,
+    .formulaire-grid select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Boutons d'action */
+    .action-btns {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .action-btns > div {
+        width: 100%;
+    }
+
+    .action-btns button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
+    /* Tableau responsive */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-responsive table {
+        min-width: 800px;
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        vertical-align: top;
+    }
+    
+    .table-responsive th {
+        background-color: #fef3c7;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+}

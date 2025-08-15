@@ -902,6 +902,7 @@
     /* ========================================
     NOUVELLE PLAGE CRITIQUE : 1023px - 1313px
     ======================================== */
+    /* Fix for media query 1023px - 1313px: 2x2 grid with labels on top */
     @media (min-width: 1023px) and (max-width: 1313px) {
         /* Container principal */
         .container {
@@ -916,7 +917,7 @@
             gap: 1rem;
         }
 
-        /* Section du formulaire et tableau - passage en colonne */
+        /* Section du formulaire et tableau */
         .lg\:col-span-8,
         .lg\:col-span-4 {
             grid-column: span 1 / span 1;
@@ -924,42 +925,60 @@
             min-width: 0;
         }
 
-        /* Formulaire - ajustement sur 2 colonnes */
+        /* Formulaire - grille 2x2 avec labels au-dessus */
         .formulaire-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
         }
 
-        /* Labels et champs : labels en haut */
-        .formulaire-grid label {
-            display: block !important;
-            margin-bottom: 0.25rem; /* espace entre label et champ */
-        }
-
-        .formulaire-grid input,
-        .formulaire-grid select {
-            display: block !important;
-            width: 100% ;
-        }
-
-        /* Taille du texte des champs */
-        .formulaire-grid label,
-        .formulaire-grid input,
-        .formulaire-grid select {
-            font-size: 0.8rem;
-        }
-
-        .formulaire-grid select,
-        .formulaire-grid input {
-            padding: 0.6rem;
-        }
-
-        /* Conteneur des boutons d'action */
-        .action-btns {
+        /* Chaque groupe label+input en colonne */
+        .formulaire-grid > div {
+            display: flex;
             flex-direction: column;
-            gap: 1rem;
-            padding: 1rem;
+            width: 100%;
+        }
+
+        /* Labels en haut avec espacement */
+        .formulaire-grid label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            width: 100%;
+        }
+
+        /* Inputs et selects en dessous */
+        .formulaire-grid input,
+        .formulaire-grid select {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background-color: white;
+        }
+
+        /* Focus states */
+        .formulaire-grid input:focus,
+        .formulaire-grid select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Boutons d'action */
+        .action-btns {
+           display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start; /* Alignement en haut pour les blocs */
+        padding: 1rem 1.5rem;
+        gap: 2rem;
+        background: #cbd5e1; /* bg-slate-300 */
+        min-height: 120px
         }
 
         .action-btns > div {
@@ -973,11 +992,7 @@
             margin-right: 0.5rem;
         }
 
-        .flex.flex-wrap.gap-2 button {
-            align-self: flex-start;
-        }
-
-        /* Tableau - gestion du débordement */
+        /* Tableau responsive */
         .table-responsive {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -993,8 +1008,8 @@
         
         .table-responsive th,
         .table-responsive td {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.8rem;
+            padding: 0.75rem;
+            font-size: 0.85rem;
             white-space: nowrap;
             vertical-align: top;
         }
@@ -1004,152 +1019,6 @@
             position: sticky;
             top: 0;
             z-index: 10;
-        }
-        
-        /* Colonnes spécifiques du tableau */
-        .table-responsive th:nth-child(8), 
-        .table-responsive td:nth-child(8) {
-            width: 140px;
-            max-width: 140px;
-        }
-        
-        .table-responsive th:nth-child(9), 
-        .table-responsive td:nth-child(9) {
-            width: 80px;
-            max-width: 80px;
-        }
-        
-        /* Gestion du texte dans les cellules */
-        .table-responsive td .font-semibold,
-        .table-responsive td .font-medium {
-            font-size: 0.75rem;
-            line-height: 1.2;
-        }
-        
-        .table-responsive td .text-xs {
-            font-size: 0.7rem;
-            line-height: 1.1;
-        }
-         .form.mb-6.flex.flex-col {
-            padding-bottom: 10px !important;
-            padding-top: 10px !important;
-        }
-        .form.mb-6.flex.flex-col label{
-            font-size: x-large !important;
-        }
-        /* Badges de statut */
-        .table-responsive .inline-flex {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.7rem;
-            border-radius: 12px;
-        }
-        
-        /* Code de référence */
-        .table-responsive .font-mono {
-            font-size: 0.65rem;
-            padding: 0.25rem 0.375rem;
-        }
-        
-        /* Pagination footer */
-        .table-responsive + div {
-            max-width: 100%;
-            overflow-x: auto;
-        }
-        
-        .table-responsive + div .flex {
-            min-width: 500px;
-            justify-content: end;
-        }
-        
-        /* Sidebar */
-        .lg\\:pl-80 {
-            padding-left: 0;
-        }
-        
-        /* Ajustements pour les écrans moyens */
-        .text-2xl {
-            font-size: 1.25rem;
-        }
-        
-        .text-xl {
-            font-size: 1rem;
-        }
-        
-        .text-lg {
-            font-size: 0.9rem;
-        }
-        
-        /* Carte des taux de conversion */
-        .overflow-x-auto table {
-            font-size: 0.8rem;
-        }
-        
-        .overflow-x-auto th,
-        .overflow-x-auto td {
-            padding: 0.5rem;
-        }
-        
-        /* Info box */
-        .bg-cyan-100 {
-            padding: 0.75rem;
-            font-size: 0.8rem;
-        }
-        
-        /* Footer pagination */
-        .bg-gray-100 .flex {
-            flex-direction: row;
-            gap: 0.5rem;
-            align-items: stretch;
-        }
-        
-        .bg-gray-100 .text-xs,
-        .bg-gray-100 .text-sm {
-            font-size: 0.75rem;
-        }
-        
-        .bg-gray-100 button {
-            padding: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        /* Mobile menu button */
-        #mobile-menu-btn {
-            display: none;
-        }
-        
-        /* Masquer certains éléments si nécessaire */
-        @media (max-width: 1150px) {
-            .hidden-medium {
-                display: none;
-            }
-            
-            .action-btns {
-                padding: 0.75rem;
-            }
-            
-            .action-btns button {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.75rem;
-            }
-        }
-        
-        /* S'assurer qu'aucun élément ne déborde */
-        .relative {
-            overflow: hidden;
-        }
-        
-        .flex-1.min-h-screen {
-            min-width: 0;
-            overflow-x: hidden;
-        }
-        
-        .grid {
-            min-width: 0;
-        }
-        
-        .grid > * {
-            min-width: 0;
-            overflow-wrap: break-word;
         }
     }
 
@@ -1892,8 +1761,10 @@
 
                                     <div class="mb-6 flex flex-col">
                                         <label class="block text-sm font-medium text-gray-700 mb-2">Rechercher un utilisateur</label>
-                                        <input type="text" id="entreprise" class="px-4 py-3 text-sm border rounded-md w-full" />
+                                        <input type="text" id="entreprise" class="px-4 py-3.5 text-sm border rounded-md w-full" />
                                     </div>
+
+                                    
                                     <!-- Ligne 3 -->
                                     <div class="mb-6 flex flex-col">
                                         <label class="block text-base font-medium text-gray-700 mb-2">Rechercher un produits/services</label>
@@ -1905,26 +1776,19 @@
                                     </div>
                                     <!-- Ligne 4 -->
                                         <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Devise</label>
+                                        <label class="block text-base font-medium text-gray-700 mb-2">Rechercher un produits/services</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option></option>
+                                            <option aria-placeholder="produit/services"></option>
                                             <option>Groupe 1</option>
-                                            <option>Groupe 2</option>
-                                            <option>Groupe 2</option>
-                                            <option>Groupe 2</option>
-                                            <option>Groupe 2</option>
-                                            <option>Groupe 2</option>
-                                            <option>Groupe 2</option>
-                                            <option>Groupe 2</option>
                                             <option>Groupe 2</option>
                                         </select>
                                     </div>
 
                                     <!-- Ligne 5 -->
                                     <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Paiement Par</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
+                                            <option>marques</option>
                                             <option>Groupe 1</option>
                                             <option>Groupe 2</option>
                                         </select>
@@ -1932,8 +1796,9 @@
 
                                      <div class="mb-6 flex flex-col">
                                         <label class="block text-sm font-medium text-gray-700 mb-2">Rechercher un utilisateur</label>
-                                        <input type="text" id="entreprise" class="px-4 py-3 text-sm border rounded-md w-full" />
+                                        <input type="text" id="entreprise" class="px-4 py-3.5 text-sm border rounded-md w-full" />
                                     </div>
+
                                 </form>
                                 <div class="flex flex-wrap gap-2 justify-center grp-btn2">
                                     <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-semibold">
