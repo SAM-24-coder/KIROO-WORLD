@@ -1,96 +1,36 @@
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau Interactif - Cartes Responsives</title>
+    <title>Tableau Interactif - Gestion des Paiements</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ========================================
-           TABLEAUX RESPONSIVES - CARTES INTERACTIVES
-           ======================================== */
-
-        /* DESKTOP : Tableau normal (≥960px) */
-        @media (min-width: 960px) {
-            .table-responsive {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .table-responsive table {
-                width: 100%;
-                border-collapse: collapse;
-                min-width: 800px; /* Largeur minimale pour forcer le scroll si nécessaire */
-            }
-            
-            .table-responsive th,
-            .table-responsive td {
-                padding: 12px 16px;
-                text-align: left;
-                border-bottom: 1px solid #e2e8f0;
-                white-space: nowrap; /* Éviter le retour à la ligne */
-            }
-
-            /* Cacher les cartes sur desktop */
-            .card-view {
-                display: none;
-            }
-        }
-
-        /* TABLETTE LARGE : Grille 3x3 (601px - 959px) */
-        @media (min-width: 601px) and (max-width: 959px) {
-            /* Cacher le tableau classique */
-            .table-responsive table {
-                display: none;
-            }
-
-            /* Afficher les cartes en grille 3x3 */
-            .card-view {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-                padding: 16px;
-                background: #f8fafc;
-            }
-        }
-
-        /* TABLETTE/MOBILE MOYEN : Grille 2x2 (360px - 600px) */
-        @media (min-width: 360px) and (max-width: 600px) {
-            /* Cacher le tableau classique */
-            .table-responsive table {
-                display: none;
-            }
-
-            /* Afficher les cartes en grille 2x2 */
-            .card-view {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                padding: 12px;
-                background: #f8fafc;
-            }
-        }
-
-        /* MOBILE PETIT : Grille 1x1 (≤359px) */
+        /* STYLES EXISTANTS */
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .table-responsive table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        .table-responsive th, .table-responsive td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
+        .card-view { display: none; }
         @media (max-width: 359px) {
-            /* Cacher le tableau classique */
-            .table-responsive table {
-                display: none;
-            }
-
-            /* Afficher les cartes en grille 1x1 */
-            .card-view {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 8px;
-                padding: 8px;
-                background: #f8fafc;
-            }
+            .table-responsive table { display: none !important; }
+            .card-view { display: grid !important; grid-template-columns: 1fr; gap: 8px; padding: 8px; background: #f8fafc; }
         }
-
-        /* STYLES COMMUNS POUR TOUTES LES CARTES */
-        /* Card container */
+        @media (min-width: 360px) and (max-width: 600px) {
+            .table-responsive table { display: none !important; }
+            .card-view { display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; background: #f8fafc; }
+        }
+        @media (min-width: 601px) and (max-width: 959px) {
+            .table-responsive table { display: none !important; }
+            .card-view { display: grid !important; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px; background: #f8fafc; }
+        }
+        @media (min-width: 960px) {
+            .table-responsive table { display: table !important; }
+            .card-view { display: none !important; }
+        }
         .payment-card {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             border-radius: 16px;
@@ -102,310 +42,332 @@
             position: relative;
             height: fit-content;
         }
-
-        .payment-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            border-color: #3b82f6;
-        }
-
-        .payment-card.expanded {
-            transform: none;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            border-color: #1d4ed8;
-        }
-
-        /* Card header (toujours visible) */
-        .card-header {
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            position: relative;
-            min-height: 120px;
-        }
-
-        .card-id {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-            z-index: 10;
-        }
-
-        .card-main-info {
-            flex: 1;
-            padding-right: 60px;
-        }
-
-        .card-user-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1e40af;
-            margin-bottom: 4px;
-            line-height: 1.2;
-            word-break: break-word;
-        }
-
-        .card-amount {
-            font-size: 20px;
-            font-weight: bold;
-            color: #059669;
-            margin-bottom: 8px;
-        }
-
-        .card-status {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Expand indicator */
-        .expand-indicator {
-            position: absolute;
-            bottom: 8px;
-            right: 16px;
-            width: 24px;
-            height: 24px;
-            background: #f1f5f9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            color: #64748b;
-            font-size: 12px;
-        }
-
-        .payment-card.expanded .expand-indicator {
-            transform: rotate(180deg);
-            background: #3b82f6;
-            color: white;
-        }
-
-        /* Card details (cachés par défaut) */
-        .card-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-            background: rgba(248, 250, 252, 0.5);
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .payment-card.expanded .card-details {
-            max-height: 500px;
-            padding: 20px;
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-size: 13px;
-            color: #6b7280;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            flex: 1;
-        }
-
-        .detail-label i {
-            margin-right: 8px;
-            width: 16px;
-            text-align: center;
-        }
-
-        .detail-value {
-            font-size: 14px;
-            color: #374151;
-            font-weight: 600;
-            text-align: right;
-            max-width: 60%;
-            word-break: break-word;
-        }
-
-        .detail-value.code {
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            background: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            border: 1px solid #dbeafe;
-            color: #1e40af;
-        }
-
-        /* Statuts */
+        .payment-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); border-color: #3b82f6; }
+        .payment-card.expanded { transform: none; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); border-color: #1d4ed8; }
+        .card-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; position: relative; min-height: 120px; }
+        .card-id { position: absolute; top: 12px; right: 16px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); z-index: 10; }
+        .card-main-info { flex: 1; padding-right: 60px; }
+        .card-user-name { font-size: 16px; font-weight: 600; color: #1e40af; margin-bottom: 4px; line-height: 1.2; word-break: break-word; }
+        .card-amount { font-size: 20px; font-weight: bold; color: #059669; margin-bottom: 8px; }
+        .card-status { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+        .expand-indicator { position: absolute; bottom: 8px; right: 16px; width: 24px; height: 24px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: #64748b; font-size: 12px; }
+        .payment-card.expanded .expand-indicator { transform: rotate(180deg); background: #3b82f6; color: white; }
+        .card-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; background: rgba(248, 250, 252, 0.5); border-top: 1px solid #e2e8f0; }
+        .payment-card.expanded .card-details { max-height: 500px; padding: 20px; }
+        .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e2e8f0; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-size: 13px; color: #6b7280; font-weight: 500; display: flex; align-items: center; flex: 1; }
+        .detail-label i { margin-right: 8px; width: 16px; text-align: center; }
+        .detail-value { font-size: 14px; color: #374151; font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
+        .detail-value.code { font-family: 'Courier New', monospace; font-size: 11px; background: white; padding: 4px 8px; border-radius: 4px; border: 1px solid #dbeafe; color: #1e40af; }
         .status-initialise { background-color: #fef3c7; color: #d97706; }
         .status-valide { background-color: #d1fae5; color: #065f46; }
         .status-echoue { background-color: #fee2e2; color: #dc2626; }
-
-        /* ADAPTATIONS SPÉCIFIQUES PAR TAILLE */
         
-        /* Grille 3x3 : Cartes plus compactes */
-        @media (min-width: 601px) and (max-width: 959px) {
-            .card-header {
-                padding: 12px 16px;
-                min-height: 100px;
+        /* Styles pour le formulaire */
+        .form-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .form-container.open {
+            max-height: 500px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        /* Styles pour les boutons désactivés */
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Media Queries pour les boutons responsives */
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        
+        .left-buttons, .right-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        
+        .action-button i {
+            margin-right: 6px;
+        }
+        
+        /* Écrans très petits (≤400px) */
+        @media (max-width: 400px) {
+            .buttons-container {
+                flex-direction: column;
+                align-items: stretch;
             }
-
-            .card-id {
-                padding: 4px 8px;
-                font-size: 10px;
-                top: 8px;
-                right: 12px;
+            
+            .left-buttons, .right-buttons {
+                width: 100%;
+                justify-content: center;
             }
-
-            .card-user-name {
+            
+            .left-buttons {
+                margin-bottom: 12px;
+            }
+            
+            .action-button {
+                flex: 1;
+                min-width: 120px;
+                padding: 10px 12px;
                 font-size: 14px;
             }
-
-            .card-amount {
-                font-size: 18px;
-            }
-
-            .card-status {
-                padding: 4px 8px;
-                font-size: 10px;
-            }
-
-            .payment-card.expanded .card-details {
-                padding: 16px;
-            }
-
-            .detail-label {
-                font-size: 12px;
-            }
-
-            .detail-value {
-                font-size: 13px;
+            
+            .page-title {
+                text-align: center;
+                margin: 16px 0;
+                order: -1;
             }
         }
-
-        /* Grille 2x2 : Cartes moyennes */
-        @media (min-width: 360px) and (max-width: 600px) {
-            .card-header {
-                padding: 14px 18px;
-                min-height: 110px;
+        
+        /* Écrans petits (401px à 930px) */
+        @media (min-width: 401px) and (max-width: 930px) {
+            .buttons-container {
+                flex-direction: column;
+                align-items: stretch;
             }
-
-            .card-id {
-                padding: 5px 10px;
-                font-size: 11px;
-                top: 10px;
-                right: 14px;
+            
+            .left-buttons, .right-buttons {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 12px;
             }
-
-            .card-user-name {
-                font-size: 15px;
+            
+            .action-button {
+                flex: 1;
+                min-width: 140px;
+                padding: 10px 16px;
             }
-
-            .card-amount {
-                font-size: 19px;
-            }
-
-            .card-status {
-                padding: 5px 10px;
-                font-size: 10px;
-            }
-
-            .payment-card.expanded .card-details {
-                padding: 18px;
+            
+            .page-title {
+                text-align: center;
+                margin: 16px 0;
+                order: -1;
             }
         }
-
-        /* Grille 1x1 : Cartes pleines */
-        @media (max-width: 359px) {
-            .card-header {
-                padding: 16px 20px;
-                min-height: 120px;
+        
+        /* Écrans moyens (931px à 1023px) */
+        @media (min-width: 931px) and (max-width: 1023px) {
+            .buttons-container {
+                flex-direction: row;
+                align-items: center;
             }
-
-            .card-main-info {
-                padding-right: 50px;
+            
+            .left-buttons, .right-buttons {
+                flex: 1;
             }
-
-            .card-user-name {
-                font-size: 16px;
+            
+            .right-buttons {
+                justify-content: flex-end;
             }
-
-            .card-amount {
-                font-size: 22px;
+            
+            .action-button {
+                padding: 10px 16px;
             }
-
-            .expand-indicator {
-                width: 22px;
-                height: 22px;
-                bottom: 8px;
-                right: 12px;
-            }
-
-            .payment-card.expanded .card-details {
-                padding: 16px;
+            
+            .page-title {
+                text-align: center;
+                flex: 2;
+                margin: 0 16px;
             }
         }
-
-        /* Animation pour l'ouverture/fermeture */
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
+        
+        /* Écrans larges (1024px à 1280px) */
+        @media (min-width: 1024px) and (max-width: 1280px) {
+            .buttons-container {
+                flex-direction: row;
+                align-items: center;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .left-buttons, .right-buttons {
+                flex: 1;
+            }
+            
+            .right-buttons {
+                justify-content: flex-end;
+            }
+            
+            .action-button {
+                padding: 10px 20px;
+            }
+            
+            .page-title {
+                text-align: center;
+                flex: 2;
+                margin: 0 20px;
             }
         }
-
-        .payment-card.expanded .card-details > * {
-            animation: slideDown 0.3s ease forwards;
-        }
-
-        /* Style pour le scroll horizontal du tableau */
-        .table-responsive::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .table-responsive::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 4px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        
+        /* Écrans très larges (≥1281px) */
+        @media (min-width: 1281px) {
+            .buttons-container {
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .left-buttons, .right-buttons {
+                flex: 1;
+            }
+            
+            .right-buttons {
+                justify-content: flex-end;
+            }
+            
+            .action-button {
+                padding: 12px 24px;
+            }
+            
+            .page-title {
+                text-align: center;
+                flex: 2;
+                margin: 0 24px;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-50">
     <div class="min-h-screen bg-gray-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-bold text-gray-900 mb-8">Gestion des Paiements</h1>
+            <!-- Conteneur des boutons avec structure responsive -->
+            <div class="buttons-container">
+                <!-- Boutons de gauche -->
+                <div class="left-buttons">
+                    <button id="btnModify" class="action-button bg-gray-400 btn-disabled text-white">
+                        <i class="fas fa-edit"></i> Modifier
+                    </button>
+                    <button id="btnDelete" class="action-button bg-red-500 btn-disabled text-white">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                    <button id="toggleForm" class="action-button bg-blue-500 hover:bg-blue-600 text-white">
+                        <i class="fas fa-plus"></i> Nouveau Paiement
+                    </button>
+                </div>
+                
+                <!-- Titre -->
+                <h1 class="page-title text-2xl font-bold text-gray-900">Gestion des Paiements</h1>
+                
+                <!-- Boutons de droite -->
+                <div class="right-buttons">
+                    <button class="action-button bg-gray-300 hover:bg-gray-400 text-gray-800">
+                        <i class="fas fa-download"></i> Exporter
+                    </button>
+                    <button class="action-button bg-gray-300 hover:bg-gray-400 text-gray-800">
+                        <i class="fas fa-print"></i> Imprimer
+                    </button>
+                    <button class="action-button bg-gray-300 hover:bg-gray-400 text-gray-800">
+                        <i class="fas fa-cog"></i> Options
+                    </button>
+                </div>
+            </div>
             
-            <!-- Table Section -->
-            <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <!-- Formulaire d'ajout -->
+            <div id="formContainer" class="form-container bg-white rounded-lg shadow-sm border mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4" id="formTitle">Ajouter un nouveau paiement</h2>
+                    <form id="paymentForm" class="form-grid">
+                        <input type="hidden" id="editId" name="editId" value="">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">ID KirooWorld</label>
+                            <input type="text" name="idKw" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nom & Prénom</label>
+                            <input type="text" name="user_name" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Pack</label>
+                            <select name="pack" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                                <option value="">Sélectionner un pack</option>
+                                <option value="Dieu du Mboa">Dieu du Mboa</option>
+                                <option value="Pack Premium">Pack Premium</option>
+                                <option value="Pack Starter">Pack Starter</option>
+                                <option value="Pack Business">Pack Business</option>
+                                <option value="Pack Basic">Pack Basic</option>
+                                <option value="Pack VIP">Pack VIP</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Montant ($)</label>
+                            <input type="number" step="0.01" name="amount" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Système de paiement</label>
+                            <select name="payment_system" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                                <option value="">Sélectionner un mode</option>
+                                <option value="Mobile Money">Mobile Money</option>
+                                <option value="Orange Money">Orange Money</option>
+                                <option value="MTN Money">MTN Money</option>
+                                <option value="PayPal">PayPal</option>
+                                <option value="Express Union">Express Union</option>
+                                <option value="Virement Bancaire">Virement Bancaire</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+                            <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                                <option value="">Sélectionner un statut</option>
+                                <option value="Initialisé">Initialisé</option>
+                                <option value="Validé">Validé</option>
+                                <option value="Échoué">Échoué</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Code Facture</label>
+                            <input type="text" name="invoice_code" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                            <input type="date" name="date" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Heure</label>
+                            <input type="time" name="time" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div class="flex items-end space-x-2">
+                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex-1">
+                                <span id="submitText">Ajouter le paiement</span>
+                            </button>
+                            <button type="button" id="cancelEdit" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md hidden">
+                                Annuler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Le reste du code (table section) reste inchangé -->
+            <!-- ... -->
+             <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
                 <!-- Pagination Top -->
                 <div class="p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div class="text-sm text-gray-600">*IRL: In Real Life</div>
@@ -436,7 +398,7 @@
                         <thead class="bg-yellow-100">
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    <input type="checkbox" class="rounded border-gray-300">
+                                    <input type="checkbox" id="selectAll" class="rounded border-gray-300">
                                 </th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nom & Prénom Email</th>
@@ -450,392 +412,14 @@
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Date paiement</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-4">
-                                    <input type="checkbox" class="rounded border-gray-300">
-                                </td>
-                                <td class="px-4 py-4 text-sm text-gray-600">
-                                    <div class="font-medium">9 août 2025</div>
-                                    <div class="text-xs">10:05</div>
-                                </td>
-                            </tr>
+                        <tbody class="divide-y divide-gray-200" id="tableBody">
+                            <!-- Les données seront ajoutées dynamiquement ici -->
                         </tbody>
                     </table>
 
                     <!-- Vue cartes (mobile/tablette) -->
-                    <div class="card-view">
-                        <!-- Carte 1 -->
-                        <div class="payment-card" onclick="toggleCard(this)" data-id="23134">
-                            <div class="card-id">#23134</div>
-                            <div class="card-header">
-                                <div class="card-main-info">
-                                    <div class="card-user-name">Hamilyang Père</div>
-                                    <div class="card-amount">$2,000.00</div>
-                                    <span class="card-status status-initialise">
-                                        <i class="fas fa-clock mr-1"></i>
-                                        Initialisé
-                                    </span>
-                                </div>
-                                <div class="expand-indicator">
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                            <div class="card-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-user"></i>
-                                        ID Utilisateur
-                                    </span>
-                                    <span class="detail-value">[235553]</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-envelope"></i>
-                                        Email
-                                    </span>
-                                    <span class="detail-value">hamiliangpere44@gmail.com</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-box"></i>
-                                        Pack
-                                    </span>
-                                    <span class="detail-value">Dieu du Mboa</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-credit-card"></i>
-                                        Paiement
-                                    </span>
-                                    <span class="detail-value">Mobile Money</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-receipt"></i>
-                                        Code Facture
-                                    </span>
-                                    <span class="detail-value code">RC1520250806J20374</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-calendar"></i>
-                                        Date
-                                    </span>
-                                    <span class="detail-value">6 août 2025 - 12:12</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte 2 -->
-                        <div class="payment-card" onclick="toggleCard(this)" data-id="23135">
-                            <div class="card-id">#23135</div>
-                            <div class="card-header">
-                                <div class="card-main-info">
-                                    <div class="card-user-name">Marie Dupont</div>
-                                    <div class="card-amount">$1,500.00</div>
-                                    <span class="card-status status-valide">
-                                        <i class="fas fa-check-circle mr-1"></i>
-                                        Validé
-                                    </span>
-                                </div>
-                                <div class="expand-indicator">
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                            <div class="card-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-user"></i>
-                                        ID Utilisateur
-                                    </span>
-                                    <span class="detail-value">[235554]</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-envelope"></i>
-                                        Email
-                                    </span>
-                                    <span class="detail-value">marie.dupont@email.com</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-box"></i>
-                                        Pack
-                                    </span>
-                                    <span class="detail-value">Pack Premium</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-credit-card"></i>
-                                        Paiement
-                                    </span>
-                                    <span class="detail-value">Orange Money</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-receipt"></i>
-                                        Code Facture
-                                    </span>
-                                    <span class="detail-value code">RC1520250806J20375</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-calendar"></i>
-                                        Date
-                                    </span>
-                                    <span class="detail-value">7 août 2025 - 09:30</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte 3 -->
-                        <div class="payment-card" onclick="toggleCard(this)" data-id="23136">
-                            <div class="card-id">#23136</div>
-                            <div class="card-header">
-                                <div class="card-main-info">
-                                    <div class="card-user-name">Jean Martin</div>
-                                    <div class="card-amount">$500.00</div>
-                                    <span class="card-status status-echoue">
-                                        <i class="fas fa-times-circle mr-1"></i>
-                                        Échoué
-                                    </span>
-                                </div>
-                                <div class="expand-indicator">
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                            <div class="card-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-user"></i>
-                                        ID Utilisateur
-                                    </span>
-                                    <span class="detail-value">[235555]</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-envelope"></i>
-                                        Email
-                                    </span>
-                                    <span class="detail-value">jean.martin@gmail.com</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-box"></i>
-                                        Pack
-                                    </span>
-                                    <span class="detail-value">Pack Starter</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-credit-card"></i>
-                                        Paiement
-                                    </span>
-                                    <span class="detail-value">MTN Money</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-receipt"></i>
-                                        Code Facture
-                                    </span>
-                                    <span class="detail-value code">RC1520250806J20376</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-calendar"></i>
-                                        Date
-                                    </span>
-                                    <span class="detail-value">7 août 2025 - 14:45</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte 4 -->
-                        <div class="payment-card" onclick="toggleCard(this)" data-id="23137">
-                            <div class="card-id">#23137</div>
-                            <div class="card-header">
-                                <div class="card-main-info">
-                                    <div class="card-user-name">Sophie Laurent</div>
-                                    <div class="card-amount">$3,000.00</div>
-                                    <span class="card-status status-valide">
-                                        <i class="fas fa-check-circle mr-1"></i>
-                                        Validé
-                                    </span>
-                                </div>
-                                <div class="expand-indicator">
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                            <div class="card-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-user"></i>
-                                        ID Utilisateur
-                                    </span>
-                                    <span class="detail-value">[235556]</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-envelope"></i>
-                                        Email
-                                    </span>
-                                    <span class="detail-value">sophie.laurent@email.com</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-box"></i>
-                                        Pack
-                                    </span>
-                                    <span class="detail-value">Pack Business</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-credit-card"></i>
-                                        Paiement
-                                    </span>
-                                    <span class="detail-value">PayPal</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-receipt"></i>
-                                        Code Facture
-                                    </span>
-                                    <span class="detail-value code">RC1520250806J20377</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-calendar"></i>
-                                        Date
-                                    </span>
-                                    <span class="detail-value">8 août 2025 - 16:20</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte 5 -->
-                        <div class="payment-card" onclick="toggleCard(this)" data-id="23138">
-                            <div class="card-id">#23138</div>
-                            <div class="card-header">
-                                <div class="card-main-info">
-                                    <div class="card-user-name">Pierre Mbang</div>
-                                    <div class="card-amount">$800.00</div>
-                                    <span class="card-status status-initialise">
-                                        <i class="fas fa-clock mr-1"></i>
-                                        Initialisé
-                                    </span>
-                                </div>
-                                <div class="expand-indicator">
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                            <div class="card-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-user"></i>
-                                        ID Utilisateur
-                                    </span>
-                                    <span class="detail-value">[235557]</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-envelope"></i>
-                                        Email
-                                    </span>
-                                    <span class="detail-value">pierre.mbang@gmail.com</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-box"></i>
-                                        Pack
-                                    </span>
-                                    <span class="detail-value">Pack Basic</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-credit-card"></i>
-                                        Paiement
-                                    </span>
-                                    <span class="detail-value">Express Union</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-receipt"></i>
-                                        Code Facture
-                                    </span>
-                                    <span class="detail-value code">RC1520250806J20378</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-calendar"></i>
-                                        Date
-                                    </span>
-                                    <span class="detail-value">8 août 2025 - 18:15</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte 6 -->
-                        <div class="payment-card" onclick="toggleCard(this)" data-id="23139">
-                            <div class="card-id">#23139</div>
-                            <div class="card-header">
-                                <div class="card-main-info">
-                                    <div class="card-user-name">Alice Nguyen</div>
-                                    <div class="card-amount">$5,000.00</div>
-                                    <span class="card-status status-valide">
-                                        <i class="fas fa-check-circle mr-1"></i>
-                                        Validé
-                                    </span>
-                                </div>
-                                <div class="expand-indicator">
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                            <div class="card-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-user"></i>
-                                        ID Utilisateur
-                                    </span>
-                                    <span class="detail-value">[235558]</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-envelope"></i>
-                                        Email
-                                    </span>
-                                    <span class="detail-value">alice.nguyen@hotmail.com</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-box"></i>
-                                        Pack
-                                    </span>
-                                    <span class="detail-value">Pack VIP</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-credit-card"></i>
-                                        Paiement
-                                    </span>
-                                    <span class="detail-value">Virement Bancaire</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-receipt"></i>
-                                        Code Facture
-                                    </span>
-                                    <span class="detail-value code">RC1520250806J20379</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">
-                                        <i class="fas fa-calendar"></i>
-                                        Date
-                                    </span>
-                                    <span class="detail-value">9 août 2025 - 10:05</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-view" id="cardContainer">
+                        <!-- Les cartes seront ajoutées dynamiquement ici -->
                     </div>
                 </div>
 
@@ -867,7 +451,348 @@
         </div>
     </div>
 
-    <script>
+    <!-- Le script JavaScript reste inchangé -->
+    <!-- ... -->
+     <script>
+        // Données initiales
+        const paymentData = [
+            {
+                id: "23134",
+                idKw: "KW235553",
+                user_name: "Hamilyang Père",
+                email: "hamiliangpere44@gmail.com",
+                pack: "Dieu du Mboa",
+                pack_code: "dieu-du-mboa",
+                amount: "$2,000.00",
+                payment_system: "Mobile Money",
+                status: "Initialisé",
+                invoice_code: "RC1520250806J20374",
+                date: "6 août 2025",
+                time: "12:12"
+            },
+            {
+                id: "23135",
+                idKw: "KW235554",
+                user_name: "Marie Dupont",
+                email: "marie.dupont@email.com",
+                pack: "Pack Premium",
+                pack_code: "premium",
+                amount: "$1,500.00",
+                payment_system: "Orange Money",
+                status: "Validé",
+                invoice_code: "RC1520250806J20375",
+                date: "7 août 2025",
+                time: "09:30"
+            },
+            {
+                id: "23136",
+                idKw: "KW235555",
+                user_name: "Jean Martin",
+                email: "jean.martin@gmail.com",
+                pack: "Pack Starter",
+                pack_code: "starter",
+                amount: "$500.00",
+                payment_system: "MTN Money",
+                status: "Échoué",
+                invoice_code: "RC1520250806J20376",
+                date: "7 août 2025",
+                time: "14:45"
+            }
+        ];
+
+        // Variables globales
+        let nextId = 23137; // Prochain ID à utiliser
+        let selectedRows = new Set(); // Ensemble des lignes sélectionnées
+
+        // Fonction pour générer le HTML d'une ligne de tableau
+        function generateTableRow(data) {
+            const statusClass = getStatusClass(data.status);
+            const statusIcon = getStatusIcon(data.status);
+            
+            return `
+                <tr class="hover:bg-gray-50 transition-colors" data-id="${data.id}">
+                    <td class="px-4 py-4">
+                        <input type="checkbox" class="row-checkbox rounded border-gray-300" data-id="${data.id}">
+                    </td>
+                    <td class="px-4 py-4 text-sm font-medium text-gray-900">${data.id}</td>
+                    <td class="px-4 py-4">
+                        <div class="text-sm">
+                            <div class="text-blue-600 font-semibold">${data.idKw}</div>
+                            <div class="text-blue-600 font-medium">${data.user_name}</div>
+                            <div class="text-blue-500 text-xs">${data.email}</div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-4 text-sm">
+                        <div class="font-medium">${data.pack}</div>
+                        <div class="text-gray-500 text-xs">(${data.pack_code})</div>
+                    </td>
+                    <td class="px-4 py-4 text-sm font-bold text-green-600">${data.amount}</td>
+                    <td class="px-4 py-4 text-sm text-gray-500">${data.payment_system}</td>
+                    <td class="px-4 py-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${statusClass}">
+                            ${statusIcon}
+                            ${data.status}
+                        </span>
+                    </td>
+                    <td class="px-4 py-4 text-sm">
+                        <div class="text-blue-600">
+                            <div class="font-semibold text-xs">Code Facture :</div>
+                            <div class="font-mono text-xs">${data.invoice_code}</div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-gray-600">
+                        <div class="font-medium">${data.date}</div>
+                        <div class="text-xs">${data.time}</div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Fonction pour générer le HTML d'une carte
+        function generateCard(data) {
+            const statusClass = getStatusClass(data.status);
+            const statusIcon = getStatusIcon(data.status);
+            
+            return `
+                <div class="payment-card" data-id="${data.id}">
+                    <div class="card-id">#${data.id}</div>
+                    <div class="card-header">
+                        <div class="card-main-info">
+                            <div class="card-user-name">${data.user_name}</div>
+                            <div class="card-amount">${data.amount}</div>
+                            <span class="card-status ${statusClass}">
+                                ${statusIcon}
+                                ${data.status}
+                            </span>
+                        </div>
+                        <div class="expand-indicator">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-user"></i>
+                                ID KirooWorld
+                            </span>
+                            <span class="detail-value">${data.idKw}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </span>
+                            <span class="detail-value">${data.email}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-box"></i>
+                                Pack
+                            </span>
+                            <span class="detail-value">${data.pack}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-credit-card"></i>
+                                Paiement
+                            </span>
+                            <span class="detail-value">${data.payment_system}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-receipt"></i>
+                                Code Facture
+                            </span>
+                            <span class="detail-value code">${data.invoice_code}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-calendar"></i>
+                                Date
+                            </span>
+                            <span class="detail-value">${data.date} - ${data.time}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fonctions utilitaires
+        function getStatusClass(statusText) {
+            if (statusText.includes('Initialisé')) return 'bg-yellow-100 text-yellow-800';
+            if (statusText.includes('Validé')) return 'bg-green-100 text-green-800';
+            if (statusText.includes('Échoué')) return 'bg-red-100 text-red-800';
+            return 'bg-yellow-100 text-yellow-800';
+        }
+
+        function getStatusIcon(statusText) {
+            if (statusText.includes('Initialisé')) return '<i class="fas fa-clock mr-1"></i>';
+            if (statusText.includes('Validé')) return '<i class="fas fa-check-circle mr-1"></i>';
+            if (statusText.includes('Échoué')) return '<i class="fas fa-times-circle mr-1"></i>';
+            return '<i class="fas fa-clock mr-1"></i>';
+        }
+
+        // Fonction pour afficher les données
+        function renderData() {
+            const tableBody = document.getElementById('tableBody');
+            const cardContainer = document.getElementById('cardContainer');
+            
+            tableBody.innerHTML = '';
+            cardContainer.innerHTML = '';
+            
+            paymentData.forEach(data => {
+                tableBody.innerHTML += generateTableRow(data);
+                cardContainer.innerHTML += generateCard(data);
+            });
+            
+            // Réinitialiser les écouteurs d'événements
+            initCardInteractions();
+            initCheckboxListeners();
+            updateButtonStates();
+        }
+
+        // Fonction pour ajouter une nouvelle donnée
+        function addPayment(data) {
+            // Générer un ID unique
+            data.id = nextId.toString();
+            nextId++;
+            
+            // Formater la date
+            const dateObj = new Date(data.date);
+            data.date = dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            // Formater le montant
+            data.amount = `$${parseFloat(data.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            
+            // Ajouter aux données
+            paymentData.push(data);
+            
+            // Réafficher les données
+            renderData();
+            
+            // Fermer le formulaire
+            closeForm();
+        }
+
+        // Fonction pour mettre à jour une donnée existante
+        function updatePayment(data) {
+            const id = document.getElementById('editId').value;
+            const index = paymentData.findIndex(item => item.id === id);
+            
+            if (index !== -1) {
+                // Formater la date
+                const dateObj = new Date(data.date);
+                data.date = dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                // Formater le montant
+                data.amount = `$${parseFloat(data.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+                
+                // Mettre à jour l'objet
+                paymentData[index] = { ...paymentData[index], ...data };
+                
+                // Réafficher les données
+                renderData();
+                
+                // Réinitialiser le formulaire
+                cancelEdit();
+            }
+        }
+
+        // Fonction pour supprimer des données
+        function deleteSelectedPayments() {
+            if (selectedRows.size === 0) return;
+            
+            if (confirm(`Êtes-vous sûr de vouloir supprimer ${selectedRows.size} élément(s) ?`)) {
+                // Supprimer les éléments sélectionnés
+                selectedRows.forEach(id => {
+                    const index = paymentData.findIndex(item => item.id === id);
+                    if (index !== -1) {
+                        paymentData.splice(index, 1);
+                    }
+                });
+                
+                // Vider la sélection
+                selectedRows.clear();
+                
+                // Réafficher les données
+                renderData();
+            }
+        }
+
+        // Fonction pour préparer l'édition
+        function prepareEdit() {
+            if (selectedRows.size !== 1) return;
+            
+            const id = Array.from(selectedRows)[0];
+            const data = paymentData.find(item => item.id === id);
+            
+            if (data) {
+                // Remplir le formulaire avec les données
+                document.getElementById('editId').value = data.id;
+                document.getElementById('formTitle').textContent = 'Modifier le paiement';
+                document.getElementById('submitText').textContent = 'Modifier le paiement';
+                document.getElementById('cancelEdit').classList.remove('hidden');
+                
+                // Convertir la date au format YYYY-MM-DD
+                const dateParts = data.date.split(' ');
+                const months = {
+                    'janvier': '01', 'février': '02', 'mars': '03', 'avril': '04',
+                    'mai': '05', 'juin': '06', 'juillet': '07', 'août': '08',
+                    'septembre': '09', 'octobre': '10', 'novembre': '11', 'décembre': '12'
+                };
+                const formattedDate = `${dateParts[2]}-${months[dateParts[1]]}-${dateParts[0].padStart(2, '0')}`;
+                
+                // Remplir les champs du formulaire
+                document.querySelector('input[name="idKw"]').value = data.idKw.replace('KW', '');
+                document.querySelector('input[name="user_name"]').value = data.user_name;
+                document.querySelector('input[name="email"]').value = data.email;
+                document.querySelector('select[name="pack"]').value = data.pack;
+                document.querySelector('input[name="amount"]').value = data.amount.replace('$', '');
+                document.querySelector('select[name="payment_system"]').value = data.payment_system;
+                document.querySelector('select[name="status"]').value = data.status;
+                document.querySelector('input[name="invoice_code"]').value = data.invoice_code;
+                document.querySelector('input[name="date"]').value = formattedDate;
+                document.querySelector('input[name="time"]').value = data.time;
+                
+                // Ouvrir le formulaire
+                openForm();
+            }
+        }
+
+        // Fonction pour annuler l'édition
+        function cancelEdit() {
+            document.getElementById('editId').value = '';
+            document.getElementById('formTitle').textContent = 'Ajouter un nouveau paiement';
+            document.getElementById('submitText').textContent = 'Ajouter le paiement';
+            document.getElementById('cancelEdit').classList.add('hidden');
+            document.getElementById('paymentForm').reset();
+            closeForm();
+        }
+
+        // Fonction pour ouvrir le formulaire
+        function openForm() {
+            document.getElementById('formContainer').classList.add('open');
+        }
+
+        // Fonction pour fermer le formulaire
+        function closeForm() {
+            document.getElementById('formContainer').classList.remove('open');
+        }
+
+        // Gestion des interactions des cartes
+        function initCardInteractions() {
+            const cards = document.querySelectorAll('.payment-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Ne pas déclencher le toggle si on clique sur un lien ou un bouton à l'intérieur
+                    if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('a') || e.target.closest('button')) {
+                        return;
+                    }
+                    toggleCard(this);
+                });
+            });
+        }
+
         function toggleCard(card) {
             const isExpanded = card.classList.contains('expanded');
             
@@ -894,8 +819,111 @@
             }
         }
 
-        // Fermer les cartes si on clique ailleurs
+        // Gestion des cases à cocher
+        function initCheckboxListeners() {
+            // Case à cocher "Tout sélectionner"
+            document.getElementById('selectAll').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.row-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                    const id = checkbox.getAttribute('data-id');
+                    if (this.checked) {
+                        selectedRows.add(id);
+                    } else {
+                        selectedRows.delete(id);
+                    }
+                });
+                updateButtonStates();
+            });
+            
+            // Cases à cocher individuelles
+            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const id = this.getAttribute('data-id');
+                    if (this.checked) {
+                        selectedRows.add(id);
+                    } else {
+                        selectedRows.delete(id);
+                        document.getElementById('selectAll').checked = false;
+                    }
+                    updateButtonStates();
+                });
+            });
+        }
+
+        // Mettre à jour l'état des boutons
+        function updateButtonStates() {
+            const btnModify = document.getElementById('btnModify');
+            const btnDelete = document.getElementById('btnDelete');
+            
+            if (selectedRows.size === 0) {
+                btnModify.classList.add('btn-disabled');
+                btnDelete.classList.add('btn-disabled');
+            } else {
+                btnDelete.classList.remove('btn-disabled');
+                
+                if (selectedRows.size === 1) {
+                    btnModify.classList.remove('btn-disabled');
+                } else {
+                    btnModify.classList.add('btn-disabled');
+                }
+            }
+        }
+
+        // Gestion du formulaire
+        document.getElementById('toggleForm').addEventListener('click', function() {
+            cancelEdit(); // Réinitialiser le formulaire
+            document.getElementById('formContainer').classList.toggle('open');
+        });
+
+        document.getElementById('cancelEdit').addEventListener('click', function() {
+            cancelEdit();
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Formater l'ID KirooWorld
+            data.idKw = `KW${data.idKw}`;
+            
+            if (document.getElementById('editId').value) {
+                updatePayment(data);
+            } else {
+                addPayment(data);
+            }
+            this.reset();
+        });
+
+        // Gestion des boutons Modifier et Supprimer
+        document.getElementById('btnModify').addEventListener('click', function() {
+            if (!this.classList.contains('btn-disabled')) {
+                prepareEdit();
+            }
+        });
+
+        document.getElementById('btnDelete').addEventListener('click', function() {
+            if (!this.classList.contains('btn-disabled')) {
+                deleteSelectedPayments();
+            }
+        });
+
+        // Fermer le formulaire lorsqu'on clique à l'extérieur
         document.addEventListener('click', function(event) {
+            const formContainer = document.getElementById('formContainer');
+            const toggleFormBtn = document.getElementById('toggleForm');
+            
+            // Vérifier si le clic est en dehors du formulaire et du bouton
+            if (formContainer.classList.contains('open') && 
+                !formContainer.contains(event.target) && 
+                event.target !== toggleFormBtn && 
+                !toggleFormBtn.contains(event.target)) {
+                cancelEdit();
+            }
+            
+            // Fermer les cartes si on clique ailleurs
             if (!event.target.closest('.payment-card')) {
                 document.querySelectorAll('.payment-card.expanded').forEach(card => {
                     card.classList.remove('expanded');
@@ -903,378 +931,10 @@
             }
         });
 
-        // Gestion du redimensionnement
-        window.addEventListener('resize', function() {
-            // Fermer toutes les cartes ouvertes lors du redimensionnement
-            document.querySelectorAll('.payment-card.expanded').forEach(card => {
-                card.classList.remove('expanded');
-            });
-        });
-
-        // Animation d'apparition des cartes au chargement
+        // Initialiser l'application
         document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.payment-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'all 0.4s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
+            renderData();
         });
-
-        // Fonction utilitaire pour générer dynamiquement les cartes depuis les données du tableau
-        function generateCardFromTableRow(row) {
-            const cells = row.querySelectorAll('td');
-            if (cells.length < 9) return null;
-
-            const id = cells[1].textContent.trim();
-            const userInfo = cells[2].querySelector('.text-blue-600.font-semibold').textContent.trim();
-            const userName = cells[2].querySelector('.text-blue-600.font-medium').textContent.trim();
-            const email = cells[2].querySelector('.text-blue-500.text-xs').textContent.trim();
-            const pack = cells[3].querySelector('.font-medium').textContent.trim();
-            const amount = cells[4].textContent.trim();
-            const paymentSystem = cells[5].textContent.trim();
-            const statusElement = cells[6].querySelector('span');
-            const statusText = statusElement.textContent.trim();
-            const statusClass = getStatusClass(statusText);
-            const referenceCode = cells[7].querySelector('.font-mono').textContent.trim();
-            const dateText = cells[8].querySelector('.font-medium').textContent.trim();
-            const timeText = cells[8].querySelector('.text-xs').textContent.trim();
-
-            return `
-                <div class="payment-card" onclick="toggleCard(this)" data-id="${id}">
-                    <div class="card-id">#${id}</div>
-                    <div class="card-header">
-                        <div class="card-main-info">
-                            <div class="card-user-name">${userName}</div>
-                            <div class="card-amount">${amount}</div>
-                            <span class="card-status ${statusClass}">
-                                ${getStatusIcon(statusText)}
-                                ${statusText}
-                            </span>
-                        </div>
-                        <div class="expand-indicator">
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                    </div>
-                    <div class="card-details">
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <i class="fas fa-user"></i>
-                                ID Utilisateur
-                            </span>
-                            <span class="detail-value">${userInfo}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <i class="fas fa-envelope"></i>
-                                Email
-                            </span>
-                            <span class="detail-value">${email}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <i class="fas fa-box"></i>
-                                Pack
-                            </span>
-                            <span class="detail-value">${pack}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <i class="fas fa-credit-card"></i>
-                                Paiement
-                            </span>
-                            <span class="detail-value">${paymentSystem}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <i class="fas fa-receipt"></i>
-                                Code Facture
-                            </span>
-                            <span class="detail-value code">${referenceCode}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <i class="fas fa-calendar"></i>
-                                Date
-                            </span>
-                            <span class="detail-value">${dateText} - ${timeText}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function getStatusClass(statusText) {
-            if (statusText.includes('Initialisé')) return 'status-initialise';
-            if (statusText.includes('Validé')) return 'status-valide';
-            if (statusText.includes('Échoué')) return 'status-echoue';
-            return 'status-initialise';
-        }
-
-        function getStatusIcon(statusText) {
-            if (statusText.includes('Initialisé')) return '<i class="fas fa-clock mr-1"></i>';
-            if (statusText.includes('Validé')) return '<i class="fas fa-check-circle mr-1"></i>';
-            if (statusText.includes('Échoué')) return '<i class="fas fa-times-circle mr-1"></i>';
-            return '<i class="fas fa-clock mr-1"></i>';
-        }
-
-        // Fonction pour synchroniser automatiquement le tableau et les cartes
-        function syncTableWithCards() {
-            const tableRows = document.querySelectorAll('.table-responsive tbody tr');
-            const cardContainer = document.querySelector('.card-view');
-            
-            if (cardContainer && tableRows.length > 0) {
-                let cardsHTML = '';
-                tableRows.forEach(row => {
-                    const cardHTML = generateCardFromTableRow(row);
-                    if (cardHTML) cardsHTML += cardHTML;
-                });
-                cardContainer.innerHTML = cardsHTML;
-            }
-        }
-
-        // Fonction pour afficher des informations de debug sur la taille d'écran
-        function showScreenInfo() {
-            const width = window.innerWidth;
-            let layout = '';
-            
-            if (width >= 960) {
-                layout = 'Tableau classique (Desktop)';
-            } else if (width >= 601) {
-                layout = 'Grille 3x3 (Tablette large)';
-            } else if (width >= 360) {
-                layout = 'Grille 2x2 (Mobile/Tablette)';
-            } else {
-                layout = 'Grille 1x1 (Mobile petit)';
-            }
-            
-            console.log(`Largeur écran: ${width}px - Layout: ${layout}`);
-        }
-
-        // Afficher les infos de debug au redimensionnement
-        window.addEventListener('resize', function() {
-            showScreenInfo();
-        });
-
-        // Afficher les infos au chargement
-        document.addEventListener('DOMContentLoaded', function() {
-            showScreenInfo();
-        });
-
-        // Appeler la synchronisation si nécessaire (utile pour le contenu dynamique)
-        // syncTableWithCards();
     </script>
 </body>
-</html>-sm font-medium text-gray-900">23134</td>
-                                <td class="px-4 py-4">
-                                    <div class="text-sm">
-                                        <div class="text-blue-600 font-semibold">[235553]</div>
-                                        <div class="text-blue-600 font-medium">Hamilyang Père</div>
-                                        <div class="text-blue-500 text-xs">hamiliangpere44@gmail.com</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="font-medium">Dieu du Mboa</div>
-                                    <div class="text-gray-500 text-xs">(dieu-du-mboa)</div>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-bold text-green-600">$2,000.00</td>
-                                <td class="px-4 py-4 text-sm text-gray-500">Mobile Money</td>
-                                <td class="px-4 py-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                        <i class="fas fa-clock mr-1"></i>
-                                        Initialisé
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="text-blue-600">
-                                        <div class="font-semibold text-xs">Code Facture :</div>
-                                        <div class="font-mono text-xs">RC1520250806J20374</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm text-gray-600">
-                                    <div class="font-medium">6 août 2025</div>
-                                    <div class="text-xs">12:12</div>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-4">
-                                    <input type="checkbox" class="rounded border-gray-300">
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23135</td>
-                                <td class="px-4 py-4">
-                                    <div class="text-sm">
-                                        <div class="text-blue-600 font-semibold">[235554]</div>
-                                        <div class="text-blue-600 font-medium">Marie Dupont</div>
-                                        <div class="text-blue-500 text-xs">marie.dupont@email.com</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="font-medium">Pack Premium</div>
-                                    <div class="text-gray-500 text-xs">(premium)</div>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-bold text-green-600">$1,500.00</td>
-                                <td class="px-4 py-4 text-sm text-gray-500">Orange Money</td>
-                                <td class="px-4 py-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        <i class="fas fa-check-circle mr-1"></i>
-                                        Validé
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="text-blue-600">
-                                        <div class="font-semibold text-xs">Code Facture :</div>
-                                        <div class="font-mono text-xs">RC1520250806J20375</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm text-gray-600">
-                                    <div class="font-medium">7 août 2025</div>
-                                    <div class="text-xs">09:30</div>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-4">
-                                    <input type="checkbox" class="rounded border-gray-300">
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23136</td>
-                                <td class="px-4 py-4">
-                                    <div class="text-sm">
-                                        <div class="text-blue-600 font-semibold">[235555]</div>
-                                        <div class="text-blue-600 font-medium">Jean Martin</div>
-                                        <div class="text-blue-500 text-xs">jean.martin@gmail.com</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="font-medium">Pack Starter</div>
-                                    <div class="text-gray-500 text-xs">(starter)</div>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-bold text-green-600">$500.00</td>
-                                <td class="px-4 py-4 text-sm text-gray-500">MTN Money</td>
-                                <td class="px-4 py-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                        <i class="fas fa-times-circle mr-1"></i>
-                                        Échoué
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="text-blue-600">
-                                        <div class="font-semibold text-xs">Code Facture :</div>
-                                        <div class="font-mono text-xs">RC1520250806J20376</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm text-gray-600">
-                                    <div class="font-medium">7 août 2025</div>
-                                    <div class="text-xs">14:45</div>
-                                </td>
-                            </tr>
-
-                            <!-- Cartes supplémentaires pour démontrer la grille -->
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-4">
-                                    <input type="checkbox" class="rounded border-gray-300">
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23137</td>
-                                <td class="px-4 py-4">
-                                    <div class="text-sm">
-                                        <div class="text-blue-600 font-semibold">[235556]</div>
-                                        <div class="text-blue-600 font-medium">Sophie Laurent</div>
-                                        <div class="text-blue-500 text-xs">sophie.laurent@email.com</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="font-medium">Pack Business</div>
-                                    <div class="text-gray-500 text-xs">(business)</div>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-bold text-green-600">$3,000.00</td>
-                                <td class="px-4 py-4 text-sm text-gray-500">PayPal</td>
-                                <td class="px-4 py-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        <i class="fas fa-check-circle mr-1"></i>
-                                        Validé
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="text-blue-600">
-                                        <div class="font-semibold text-xs">Code Facture :</div>
-                                        <div class="font-mono text-xs">RC1520250806J20377</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm text-gray-600">
-                                    <div class="font-medium">8 août 2025</div>
-                                    <div class="text-xs">16:20</div>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-4">
-                                    <input type="checkbox" class="rounded border-gray-300">
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23138</td>
-                                <td class="px-4 py-4">
-                                    <div class="text-sm">
-                                        <div class="text-blue-600 font-semibold">[235557]</div>
-                                        <div class="text-blue-600 font-medium">Pierre Mbang</div>
-                                        <div class="text-blue-500 text-xs">pierre.mbang@gmail.com</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="font-medium">Pack Basic</div>
-                                    <div class="text-gray-500 text-xs">(basic)</div>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-bold text-green-600">$800.00</td>
-                                <td class="px-4 py-4 text-sm text-gray-500">Express Union</td>
-                                <td class="px-4 py-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                        <i class="fas fa-clock mr-1"></i>
-                                        Initialisé
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="text-blue-600">
-                                        <div class="font-semibold text-xs">Code Facture :</div>
-                                        <div class="font-mono text-xs">RC1520250806J20378</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm text-gray-600">
-                                    <div class="font-medium">8 août 2025</div>
-                                    <div class="text-xs">18:15</div>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-4">
-                                    <input type="checkbox" class="rounded border-gray-300">
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23139</td>
-                                <td class="px-4 py-4">
-                                    <div class="text-sm">
-                                        <div class="text-blue-600 font-semibold">[235558]</div>
-                                        <div class="text-blue-600 font-medium">Alice Nguyen</div>
-                                        <div class="text-blue-500 text-xs">alice.nguyen@hotmail.com</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="font-medium">Pack VIP</div>
-                                    <div class="text-gray-500 text-xs">(vip)</div>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-bold text-green-600">$5,000.00</td>
-                                <td class="px-4 py-4 text-sm text-gray-500">Virement Bancaire</td>
-                                <td class="px-4 py-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        <i class="fas fa-check-circle mr-1"></i>
-                                        Validé
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-sm">
-                                    <div class="text-blue-600">
-                                        <div class="font-semibold text-xs">Code Facture :</div>
-                                        <div class="font-mono text-xs">RC1520250806J20379</div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text
+</html>
