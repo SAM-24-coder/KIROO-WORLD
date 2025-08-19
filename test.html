@@ -1,1666 +1,907 @@
-
-
-                                    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiro'o World</title>
-    <link rel="stylesheet" href="../KIROOWORLD/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">   
+    <title>Tableau Interactif - Cartes Responsives</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'kiroo-dark': '#4A5568',
-                        'kiroo-purple': '#9F7AEA',
-                        'kiroo-green': '#48BB78'
-                    }
-                }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========================================
+           TABLEAUX RESPONSIVES - CARTES INTERACTIVES
+           ======================================== */
+
+        /* DESKTOP : Tableau normal (≥960px) */
+        @media (min-width: 960px) {
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
-        }
-    </script>
-   <style>
-        @media only screen and (max-width: 960px) and (min-width: 460px) {
-            .table-responsive table,
-            .table-responsive thead,
-            .table-responsive tbody,
-            .table-responsive tr,
+            
+            .table-responsive table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            
             .table-responsive th,
             .table-responsive td {
-                display: block;
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid #e2e8f0;
             }
-            
-            .table-responsive thead {
+
+            /* Cacher les cartes sur desktop */
+            .card-view {
                 display: none;
             }
-            
-            /* Container pour affichage en 2x2 */
-            .table-responsive tbody {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-                padding: 20px;
+        }
+
+        /* TABLETTE ET MOBILE : Cartes interactives (≤959px) */
+        @media (max-width: 959px) {
+            /* Cacher le tableau classique */
+            .table-responsive table {
+                display: none;
+            }
+
+            /* Afficher les cartes */
+            .card-view {
+                display: block;
+                padding: 16px;
                 background: #f8fafc;
             }
-            
-            /* Style carte moderne */
-            .table-responsive tr {
+
+            /* Card container */
+            .payment-card {
                 background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
                 border-radius: 16px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
                 border: 1px solid #e2e8f0;
-                padding: 24px;
-                margin: 0;
-                transition: all 0.3s ease;
-                position: relative;
+                margin-bottom: 16px;
                 overflow: hidden;
+                transition: all 0.4s ease;
+                cursor: pointer;
+                position: relative;
             }
-            
-            .table-responsive tr:hover {
-                transform: translateY(-4px);
+
+            .payment-card:hover {
+                transform: translateY(-2px);
                 box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
                 border-color: #3b82f6;
             }
-            
-            /* Badge ID en haut à droite */
-            .table-responsive tr::before {
-                content: "#" attr(data-id);
+
+            .payment-card.expanded {
+                transform: none;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+                border-color: #1d4ed8;
+            }
+
+            /* Card header (toujours visible) */
+            .card-header {
+                padding: 16px 20px;
+                display: flex;
+                justify-content: between;
+                align-items: center;
+                position: relative;
+            }
+
+            .card-id {
                 position: absolute;
-                top: 16px;
+                top: 12px;
                 right: 16px;
                 background: linear-gradient(135deg, #3b82f6, #1d4ed8);
                 color: white;
-                padding: 4px 12px;
+                padding: 6px 12px;
                 border-radius: 20px;
-                font-size: 11px;
+                font-size: 12px;
                 font-weight: bold;
                 box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
             }
-            
-            .table-responsive td {
-                display: none; /* Masquer tous les td par défaut */
-                padding: 0;
-                margin: 0;
-                background: transparent;
-                border: none;
-                position: static;
-            }
-            
-            /* Afficher seulement les td spécifiques sous forme de sections */
-            .table-responsive td:nth-child(2) { /* ID - masqué car affiché dans ::before */
-                display: none;
-            }
-            
-            .table-responsive td:nth-child(3) { /* Nom & Email */
-                display: block;
-                margin-bottom: 16px;
-            }
-            
-            .table-responsive td:nth-child(4) { /* Pack */
-                display: block;
-                margin-bottom: 12px;
-            }
-            
-            .table-responsive td:nth-child(5) { /* Montant */
-                display: block;
-                margin-bottom: 12px;
-            }
-            
-            .table-responsive td:nth-child(6) { /* Système paiement */
-                display: block;
-                margin-bottom: 12px;
-            }
-            
-            .table-responsive td:nth-child(7) { /* Statut */
-                display: block;
-                margin-bottom: 12px;
-            }
-            
-            .table-responsive td:nth-child(8) { /* Référence */
-                display: block;
-                margin-bottom: 12px;
-            }
-            
-            .table-responsive td:nth-child(9) { /* Date */
-                display: block;
-            }
-            
-            /* Styles pour chaque section */
-            .table-responsive td:nth-child(3) {
-                border-bottom: 2px solid #e2e8f0;
-                padding-bottom: 16px;
-            }
-            
-            .table-responsive td:nth-child(3) .text-blue-600 {
-                color: #1e40af !important;
-            }
-            
-            .table-responsive td:nth-child(3) .font-semibold {
-                font-size: 18px;
-                margin-bottom: 4px;
-            }
-            
-            .table-responsive td:nth-child(3) .font-medium {
-                font-size: 16px;
-                color: #374151;
-                margin-bottom: 4px;
-            }
-            
-            .table-responsive td:nth-child(3) .text-xs {
-                color: #6b7280;
-                font-size: 13px;
-            }
-            
-            /* Pack */
-            .table-responsive td:nth-child(4)::before {
-                content: "📦 ";
-                margin-right: 8px;
-            }
-            
-            .table-responsive td:nth-child(4) .font-medium {
-                color: #7c3aed;
-                font-weight: 600;
-                font-size: 15px;
-            }
-            
-            /* Montant */
-            .table-responsive td:nth-child(5)::before {
-                content: "💰 ";
-                margin-right: 8px;
-            }
-            
-            .table-responsive td:nth-child(5) {
-                font-size: 20px;
-                font-weight: bold;
-                color: #059669 !important;
-            }
-            
-            /* Système de paiement */
-            .table-responsive td:nth-child(6)::before {
-                content: "💳 ";
-                margin-right: 8px;
-            }
-            
-            .table-responsive td:nth-child(6) {
-                color: #6b7280;
-                font-size: 14px;
-            }
-            
-            /* Statut */
-            .table-responsive td:nth-child(7) {
-                text-align: center;
-            }
-            
-            .table-responsive td:nth-child(7) .inline-flex {
-                display: inline-flex;
-                padding: 8px 16px;
-                border-radius: 25px;
-                font-weight: 600;
-                font-size: 12px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
-            
-            /* Date */
-            .table-responsive td:nth-child(9)::before {
-                content: "📅 ";
-                margin-right: 8px;
-            }
-            
-            .table-responsive td:nth-child(9) {
-                color: #374151;
-                font-size: 14px;
-                text-align: right;
-                font-weight: 500;
-            }
-            
-            /* Référence */
-            .table-responsive td:nth-child(8) {
-                background: #f1f5f9;
-                padding: 12px;
-                border-radius: 8px;
-                border-left: 4px solid #3b82f6;
-            }
-            
-            .table-responsive td:nth-child(8)::before {
-                content: "🔖 ";
-                margin-right: 8px;
-            }
-            
-            .table-responsive td:nth-child(8) .font-mono {
-                background: white;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 11px;
-                color: #1e40af;
-                border: 1px solid #dbeafe;
-            }
-        }
 
-        @media only screen and (max-width: 459px)  {
-            .table-responsive table,
-            .table-responsive thead,
-            .table-responsive tbody,
-            .table-responsive tr,
-            .table-responsive th,
-            .table-responsive td {
-                display: block;
+            .card-main-info {
+                flex: 1;
+                padding-right: 60px;
             }
-            
-            .table-responsive thead {
-                display: none;
+
+            .card-user-name {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1e40af;
+                margin-bottom: 4px;
+                line-height: 1.2;
             }
-            
-            /* Container pour affichage en 1x1 */
-            .table-responsive tbody {
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-                padding: 16px;
-                background: #f8fafc;
-            }
-            
-            /* Style carte compact */
-            .table-responsive tr {
-                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-                border-radius: 12px;
-                box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-                border: 1px solid #e2e8f0;
-                padding: 16px;
-                margin: 0;
-              
-                position: relative;
-            }
-            
-            .table-responsive tr:hover {
-               
-                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-            }
-            
-            /* Badge ID compact */
-            .table-responsive tr::before {
-                content: "#" attr(data-id);
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-                color: white;
-                padding: 2px 8px;
-                border-radius: 15px;
-                font-size: 15px;
+
+            .card-amount {
+                font-size: 24px;
                 font-weight: bold;
-            }
-            
-            .table-responsive td {
-                display: none;
-                padding: 0;
-                margin: 0;
-                background: transparent;
-                border: none;
-            }
-            
-            /* Affichage adapté pour mobile */
-            .table-responsive td:nth-child(3),
-            .table-responsive td:nth-child(4),
-            .table-responsive td:nth-child(5),
-            .table-responsive td:nth-child(7),
-            .table-responsive td:nth-child(8), 
-            .table-responsive td:nth-child(9) {
-                display: block;
+                color: #059669;
                 margin-bottom: 8px;
             }
-            
-            /* Styles compacts */
-            .table-responsive td:nth-child(3) .font-semibold {
-                font-size: 18px;
-                line-height: 1.5;
-                color: #1e40af;
+
+            .card-status {
+                display: inline-flex;
+                align-items: center;
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             }
-            
-            .table-responsive td:nth-child(3) .font-medium {
-                font-size: 16px;
-                color: #374151;
+
+            /* Expand indicator */
+            .expand-indicator {
+                position: absolute;
+                bottom: 8px;
+                right: 16px;
+                width: 24px;
+                height: 24px;
+                background: #f1f5f9;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                color: #64748b;
+                font-size: 12px;
             }
-            
-            .table-responsive td:nth-child(3) .text-xs {
+
+            .payment-card.expanded .expand-indicator {
+                transform: rotate(180deg);
+                background: #3b82f6;
+                color: white;
+            }
+
+            /* Card details (cachés par défaut) */
+            .card-details {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease, padding 0.4s ease;
+                background: rgba(248, 250, 252, 0.5);
+                border-top: 1px solid #e2e8f0;
+            }
+
+            .payment-card.expanded .card-details {
+                max-height: 500px;
+                padding: 20px;
+            }
+
+            .detail-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .detail-row:last-child {
+                border-bottom: none;
+            }
+
+            .detail-label {
                 font-size: 13px;
                 color: #6b7280;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
             }
-            /* Pack */
-            .table-responsive td:nth-child(4)::before {
-                content: "📦 ";
+
+            .detail-label i {
                 margin-right: 8px;
+                width: 16px;
+                text-align: center;
             }
-            
-            .table-responsive td:nth-child(4) .font-medium {
-                color: #7c3aed;
+
+            .detail-value {
+                font-size: 14px;
+                color: #374151;
                 font-weight: 600;
-                font-size: 15px;
+                text-align: right;
+                max-width: 60%;
+                word-break: break-word;
             }
-            
-            /* Montant */
-            .table-responsive td:nth-child(5)::before {
-                content: "💰";
-                margin-right: 8px;
-                
-            }
-           
-            
-            .table-responsive td:nth-child(5) {
-                font-size: 18px;
-                font-weight: bold;
-                color: #059669 !important;
-            }
-            
-            .table-responsive td:nth-child(7) .inline-flex {
-                padding: 4px 12px;
-                font-size: 10px;
-                border-radius: 20px;
-            }
-            
-             /* Référence */
-            .table-responsive td:nth-child(8) {
-                background: #f1f5f9;
-                padding: 12px;
-                border-radius: 8px;
-                border-left: 4px solid #3b82f6;
-            }
-            
-            .table-responsive td:nth-child(8)::before {
-                content: "🔖 ";
-                margin-right: 8px;
-            }
-            
-            .table-responsive td:nth-child(8) .font-mono {
+
+            .detail-value.code {
+                font-family: 'Courier New', monospace;
+                font-size: 11px;
                 background: white;
                 padding: 4px 8px;
                 border-radius: 4px;
-                font-size: 11px;
-                color: #1e40af;
                 border: 1px solid #dbeafe;
+                color: #1e40af;
             }
 
-            .table-responsive td:nth-child(9) {
+            /* Statuts */
+            .status-initialise { background-color: #fef3c7; color: #d97706; }
+            .status-valide { background-color: #d1fae5; color: #065f46; }
+            .status-echoue { background-color: #fee2e2; color: #dc2626; }
+        }
+
+        /* MOBILE PETIT : Cartes compactes (≤499px) */
+        @media (max-width: 499px) {
+            .card-view {
+                padding: 12px;
+            }
+
+            .payment-card {
+                margin-bottom: 12px;
+                border-radius: 12px;
+            }
+
+            .card-header {
+                padding: 12px 16px;
+            }
+
+            .card-id {
+                top: 8px;
+                right: 12px;
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+
+            .card-user-name {
+                font-size: 16px;
+            }
+
+            .card-amount {
+                font-size: 20px;
+            }
+
+            .card-status {
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+
+            .payment-card.expanded .card-details {
+                padding: 16px;
+            }
+
+            .detail-label {
                 font-size: 12px;
-                color: #6b7280;
-                text-align: right;
+            }
+
+            .detail-value {
+                font-size: 13px;
             }
         }
 
-        @media only screen and (max-width: 380px) {
-    .table-responsive table,
-    .table-responsive thead,
-    .table-responsive tbody,
-    .table-responsive tr,
-    .table-responsive th,
-    .table-responsive td {
-        display: block;
-        width: 100%;
-        margin-left: 10px;
-        align-items: center;
-    }
-    
-    .table-responsive thead {
-        display: none;
-    }
-    
-    /* Container adaptatif */
-    .table-responsive {
-        font-size: 13px;
-        max-width: 80%;
-        overflow: hidden;
-    }
-    
-    .table-responsive tbody {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        padding: 8px;
-        
-        background: #f8fafc;
-    }
-    
-    /* Cartes adaptatives */
-    .table-responsive tr {
-        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        border: 1px solid #e2e8f0;
-        padding: 8px 8px 8px 8px;
-        margin: 0;
-        transition: all 0.3s ease;
-        position: relative;
-        min-width: 0;
-        overflow: hidden;
-       
-        padding-right: 70px; 
-    }
-    
-    .table-responsive tr:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    }
-    
-    /* Badge ID adaptatif - repositionné */
-    .table-responsive tr::before {
-        content: "#" attr(data-id);
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 10px;
-        font-size: 10px;
-        font-weight: bold;
-        max-width: 55px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        z-index: 1;
-    }
-    
-    .table-responsive td {
-        display: none;
-        padding: 0;
-        margin: 0;
-        background: transparent;
-        border: none;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-    }
-    
-    /* Affichage des colonnes sélectionnées */
-    .table-responsive td:nth-child(3),
-    .table-responsive td:nth-child(4),
-    .table-responsive td:nth-child(5),
-    .table-responsive td:nth-child(7),
-    .table-responsive td:nth-child(8), 
-    .table-responsive td:nth-child(9) {
-        display: block;
-        margin-bottom: 4px;
-    }
-    
-    /* Styles des éléments */
-    .table-responsive td:nth-child(3) .font-semibold {
-        font-size: 13px;
-        color: #1e40af;
-        line-height: 1.2;
-    }
-    
-    .table-responsive td:nth-child(3) .font-medium {
-        font-size: 11px;
-        color: #374151;
-        line-height: 1.2;
-    }
-    
-    .table-responsive td:nth-child(3) .text-xs {
-        font-size: 9px;
-        color: #6b7280;
-        line-height: 1.2;
-    }
-    
-    .table-responsive td:nth-child(4) {
-        font-size: 10px;
-        color: #7c3aed;
-        font-weight: 600;
-    }
-    
-    .table-responsive td:nth-child(5) {
-        font-size: 12px;
-        font-weight: bold;
-        color: #059669 !important;
-    }
-    
-    .table-responsive td:nth-child(7) .inline-flex {
-        padding: 1px 6px;
-        font-size: 8px;
-        border-radius: 12px;
-        max-width: 100%;
-        overflow: hidden;
-    }
-    
-    .table-responsive td:nth-child(8) {
-        background: #f1f5f9;
-        padding: 6px;
-        border-radius: 4px;
-        border-left: 2px solid #3b82f6;
-        margin-top: 4px;
-    }
-    
-    .table-responsive td:nth-child(8)::before {
-        content: "🔖 ";
-        margin-right: 4px;
-    }
-    
-    .table-responsive td:nth-child(8) .font-mono {
-        background: white;
-        padding: 1px 3px;
-        border-radius: 2px;
-        font-size: 8px;
-        color: #1e40af;
-        border: 1px solid #dbeafe;
-        word-break: break-all;
-    }
-    
-    .table-responsive td:nth-child(9) {
-        font-size: 10px;
-        color: #6b7280;
-        text-align: right;
-        margin-top: 4px;
-    }
-}
+        /* MOBILE TRÈS PETIT : Ultra-compact (≤299px) */
+        @media (max-width: 299px) {
+            .card-view {
+                padding: 8px;
+            }
+
+            .payment-card {
+                margin-bottom: 8px;
+                border-radius: 8px;
+            }
+
+            .card-header {
+                padding: 10px 12px;
+            }
+
+            .card-main-info {
+                padding-right: 45px;
+            }
+
+            .card-id {
+                top: 6px;
+                right: 8px;
+                padding: 3px 6px;
+                font-size: 9px;
+            }
+
+            .card-user-name {
+                font-size: 14px;
+            }
+
+            .card-amount {
+                font-size: 18px;
+            }
+
+            .card-status {
+                padding: 3px 6px;
+                font-size: 9px;
+            }
+
+            .expand-indicator {
+                width: 20px;
+                height: 20px;
+                bottom: 6px;
+                right: 8px;
+                font-size: 10px;
+            }
+
+            .payment-card.expanded .card-details {
+                padding: 12px;
+            }
+
+            .detail-row {
+                padding: 6px 0;
+            }
+
+            .detail-label {
+                font-size: 11px;
+            }
+
+            .detail-value {
+                font-size: 12px;
+            }
+
+            .detail-value.code {
+                font-size: 10px;
+                padding: 3px 6px;
+            }
+        }
+
+        /* Animation pour l'ouverture/fermeture */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .payment-card.expanded .card-details > * {
+            animation: slideDown 0.3s ease forwards;
+        }
     </style>
-
 </head>
-<body class="font-sans bg-gray-100">
-   
-        <div class="flex min-h-screen">
-                   <!-- Sidebar -->
-        <div class="fixed top-0 left-0 z-30 flex-shrink-0 hidden h-screen overflow-y-auto text-white bg-gray-800 w-80 lg:block">
-            <!-- Header avec logo -->
-            <div class="flex items-center justify-center p-3 border-b border-gray-700">
-                <img src="https://kirooworld.com/img/font-img/logo_horizontal.png" alt="logo-kirooworld" class="w-40 h-16">
-            </div>
-
-            <!-- Dashboard actif -->
-            <div class="px-4 py-2">
-                <a href="../dashboard.html">
-                     <div class="px-4 py-3 font-semibold text-center text-white bg-green-500 rounded-lg">
-                        DASHBOARD
-                    </div>
-                </a>
-               
-            </div>
-
-            <!-- Menu -->
-            <div class="px-4 py-4">
-                <div class="px-4 py-2 font-semibold text-white bg-purple-600 rounded-t-lg">
-                    MENU
-                </div>
-                <nav class="bg-gray-700 rounded-b-lg">
-                    <ul class="py-2">
-                        <!-- Campagnes -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-pink-400"><i class="fa-solid fa-bullhorn"style="color: #a9d336;"></i></span>
-                                <span>Campagnes</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Campagnes/Creer un filtre.html">Liste des audiences</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-campagnes.html">Liste des campagnes</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-filtres.html">Liste des filtres</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/Creer un filtre.html">Creer un filtre</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Données systèmes -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-blue-400"><i class="fa-solid fa-database"style="color: #a9d336;"></i></span>
-                                <span>Données systèmes</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-monnaies.html">Gestion des monnaies</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-pays.html">Gestion des Pays</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Gestion des annonces -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-orange-400"><i class="fa-solid fa-bell"style="color: #a9d336;"></i></span>
-                                <span>Gestion des annonces</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/corbeil-des-annonces.html">Corbeille des annonces</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/creer-des-annonces.html">Créer des annonces</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/liste-des-annonces.html">Liste des annonces</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Gestion des cadeaux -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-yellow-400"><i class="fa-light fa-gift" style="color: #a9d336;"></i></span>
-                                <span>Gestion des Cadeaux</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-cadeaux/typeRecompenses.html">Types de cadeaux</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Gestion des groupes tarifaires -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-purple-400"><i class="fa-solid fa-credit-card"style="color: #a9d336;"></i></span>
-                                <span>Gestion des groupes tarifaires</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Creer un groupe.html">Creer un grpoupe</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Groupes supprimés.html">Groupes supprimé</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Liste des groupes.html">Liste des grpoupes</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Gestion des missions -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-yellow-400"><i class="fa-solid fa-bullseye"style="color: #a9d336;"></i></span>
-                                <span>Gestion des Missions</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Corbeille des missions.html">Corbeille des missions</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Creer une mission.html">Créer une mission</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Liste des mission.html">Liste des missions</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Gestion des promos -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-green-400"><i class="fa-solid fa-tags"style="color: #a9d336;"></i></span>
-                                <span>Gestion des promos</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos supprimé.html">Liste des promos supprimé</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos.html">Liste des promos </a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Gestion des tunnels de ventes -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-indigo-400"><i class="fa-solid fa-cart-shopping"style="color: #a9d336;"></i></span>
-                                <span>Gestion des tunnels de ventes</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Creer un tunell.html">Créer un tunnel</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Liste des tunnels.html">Liste des tunnels</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Gestion des utilisateurs -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-green-400"><i class="fa-solid fa-users"style="color: #a9d336;"></i></span>
-                                <span>Gestion des utilisateurs</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/ajoutUtilisateurs.html">Ajouter utilisateur</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeSupprimes.html">Groupe supprimé</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeUtilisateur.html">Groupe d'utilisateur</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/listeUtilisateurs.html">Liste utilisateurs</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Paiement & Factures -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-green-400"><i class="fa-solid fa-money-bill-wave"style="color: #a9d336;"></i></span>
-                                <span>Paiements & Factures</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Gestion des systemes de paiements.html">Gestion des systèmes de paiements</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Historique des paiements.html">Historique des paiements</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement echoué.html">Paiement échoué</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement en cour.html">Paiement en cours</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement offert.html">Paiement offert</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Rôles & Permissions -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-blue-400"><i class="fa-solid fa-user-shield"style="color: #a9d336;"></i></span>
-                                <span>Rôles & Permissions</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Categorie de permissions.html">Catégorie de permissions</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des permissions.html">Liste des permissions</a></li>
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des roles.html">Liste des rôles</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Signalements de problèmes KGF -->
-                        <li class="relative group">
-                            <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                                <span class="text-red-400"><i class="fa-solid fa-triangle-exclamation"style="color: #a9d336;"></i></span>
-                                <span>Signalements de problèmes KGF</span>
-                                <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                            <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                                <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Signalements de problemes KGF/Liste des problemes.html">Liste des problèmes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
-            <!-- Bottom icons -->
-            <div class="flex items-center justify-center py-4 px-4 space-x-4 text-gray-400 bg-gray-900 border-t border-gray-700 mt-auto">
-                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                    <span class="text-xl">🏠</span>
-                </div>
-                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                    <span class="text-xl">⚙️</span>
-                </div>
-                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                    <span class="text-xl">🔗</span>
-                </div>
-                <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                    <span class="text-xl">📋</span>
-                </div>
-            </div>
-        </div>
-
-           
-        <!-- Mobile sidebar overlay -->
-        <div id="mobile-sidebar" class="fixed inset-0 z-40 text-white transition-transform duration-300 transform -translate-x-full bg-gray-800 lg:hidden">
-            <div class="p-6 border-b border-gray-700">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-orange-400">
-                            <div class="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-                                <div class="w-4 h-4 bg-gray-800 rounded-full"></div>
-                            </div>
-                        </div>
-                        <span class="text-xl font-semibold text-orange-300">Kiro'o World</span>
-                    </div>
-                    <button id="close-mobile-menu" class="text-2xl">×</button>
-                </div>
-            </div>
+<body class="bg-gray-50">
+    <div class="min-h-screen bg-gray-50 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-2xl font-bold text-gray-900 mb-8">Gestion des Paiements</h1>
             
-            <div class="px-4 py-2">
-                <a href="../dashboard.html">
-                    <div class="px-4 py-3 font-semibold text-center text-white bg-green-500 rounded-lg">
-                        DASHBOARD
+            <!-- Table Section -->
+            <div class="bg-white rounded-lg shadow-sm border overflow-x-auto">
+                <!-- Pagination Top -->
+                <div class="p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div class="text-sm text-gray-600">*IRL: In Real Life</div>
+                    <div class="flex items-center gap-2">
+                        <nav class="flex items-center gap-1">
+                            <button class="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded text-sm">1</button>
+                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">2</button>
+                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">3</button>
+                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">4</button>
+                            <span class="px-2 text-gray-500">...</span>
+                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">454</button>
+                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </nav>
+                        <div class="flex items-center gap-2 ml-4">
+                            <span class="text-sm text-gray-600">Aller à la page</span>
+                            <input type="text" class="w-16 px-2 py-1 border border-gray-300 rounded text-sm">
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">Go</button>
+                        </div>
                     </div>
-                </a>
-            </div>
-            <!-- Mobile menu items -->
-            <div class="px-4 py-4">
-            <div class="px-4 py-2 font-semibold text-white bg-purple-600 rounded-t-lg">
-                MENU
-            </div>
-            <nav class="bg-gray-700 rounded-b-lg">
-                <ul class="py-2">
-                    <!-- Campagnes -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-pink-400"><i class="fa-solid fa-bullhorn"style="color: #a9d336;"></i></span>
-                            <span>Campagnes</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-audiences.html">Liste des audiences</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-campagnes.html">Liste des campagnes</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/liste-des-filtres.html">Liste des filtres</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Campagnes/Creer un filtre.html">Creer un filtre</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Données systèmes -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-blue-400"><i class="fa-solid fa-database"style="color: #a9d336;"></i></span>
-                            <span>Données systèmes</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-monnaies.html">Gestion des monnaies</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/donnees-systemes/gestion-des-pays.html">Gestion des Pays</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Gestion des annonces -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-orange-400"><i class="fa-solid fa-bell"style="color: #a9d336;"></i></span>
-                            <span>Gestion des annonces</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/corbeil-des-annonces.html">Corbeille des annonces</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/creer-des-annonces.html">Créer des annonces</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-annonces/liste-des-annonces.html">Liste des annonces</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Gestion des cadeaux -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-yellow-400"><i class="fa-light fa-gift" style="color: #a9d336;"></i></span>
-                            <span>Gestion des Cadeaux</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-cadeaux/typeRecompenses.html">Types de cadeaux</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Gestion des groupes tarifaires -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-purple-400"><i class="fa-solid fa-credit-card"style="color: #a9d336;"></i></span>
-                            <span>Gestion des groupes tarifaires</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Creer un groupe.html">Creer un groupe</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Groupes supprimés.html">Groupe supprimé</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-groupes-tariffaire/Liste des groupes.html">Liste des groupe</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Gestion des missions -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-yellow-400"><i class="fa-solid fa-bullseye"style="color: #a9d336;"></i></span>
-                            <span>Gestion des Missions</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Corbeille des missions.html">Corbeille des missions</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Creer une mission.html">Créer une mission</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des missions/Liste des mission.html">Liste des missions</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Gestion des promos -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-green-400"><i class="fa-solid fa-tags"style="color: #a9d336;"></i></span>
-                            <span>Gestion des promos</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos supprimé.html">Liste des promos supprimé</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des promos/Liste des promos.html">Liste des promos</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Gestion des tunnels de ventes -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-indigo-400"><i class="fa-solid fa-cart-shopping"style="color: #a9d336;"></i></span>
-                            <span>Gestion des tunnels de ventes</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Creer un tunell.html">Créer un tunnel</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Gestion des tunnels de ventes/Liste des tunnels.html">Liste des tunnels</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Gestion des utilisateurs -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-green-400"><i class="fa-solid fa-users"style="color: #a9d336;"></i></span>
-                            <span>Gestion des utilisateurs</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/ajoutUtilisateurs.html">Ajouter utilisateur</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeSupprimes.html">Groupe supprimé</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/groupeUtilisateur.html">Groupe d'utilisateur</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/gestion-des-utilisateurs/listeUtilisateurs.html">Liste utilisateurs</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Paiement & Factures -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-green-400"><i class="fa-solid fa-money-bill-wave"style="color: #a9d336;"></i></span>
-                            <span>Paiements & Factures</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Gestion des systemes de paiements.html">Gestion des systèmes de paiements</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Historique des paiements.html">Historique des paiements</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement echoué.html">Paiement échoué</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement en cour.html">Paiement en cours</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Paiement & Factures/Paiement offert.html">Paiement offert</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Rôles & Permissions -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-blue-400"><i class="fa-solid fa-user-shield"style="color: #a9d336;"></i></span>
-                            <span>Rôles & Permissions</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Categorie de permissions.html">Catégorie de permissions</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des permissions.html">Liste des permissions</a></li>
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Roles & Permissions/Liste des roles.html">Liste des rôles</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Signalements de problèmes KGF -->
-                    <li class="relative group">
-                        <div class="flex items-center px-4 py-3 space-x-3 cursor-pointer hover:bg-gray-600 dropdown-toggle">
-                            <span class="text-red-400"><i class="fa-solid fa-triangle-exclamation"style="color: #a9d336;"></i></span>
-                            <span>Signalements de problèmes KGF</span>
-                            <svg class="w-4 h-4 ml-auto transition-transform duration-200 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <ul class="hidden mt-1 ml-8 space-y-1 bg-gray-700 rounded shadow dropdown-menu">
-                            <li class="px-4 py-2 rounded hover:bg-gray-600"><a href="../Pages/Signalements de problemes KGF/Liste des problemes.html">Liste des problèmes</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Bottom icons -->
-        <div class="flex items-center justify-center py-4 px-4 space-x-4 text-gray-400 bg-gray-900 border-t border-gray-700 mt-auto">
-            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                <span class="text-xl">🏠</span>
-            </div>
-            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                <span class="text-xl">⚙️</span>
-            </div>
-            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                <span class="text-xl">🔗</span>
-            </div>
-            <div class="p-2 cursor-pointer hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">
-                <span class="text-xl">📋</span>
-            </div>
-        </div>
-        </div>
-            <!-- Main content -->
-            <div class="relative flex-1 min-h-screen pl-0 lg:pl-80">
-                <!-- Hamburger sur la barre latérale du main content -->
-                <div class="absolute left-0 z-50 items-start justify-center ml-5 top-4 lg:hidden" >
-                    <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
-                        ☰
-                    </button>
                 </div>
-                <div class="flex-1 min-h-screen bg-white ">
-                    
-                    <!-- Top bar -->
-                    <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 ">
-                        <div class="ml-10 text-lg font-semibold text-white lg:hidden sm:">
-                            <a href="../dashboard.html">DASHBOARD</a>
+
+                <!-- Table responsive avec cartes -->
+                <div class="table-responsive">
+                    <!-- Vue tableau classique (desktop) -->
+                    <table class="w-full">
+                        <thead class="bg-yellow-100">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                    <input type="checkbox" class="rounded border-gray-300">
+                                </th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nom & Prénom Email</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Pack payé</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Montant reçu</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Système paiement</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                    Statut <i class="fas fa-info-circle text-gray-400 ml-1"></i>
+                                </th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Référence Code</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Date paiement</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4">
+                                    <input type="checkbox" class="rounded border-gray-300">
+                                </td>
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23134</td>
+                                <td class="px-4 py-4">
+                                    <div class="text-sm">
+                                        <div class="text-blue-600 font-semibold">[235553]</div>
+                                        <div class="text-blue-600 font-medium">Hamilyang Père</div>
+                                        <div class="text-blue-500 text-xs">hamiliangpere44@gmail.com</div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-sm">
+                                    <div class="font-medium">Dieu du Mboa</div>
+                                    <div class="text-gray-500 text-xs">(dieu-du-mboa)</div>
+                                </td>
+                                <td class="px-4 py-4 text-sm font-bold text-green-600">$2,000.00</td>
+                                <td class="px-4 py-4 text-sm text-gray-500">Mobile Money</td>
+                                <td class="px-4 py-4">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        Initialisé
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-sm">
+                                    <div class="text-blue-600">
+                                        <div class="font-semibold text-xs">Code Facture :</div>
+                                        <div class="font-mono text-xs">RC1520250806J20374</div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-sm text-gray-600">
+                                    <div class="font-medium">6 août 2025</div>
+                                    <div class="text-xs">12:12</div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4">
+                                    <input type="checkbox" class="rounded border-gray-300">
+                                </td>
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23135</td>
+                                <td class="px-4 py-4">
+                                    <div class="text-sm">
+                                        <div class="text-blue-600 font-semibold">[235554]</div>
+                                        <div class="text-blue-600 font-medium">Marie Dupont</div>
+                                        <div class="text-blue-500 text-xs">marie.dupont@email.com</div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-sm">
+                                    <div class="font-medium">Pack Premium</div>
+                                    <div class="text-gray-500 text-xs">(premium)</div>
+                                </td>
+                                <td class="px-4 py-4 text-sm font-bold text-green-600">$1,500.00</td>
+                                <td class="px-4 py-4 text-sm text-gray-500">Orange Money</td>
+                                <td class="px-4 py-4">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check-circle mr-1"></i>
+                                        Validé
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-sm">
+                                    <div class="text-blue-600">
+                                        <div class="font-semibold text-xs">Code Facture :</div>
+                                        <div class="font-mono text-xs">RC1520250806J20375</div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-sm text-gray-600">
+                                    <div class="font-medium">7 août 2025</div>
+                                    <div class="text-xs">09:30</div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4">
+                                    <input type="checkbox" class="rounded border-gray-300">
+                                </td>
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900">23136</td>
+                                <td class="px-4 py-4">
+                                    <div class="text-sm">
+                                        <div class="text-blue-600 font-semibold">[235555]</div>
+                                        <div class="text-blue-600 font-medium">Jean Martin</div>
+                                        <div class="text-blue-500 text-xs">jean.martin@gmail.com</div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-sm">
+                                    <div class="font-medium">Pack Starter</div>
+                                    <div class="text-gray-500 text-xs">(starter)</div>
+                                </td>
+                                <td class="px-4 py-4 text-sm font-bold text-green-600">$500.00</td>
+                                <td class="px-4 py-4 text-sm text-gray-500">MTN Money</td>
+                                <td class="px-4 py-4">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        <i class="fas fa-times-circle mr-1"></i>
+                                        Échoué
+                                    </span>
+                                </td>
+                                <td class="px-4 py-4 text-sm">
+                                    <div class="text-blue-600">
+                                        <div class="font-semibold text-xs">Code Facture :</div>
+                                        <div class="font-mono text-xs">RC1520250806J20376</div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-sm text-gray-600">
+                                    <div class="font-medium">7 août 2025</div>
+                                    <div class="text-xs">14:45</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Vue cartes (mobile/tablette) -->
+                    <div class="card-view">
+                        <!-- Carte 1 -->
+                        <div class="payment-card" onclick="toggleCard(this)" data-id="23134">
+                            <div class="card-id">#23134</div>
+                            <div class="card-header">
+                                <div class="card-main-info">
+                                    <div class="card-user-name">Hamilyang Père</div>
+                                    <div class="card-amount">$2,000.00</div>
+                                    <span class="card-status status-initialise">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        Initialisé
+                                    </span>
+                                </div>
+                                <div class="expand-indicator">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="card-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-user"></i>
+                                        ID Utilisateur
+                                    </span>
+                                    <span class="detail-value">[235553]</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-envelope"></i>
+                                        Email
+                                    </span>
+                                    <span class="detail-value">hamiliangpere44@gmail.com</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-box"></i>
+                                        Pack
+                                    </span>
+                                    <span class="detail-value">Dieu du Mboa</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-credit-card"></i>
+                                        Paiement
+                                    </span>
+                                    <span class="detail-value">Mobile Money</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-receipt"></i>
+                                        Code Facture
+                                    </span>
+                                    <span class="detail-value code">RC1520250806J20374</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-calendar"></i>
+                                        Date
+                                    </span>
+                                    <span class="detail-value">6 août 2025 - 12:12</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ml-auto">
-                            <div class="flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer bg-opacity-20">
-                                <span class="text-xl text-white">👤</span>
+
+                        <!-- Carte 2 -->
+                        <div class="payment-card" onclick="toggleCard(this)" data-id="23135">
+                            <div class="card-id">#23135</div>
+                            <div class="card-header">
+                                <div class="card-main-info">
+                                    <div class="card-user-name">Marie Dupont</div>
+                                    <div class="card-amount">$1,500.00</div>
+                                    <span class="card-status status-valide">
+                                        <i class="fas fa-check-circle mr-1"></i>
+                                        Validé
+                                    </span>
+                                </div>
+                                <div class="expand-indicator">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="card-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-user"></i>
+                                        ID Utilisateur
+                                    </span>
+                                    <span class="detail-value">[235554]</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-envelope"></i>
+                                        Email
+                                    </span>
+                                    <span class="detail-value">marie.dupont@email.com</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-box"></i>
+                                        Pack
+                                    </span>
+                                    <span class="detail-value">Pack Premium</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-credit-card"></i>
+                                        Paiement
+                                    </span>
+                                    <span class="detail-value">Orange Money</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-receipt"></i>
+                                        Code Facture
+                                    </span>
+                                    <span class="detail-value code">RC1520250806J20375</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-calendar"></i>
+                                        Date
+                                    </span>
+                                    <span class="detail-value">7 août 2025 - 09:30</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carte 3 -->
+                        <div class="payment-card" onclick="toggleCard(this)" data-id="23136">
+                            <div class="card-id">#23136</div>
+                            <div class="card-header">
+                                <div class="card-main-info">
+                                    <div class="card-user-name">Jean Martin</div>
+                                    <div class="card-amount">$500.00</div>
+                                    <span class="card-status status-echoue">
+                                        <i class="fas fa-times-circle mr-1"></i>
+                                        Échoué
+                                    </span>
+                                </div>
+                                <div class="expand-indicator">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="card-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-user"></i>
+                                        ID Utilisateur
+                                    </span>
+                                    <span class="detail-value">[235555]</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-envelope"></i>
+                                        Email
+                                    </span>
+                                    <span class="detail-value">jean.martin@gmail.com</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-box"></i>
+                                        Pack
+                                    </span>
+                                    <span class="detail-value">Pack Starter</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-credit-card"></i>
+                                        Paiement
+                                    </span>
+                                    <span class="detail-value">MTN Money</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-receipt"></i>
+                                        Code Facture
+                                    </span>
+                                    <span class="detail-value code">RC1520250806J20376</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">
+                                        <i class="fas fa-calendar"></i>
+                                        Date
+                                    </span>
+                                    <span class="detail-value">7 août 2025 - 14:45</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Contenu principal -->
-
-                    <!-- Tableau des types de récompense -->
-                 <div class="max-w-7xl mx-auto min-w-0 px-1">
-        <div class=" rounded-lg shadow-lg  items-center justify-center  mt-6">
-            <!-- En-tête -->
-           
-            <!-- Tableau -->
-            <div class="table-responsive items-center justify-center py-6 ">
-                <table class="w-full">
-                    <thead class="bg-yellow-100">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                <input type="checkbox" class="rounded border-gray-300">
-                            </th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nom & Prénom Email</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Pack payé</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Montant reçu</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Système paiement</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                Statut <i class="fas fa-info-circle text-gray-400 ml-1"></i>
-                            </th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Référence Code</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Date paiement</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-4">
-                                <input type="checkbox" class="rounded border-gray-300">
-                            </td>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-900">23134</td>
-                            <td class="px-4 py-4">
-                                <div class="text-sm">
-                                    <div class="text-blue-600 font-semibold">[235553]</div>
-                                    <div class="text-blue-600 font-medium">Hamilyang Père</div>
-                                    <div class="text-blue-500 text-xs">hamiliangpere44@gmail.com</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-4 text-sm">
-                                <div class="font-medium">Dieu du Mboa</div>
-                                <div class="text-gray-500 text-xs">(dieu-du-mboa)</div>
-                            </td>
-                            <td class="px-4 py-4 text-sm font-bold text-green-600">$2,000.00</td>
-                            <td class="px-4 py-4 text-sm text-gray-500">Mobile Money</td>
-                            <td class="px-4 py-4">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    <i class="fas fa-clock mr-1"></i>
-                                    Initialisé
-                                </span>
-                            </td>
-                            <td class="px-4 py-4 text-sm">
-                                <div class="text-blue-600">
-                                    <div class="font-semibold text-xs">Code Facture :</div>
-                                    <div class="font-mono text-xs">RC1520250806J20374</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-4 text-sm text-gray-600">
-                                <div class="font-medium">6 août 2025</div>
-                                <div class="text-xs">12:12</div>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-4">
-                                <input type="checkbox" class="rounded border-gray-300">
-                            </td>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-900">23135</td>
-                            <td class="px-4 py-4">
-                                <div class="text-sm">
-                                    <div class="text-blue-600 font-semibold">[235554]</div>
-                                    <div class="text-blue-600 font-medium">Marie Dupont</div>
-                                    <div class="text-blue-500 text-xs">marie.dupont@email.com</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-4 text-sm">
-                                <div class="font-medium">Pack Premium</div>
-                                <div class="text-gray-500 text-xs">(premium)</div>
-                            </td>
-                            <td class="px-4 py-4 text-sm font-bold text-green-600">$1,500.00</td>
-                            <td class="px-4 py-4 text-sm text-gray-500">Orange Money</td>
-                            <td class="px-4 py-4">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    <i class="fas fa-check-circle mr-1"></i>
-                                    Validé
-                                </span>
-                            </td>
-                            <td class="px-4 py-4 text-sm">
-                                <div class="text-blue-600">
-                                    <div class="font-semibold text-xs">Code Facture :</div>
-                                    <div class="font-mono text-xs">RC1520250806J20375</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-4 text-sm text-gray-600">
-                                <div class="font-medium">7 août 2025</div>
-                                <div class="text-xs">09:30</div>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-4">
-                                <input type="checkbox" class="rounded border-gray-300">
-                            </td>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-900">23136</td>
-                            <td class="px-4 py-4">
-                                <div class="text-sm">
-                                    <div class="text-blue-600 font-semibold">[235555]</div>
-                                    <div class="text-blue-600 font-medium">Jean Martin</div>
-                                    <div class="text-blue-500 text-xs">jean.martin@gmail.com</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-4 text-sm">
-                                <div class="font-medium">Pack Starter</div>
-                                <div class="text-gray-500 text-xs">(starter)</div>
-                            </td>
-                            <td class="px-4 py-4 text-sm font-bold text-green-600">$500.00</td>
-                            <td class="px-4 py-4 text-sm text-gray-500">MTN Money</td>
-                            <td class="px-4 py-4">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                    <i class="fas fa-times-circle mr-1"></i>
-                                    Échoué
-                                </span>
-                            </td>
-                            <td class="px-4 py-4 text-sm">
-                                <div class="text-blue-600">
-                                    <div class="font-semibold text-xs">Code Facture :</div>
-                                    <div class="font-mono text-xs">RC1520250806J20376</div>
-                                </div>
-                            </td>
-                            <td class="px-4 py-4 text-sm text-gray-600">
-                                <div class="font-medium">7 août 2025</div>
-                                <div class="text-xs">14:45</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Footer avec pagination -->
-            <div class=" bg-gray-100 px-6 py-4 border-t border-gray-200 max-w-96 sm:max-w-7xl  sm:block items-center">
-                <div class="flex items-center justify-between">
-                    <div class="text-xs sm:text-sm text-gray-700">
-                        Affichage de <span class="font-medium">1</span> à <span class="font-medium">3</span> sur <span class="font-medium">12</span> résultats
-                    </div>
-                    <div class="flex space-x-2">
-                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                            <i class="fas fa-chevron-left mr-1 "></i>
-                            Précédent
-                        </button>
-                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2  bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                            1
-                        </button>
-                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                            2
-                        </button>
-                        <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                            Suivant
-                            <i class="fas fa-chevron-right ml-1"></i>
-                        </button>
+                <!-- Footer avec pagination -->
+                <div class="bg-gray-100 px-6 py-4 border-t border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="text-xs sm:text-sm text-gray-700">
+                            Affichage de <span class="font-medium">1</span> à <span class="font-medium">3</span> sur <span class="font-medium">12</span> résultats
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-chevron-left mr-1"></i>
+                                Précédent
+                            </button>
+                            <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                                1
+                            </button>
+                            <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                                2
+                            </button>
+                            <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                                Suivant
+                                <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-   
-    </div>
-
-   
-                    <footer class="w-full p-4 text-center text-black bg-white ">
-                        <hr class="border-gray-300 mb-2">
-                        Copyright 2025 - Created by <a href="#" class="text-blue-700">KIROO GAMES</a>
-                    </footer>
-                
-                </div>
-            </div>
-            </div>
-            
-        </div>
-    </div>
-    
-
- <script>
-        // Script automatique pour générer les data-labels et data-id (méthode Grafikart)
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.table-responsive').forEach(function (table) {
-                let labels = Array.from(table.querySelectorAll('th')).map(function (th) {
-                    return th.innerText.trim()
-                })
-                
-                table.querySelectorAll('tr').forEach(function (tr, trIndex) {
-                    if (trIndex > 0) { // Skip header row
-                        // Ajouter l'ID comme attribut data-id pour le badge
-                        const idCell = tr.querySelector('td:nth-child(2)');
-                        if (idCell) {
-                            tr.setAttribute('data-id', idCell.innerText.trim());
-                        }
-                        
-                        tr.querySelectorAll('td').forEach(function (td, tdIndex) {
-                            if (labels[tdIndex]) {
-                                td.setAttribute('data-label', labels[tdIndex]);
-                            }
-                        });
-                    }
-                });
-            })
-        });
-    </script>
     <script>
-        // Mobile menu functionality
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileSidebar = document.getElementById('mobile-sidebar');
-        const closeMobileMenu = document.getElementById('close-mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileSidebar.classList.remove('-translate-x-full');
-        });
-
-        closeMobileMenu.addEventListener('click', () => {
-            mobileSidebar.classList.add('-translate-x-full');
-        });
-
-        // Close mobile menu when clicking outside
-        mobileSidebar.addEventListener('click', (e) => {
-            if (e.target === mobileSidebar) {
-                mobileSidebar.classList.add('-translate-x-full');
+        function toggleCard(card) {
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Fermer toutes les autres cartes
+            document.querySelectorAll('.payment-card.expanded').forEach(otherCard => {
+                if (otherCard !== card) {
+                    otherCard.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle la carte actuelle
+            if (isExpanded) {
+                card.classList.remove('expanded');
+            } else {
+                card.classList.add('expanded');
+                
+                // Scroll smooth vers la carte ouverte
+                setTimeout(() => {
+                    card.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }, 200);
             }
-        });
-    </script>
-
-    <script>
-        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-            toggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const menu = this.parentElement.querySelector('.dropdown-menu');
-                document.querySelectorAll('.dropdown-menu').forEach(m => {
-                    if (m !== menu) m.classList.add('hidden');
-                });
-                menu.classList.toggle('hidden');
-            });
-        });
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
-        });
-    </script>
-    <script>
-        function updateSidebarLinks() {
-            const path = window.location.pathname;
-            const depth = path.split('/').filter(part => part !== '').length - 1;
-            const basePath = '../'.repeat(depth);
-            
-            const sidebarLinks = document.querySelectorAll('a[href*="../"]');
-            
-            sidebarLinks.forEach(link => {
-                const originalHref = link.getAttribute('href');
-                const cleanPath = originalHref.replace(/^\.\.\/+/, '');
-                link.setAttribute('href', basePath + cleanPath);
-            });
         }
 
-        document.addEventListener('DOMContentLoaded', updateSidebarLinks);
+        // Fermer les cartes si on clique ailleurs
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.payment-card')) {
+                document.querySelectorAll('.payment-card.expanded').forEach(card => {
+                    card.classList.remove('expanded');
+                });
+            }
+        });
+
+        // Gestion du redimensionnement
+        window.addEventListener('resize', function() {
+            // Fermer toutes les cartes ouvertes lors du redimensionnement
+            document.querySelectorAll('.payment-card.expanded').forEach(card => {
+                card.classList.remove('expanded');
+            });
+        });
+
+        // Animation d'apparition des cartes au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.payment-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Fonction utilitaire pour générer dynamiquement les cartes depuis les données du tableau
+        function generateCardFromTableRow(row) {
+            const cells = row.querySelectorAll('td');
+            if (cells.length < 9) return null;
+
+            const id = cells[1].textContent.trim();
+            const userInfo = cells[2].querySelector('.text-blue-600.font-semibold').textContent.trim();
+            const userName = cells[2].querySelector('.text-blue-600.font-medium').textContent.trim();
+            const email = cells[2].querySelector('.text-blue-500.text-xs').textContent.trim();
+            const pack = cells[3].querySelector('.font-medium').textContent.trim();
+            const amount = cells[4].textContent.trim();
+            const paymentSystem = cells[5].textContent.trim();
+            const statusElement = cells[6].querySelector('span');
+            const statusText = statusElement.textContent.trim();
+            const statusClass = getStatusClass(statusText);
+            const referenceCode = cells[7].querySelector('.font-mono').textContent.trim();
+            const dateText = cells[8].querySelector('.font-medium').textContent.trim();
+            const timeText = cells[8].querySelector('.text-xs').textContent.trim();
+
+            return `
+                <div class="payment-card" onclick="toggleCard(this)" data-id="${id}">
+                    <div class="card-id">#${id}</div>
+                    <div class="card-header">
+                        <div class="card-main-info">
+                            <div class="card-user-name">${userName}</div>
+                            <div class="card-amount">${amount}</div>
+                            <span class="card-status ${statusClass}">
+                                ${getStatusIcon(statusText)}
+                                ${statusText}
+                            </span>
+                        </div>
+                        <div class="expand-indicator">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-user"></i>
+                                ID Utilisateur
+                            </span>
+                            <span class="detail-value">${userInfo}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </span>
+                            <span class="detail-value">${email}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-box"></i>
+                                Pack
+                            </span>
+                            <span class="detail-value">${pack}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-credit-card"></i>
+                                Paiement
+                            </span>
+                            <span class="detail-value">${paymentSystem}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-receipt"></i>
+                                Code Facture
+                            </span>
+                            <span class="detail-value code">${referenceCode}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">
+                                <i class="fas fa-calendar"></i>
+                                Date
+                            </span>
+                            <span class="detail-value">${dateText} - ${timeText}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getStatusClass(statusText) {
+            if (statusText.includes('Initialisé')) return 'status-initialise';
+            if (statusText.includes('Validé')) return 'status-valide';
+            if (statusText.includes('Échoué')) return 'status-echoue';
+            return 'status-initialise';
+        }
+
+        function getStatusIcon(statusText) {
+            if (statusText.includes('Initialisé')) return '<i class="fas fa-clock mr-1"></i>';
+            if (statusText.includes('Validé')) return '<i class="fas fa-check-circle mr-1"></i>';
+            if (statusText.includes('Échoué')) return '<i class="fas fa-times-circle mr-1"></i>';
+            return '<i class="fas fa-clock mr-1"></i>';
+        }
+
+        // Fonction pour synchroniser automatiquement le tableau et les cartes
+        function syncTableWithCards() {
+            const tableRows = document.querySelectorAll('.table-responsive tbody tr');
+            const cardContainer = document.querySelector('.card-view');
+            
+            if (cardContainer && tableRows.length > 0) {
+                let cardsHTML = '';
+                tableRows.forEach(row => {
+                    const cardHTML = generateCardFromTableRow(row);
+                    if (cardHTML) cardsHTML += cardHTML;
+                });
+                cardContainer.innerHTML = cardsHTML;
+            }
+        }
+
+        // Appeler la synchronisation si nécessaire (utile pour le contenu dynamique)
+        // syncTableWithCards();
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- <div class="container mx-auto px-4 py-6 max-w-7xl ">
-        
-                        <!-- Header -->
-                        <div class="mb-8">
-                            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">HISTORIQUE DES PAIEMENTS KIROO</h1>
-                        </div>
-
-                        <!-- Main Content Grid -->
-                        
-
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 main-grid">
-                            <div class="lg:col-span-8 space-y-6">  
-                                <div class="w-full px-4 py-6 bg-white shadow-md rounded-md">
-                                    <h2 class="text-xl font-bold text-gray-700 mb-4">Formulaire d'exemple</h2>
-                                    <form class="formulaire-grid">
-                                        <!-- Champs du formulaire -->
-                                    
-                                        <!-- Ligne 1 -->
-                                         <div class="mb-6 flex flex-col">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                                <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                                <option>Groupe 1</option>
-                                                <option>Groupe 2</option>
-                                            </select>
-                                        </div>
-                                
-                                        <div class="mb-6 flex flex-col">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                                <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                                <option>Groupe 1</option>
-                                                <option>Groupe 2</option>
-                                            </select>
-                                        </div>
-                                        <!-- Ligne 2 -->
-                                        <div class="mb-6 flex flex-col">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                                <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                                <option>Groupe 1</option>
-                                                <option>Groupe 2</option>
-                                            </select>
-                                        </div>
-
-                                         <div class="mb-6 flex flex-col">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                                <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                                <option>Groupe 1</option>
-                                                <option>Groupe 2</option>
-                                            </select>
-                                        </div>
-                                        <!-- Ligne 3 -->
-                                        <div class="mb-6 flex flex-col">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                                <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                                <option>Groupe 1</option>
-                                                <option>Groupe 2</option>
-                                            </select>
-                                        </div>
-
-                                        
-
-                                        <!-- Ligne 4 -->
-                                         <div class="mb-6 flex flex-col">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                                <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                                <option>Groupe 1</option>
-                                                <option>Groupe 2</option>
-                                            </select>
-                                        </div>
-
-                                       
-                                        <!-- Ligne 5 -->
-                                        <div class="mb-6 flex flex-col">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                                <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                                <option>Groupe 1</option>
-                                                <option>Groupe 2</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="flex flex-col">
-                                        <label for="entreprise" class="mb-1 text-sm font-medium text-gray-600">Entreprise</label>
-                                        <input type="text" id="entreprise" class="px-3 py-2 text-sm border rounded-md w-full" />
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <div class="lg:col-span-4 space-y-6">
-                                <!-- Conteneur du tableau -->
-                                <div class="bg-white rounded-lg shadow-sm border p-4">
-                                    <h3 class="text-lg font-semibold mb-4">Taux de conversion</h3>
-                                    
-                                    <!-- Tableau avec overflow pour le responsive -->
-                                    <div class="overflow-x-auto">
-                                    <table class="w-full min-w-max">
-                                        <thead class="bg-gray-50">
-                                        <tr>
-                                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Montant</th>
-                                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Devise</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr>
-                                            <td class="px-4 py-3 text-sm text-gray-900 whitespace-nowrap">500</td>
-                                            <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">AFN</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-4 py-3 text-sm text-gray-900 whitespace-nowrap">10 619 100,00</td>
-                                            <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">CDF</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-4 py-3 text-sm text-gray-900 whitespace-nowrap">58 000</td>
-                                            <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">GNF</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-4 py-3 text-sm text-gray-900 whitespace-nowrap">2 403 950</td>
-                                            <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">CFA</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-4 py-3 text-sm text-gray-900 whitespace-nowrap">62 389 031</td>
-                                            <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">FCFA</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </div>
-
-                                <!-- Info Box -->
-                                <div class="bg-cyan-100 border-l-4 border-cyan-500 p-4 rounded">
-                                    <div class="text-sm text-cyan-800 mb-2">
-                                    <span class="font-bold">1 987</span> personnes ont effectué au moins un paiement.
-                                    </div>
-                                    <div class="text-sm text-cyan-700">
-                                    <i class="fas fa-circle text-red-500 mr-1"></i>
-                                    Les prix reportoriés dans le tableau ci-dessus sont ceux relatifs à tous les statuts de transactions...
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Action Buttons and Table -->
-                        <div class="mt-6 space-y-6 main-grid1 ">
-                            <!-- Action Buttons -->
-                            <div class="flex justify-between items-center mb-4 bg-slate-300 p-4 action-btns">
-                                    <div class="flex flex-wrap gap-2">
-                                    <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
-                                        NEW PAIEMENT
-                                    </button>
-                                    <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-semibold">
-                                        MODIFIER
-                                    </button>
-                                    <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
-                                        SUPPRIMER
-                                    </button>
-                                    </div>
-                                <!-- Bottom Buttons -->
-                                <div class="flex flex-wrap gap-2 justify-end">
-                                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm">
-                                        EXPORTER PAIEMENTS
-                                    </button>
-                                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm">
-                                        PAIEMENTS MANUELS
-                                    </button>
-                                    <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm">
-                                        GESTION PAIEMENTS TESTS
-                                    </button>
-                                </div>
-                            </div>
-                                
-
-                            <!-- Table Section -->
-                            <div class="bg-white rounded-lg shadow-sm border overflow-x-auto ">
-                                <!-- Pagination Top -->
-                                <div class="p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                    <div class="text-sm text-gray-600">*IRL: In Real Life</div>
-                                    <div class="flex items-center gap-2">
-                                        <nav class="flex items-center gap-1">
-                                            <button class="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded text-sm">1</button>
-                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">2</button>
-                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">3</button>
-                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">4</button>
-                                            <span class="px-2 text-gray-500">...</span>
-                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">454</button>
-                                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">
-                                                <i class="fas fa-chevron-right"></i>
-                                            </button>
-                                        </nav>
-                                        <div class="flex items-center gap-2 ml-4">
-                                            <span class="text-sm text-gray-600">Aller à la page</span>
-                                            <input type="text" class="w-16 px-2 py-1 border border-gray-300 rounded text-sm">
-                                            <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">Go</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Table -->
-                            </div>
-                            <!-- Tableau des types de récompense -->
-                            <div class="max-w-7xl mx-auto min-w-0 px-1">
-                                    <div class=" rounded-lg shadow-lg  items-center justify-center  mt-6">
-                                        <!-- Tableau -->
-                                        <div class="table-responsive items-center justify-center py-6 ">
-                                            <table class="w-full">
-                                                <thead class="bg-yellow-100">
-                                                    <tr>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                                            <input type="checkbox" class="rounded border-gray-300">
-                                                        </th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nom & Prénom Email</th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Pack payé</th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Montant reçu</th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Système paiement</th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                                            Statut <i class="fas fa-info-circle text-gray-400 ml-1"></i>
-                                                        </th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Référence Code</th>
-                                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Date paiement</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="divide-y divide-gray-200">
-                                                    <tr class="hover:bg-gray-50 transition-colors">
-                                                        <td class="px-4 py-4">
-                                                            <input type="checkbox" class="rounded border-gray-300">
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm font-medium text-gray-900">23134</td>
-                                                        <td class="px-4 py-4">
-                                                            <div class="text-sm">
-                                                                <div class="text-blue-600 font-semibold">[235553]</div>
-                                                                <div class="text-blue-600 font-medium">Hamilyang Père</div>
-                                                                <div class="text-blue-500 text-xs">hamiliangpere44@gmail.com</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm">
-                                                            <div class="font-medium">Dieu du Mboa</div>
-                                                            <div class="text-gray-500 text-xs">(dieu-du-mboa)</div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm font-bold text-green-600">$2,000.00</td>
-                                                        <td class="px-4 py-4 text-sm text-gray-500">Mobile Money</td>
-                                                        <td class="px-4 py-4">
-                                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                                <i class="fas fa-clock mr-1"></i>
-                                                                Initialisé
-                                                            </span>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm">
-                                                            <div class="text-blue-600">
-                                                                <div class="font-semibold text-xs">Code Facture :</div>
-                                                                <div class="font-mono text-xs">RC1520250806J20374</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm text-gray-600">
-                                                            <div class="font-medium">6 août 2025</div>
-                                                            <div class="text-xs">12:12</div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="hover:bg-gray-50 transition-colors">
-                                                        <td class="px-4 py-4">
-                                                            <input type="checkbox" class="rounded border-gray-300">
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm font-medium text-gray-900">23135</td>
-                                                        <td class="px-4 py-4">
-                                                            <div class="text-sm">
-                                                                <div class="text-blue-600 font-semibold">[235554]</div>
-                                                                <div class="text-blue-600 font-medium">Marie Dupont</div>
-                                                                <div class="text-blue-500 text-xs">marie.dupont@email.com</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm">
-                                                            <div class="font-medium">Pack Premium</div>
-                                                            <div class="text-gray-500 text-xs">(premium)</div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm font-bold text-green-600">$1,500.00</td>
-                                                        <td class="px-4 py-4 text-sm text-gray-500">Orange Money</td>
-                                                        <td class="px-4 py-4">
-                                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                                <i class="fas fa-check-circle mr-1"></i>
-                                                                Validé
-                                                            </span>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm">
-                                                            <div class="text-blue-600">
-                                                                <div class="font-semibold text-xs">Code Facture :</div>
-                                                                <div class="font-mono text-xs">RC1520250806J20375</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm text-gray-600">
-                                                            <div class="font-medium">7 août 2025</div>
-                                                            <div class="text-xs">09:30</div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="hover:bg-gray-50 transition-colors sm">
-                                                        <td class="px-4 py-4">
-                                                            <input type="checkbox" class="rounded border-gray-300">
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm font-medium text-gray-900">23136</td>
-                                                        <td class="px-4 py-4">
-                                                            <div class="text-sm">
-                                                                <div class="text-blue-600 font-semibold">[235555]</div>
-                                                                <div class="text-blue-600 font-medium">Jean Martin</div>
-                                                                <div class="text-blue-500 text-xs">jean.martin@gmail.com</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm">
-                                                            <div class="font-medium">Pack Starter</div>
-                                                            <div class="text-gray-500 text-xs">(starter)</div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm font-bold text-green-600">$500.00</td>
-                                                        <td class="px-4 py-4 text-sm text-gray-500">MTN Money</td>
-                                                        <td class="px-4 py-4">
-                                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                                <i class="fas fa-times-circle mr-1"></i>
-                                                                Échoué
-                                                            </span>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm">
-                                                            <div class="text-blue-600">
-                                                                <div class="font-semibold text-xs">Code Facture :</div>
-                                                                <div class="font-mono text-xs">RC1520250806J20376</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm text-gray-600">
-                                                            <div class="font-medium">7 août 2025</div>
-                                                            <div class="text-xs">14:45</div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <!-- Footer avec pagination -->
-                                        <div class=" bg-gray-100 px-6 py-4 border-t border-gray-200 max-w-96 sm:max-w-7xl  sm:block items-center">
-                                            <div class="flex items-center justify-between">
-                                                <div class="text-xs sm:text-sm text-gray-700">
-                                                    Affichage de <span class="font-medium">1</span> à <span class="font-medium">3</span> sur <span class="font-medium">12</span> résultats
-                                                </div>
-                                                <div class="flex space-x-2">
-                                                    <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                                                        <i class="fas fa-chevron-left mr-1 "></i>
-                                                        Précédent
-                                                    </button>
-                                                    <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2  bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                                                        1
-                                                    </button>
-                                                    <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                                                        2
-                                                    </button>
-                                                    <button class="text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                                                        Suivant
-                                                        <i class="fas fa-chevron-right ml-1"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-            
-                            </div>
-                    </div>
-                    
-                    <footer class="w-full p-4 text-center text-black bg-white">
-                        <hr class="border-gray-300 mb-2">
-                        Copyright 2025 - Created by <a href="#" class="text-blue-700">KIROO GAMES</a>
-                    </footer>
-                
-</div>
-
-
-
