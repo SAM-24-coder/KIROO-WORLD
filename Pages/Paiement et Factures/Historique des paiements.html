@@ -23,11 +23,22 @@
             }
         }
     </script>
-     <style>
+   <style>
     body {
         font-family: 'Inter', sans-serif;
     }
 
+    /* ========================================
+    STYLES DE BASE ET CONFIGURATION GÉNÉRALE
+    ======================================== */
+    
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        overflow-x: hidden;
+    }
 
     /* ========================================
     CONFIGURATION RESPONSIVE PRINCIPALE
@@ -39,505 +50,12 @@
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-    /* Pour une meilleure apparence sur PC */
-
-    @media (min-width: 1024px) {
-    .tableau-container {
-        max-width: 100%;
-        overflow: hidden;
-    }
-    
-    table {
-        table-layout: auto;
-    }
-    
-    th, td {
-        padding: 12px 16px;
-    }
-    }
-    /* Réorganisation des blocs en vertical sur < 1000px */
-    @media (max-width: 1000px) {
-        .main-grid {
-            display: flex;
-            flex-direction: column;
-        }
-        .statistics-cards {
-            order: 1;
-            margin-top: 1rem;
-           
-        }
-        .info-box {
-            order: 2;
-            margin-top: 1rem;
-        }
-    }
-    
-    @media (min-width: 1000px) {
-        .formulaire-grid {
-            grid-template-columns: 1fr 1fr;
-        
-        }
-        .formulaire-grid label,
-        .formulaire-grid input {
-            font-size: 0.85rem;
-        }
-    }
-
-    /* De 400px à 1000px : 2 colonnes */
-    @media (min-width: 400px) and (max-width: 999px) {
-        .formulaire-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-        .formulaire-grid label,
-        .formulaire-grid input {
-            font-size: 0.85rem;
-        }
-    }
-    
-    /* Pour ≤ 399px : 1 seule colonne + texte réduit */
-    @media (max-width: 399px) {
-        .main-grid {
-            display: flex;
-            flex-direction: column;
-            max-width: 350px;
-        }
-        .statistics-cards {
-            order: 1;
-            margin-top: 1rem;
-        }
-        .info-box {
-            order: 2;
-            margin-top: 1rem;
-        }
-        .main-grid1 {
-            display: flex;
-            flex-direction: column;
-            max-width: 350px;
-        }
-        
-        .action-btns button {
-        
-            padding: 0.4rem;
-            font-size: 0.75rem;
-            margin-bottom: 0.5rem;
-            
-        }
-        .formulaire-grid {
-            grid-template-columns: 1fr;
-            
-        }
-        .formulaire-grid label,
-        .formulaire-grid input,
-        .statistics-cards,
-        .info-box {
-            font-size: 0.75rem;
-        }
-        .formulaire-grid label {
-            margin-bottom: 0.5rem;
-        }
-
-        .formulaire-grid input {
-            padding: 0.5rem;
-        }
-        .formulaire-grid select {
-            padding: 0.5rem;
-        }
-        .formulaire-grid button {
-            padding: 0.5rem 1rem;
-            font-size: 0.75rem;
-        }
-        .formulaire-grid .text-xs {
-            font-size: 0.65rem;
-        }
-        .formulaire-grid .text-sm {
-            font-size: 0.75rem;
-        }
-
-        .formulaire-grid .text-lg {
-            font-size: 0.85rem;
-        }
-        .formulaire-grid .text-xl {
-            font-size: 1rem;
-        }
-    
-    }
 
     /* ========================================
-    TABLEAUX RESPONSIVES - APPROCHE UNIFIÉE
+    MEDIA QUERIES ORGANISÉS PAR TAILLE CROISSANTE
     ======================================== */
 
-    /* DESKTOP : Tableau normal (≥960px) */
-    @media (min-width: 960px) {
-        .table-responsive {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .table-responsive table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .table-responsive th,
-        .table-responsive td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-    }
-
-    /* TABLETTE : Cartes 2 colonnes (460px - 959px) */
-    @media (min-width: 500px) and (max-width: 959px) {
-        .table-responsive table,
-        .table-responsive thead,
-        .table-responsive tbody,
-        .table-responsive tr,
-        .table-responsive th,
-        .table-responsive td {
-            display: block;
-        }
-        
-        .table-responsive thead {
-            display: none;
-        }
-        
-        /* Container pour affichage en 2x2 */
-        .table-responsive tbody {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            padding: 20px;
-            background: #f8fafc;
-        }
-        
-        /* Style carte moderne */
-        .table-responsive tr {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-            padding: 24px;
-            margin: 0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .table-responsive tr:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            border-color: #3b82f6;
-        }
-        
-        /* Badge ID en haut à droite */
-        .table-responsive tr::before {
-            content: "#" attr(data-id);
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-        }
-        
-        .table-responsive td {
-            display: none;
-            padding: 0;
-            margin: 0;
-            background: transparent;
-            border: none;
-        }
-        
-        /* Afficher seulement les colonnes importantes */
-        .table-responsive td:nth-child(3),
-        .table-responsive td:nth-child(4),
-        .table-responsive td:nth-child(5),
-        .table-responsive td:nth-child(6),
-        .table-responsive td:nth-child(7),
-        .table-responsive td:nth-child(8),
-        .table-responsive td:nth-child(9) {
-            display: block;
-            margin-bottom: 12px;
-        }
-        
-        /* Styles pour chaque section */
-        .table-responsive td:nth-child(3) {
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .table-responsive td:nth-child(3) .font-semibold {
-            font-size: 18px;
-            color: #1e40af;
-            margin-bottom: 4px;
-        }
-        
-        .table-responsive td:nth-child(3) .font-medium {
-            font-size: 16px;
-            color: #374151;
-            margin-bottom: 4px;
-        }
-        
-        .table-responsive td:nth-child(3) .text-xs {
-            color: #6b7280;
-            font-size: 13px;
-        }
-        
-        /* Pack */
-        .table-responsive td:nth-child(4)::before {
-            content: "📦 ";
-            margin-right: 8px;
-        }
-        
-        .table-responsive td:nth-child(4) {
-            color: #7c3aed;
-            font-weight: 600;
-            font-size: 15px;
-        }
-        
-        /* Montant */
-        .table-responsive td:nth-child(5)::before {
-            content: "💰 ";
-            margin-right: 8px;
-        }
-        
-        .table-responsive td:nth-child(5) {
-            font-size: 20px;
-            font-weight: bold;
-            color: #059669;
-        }
-        
-        /* Système de paiement */
-        .table-responsive td:nth-child(6)::before {
-            content: "💳 ";
-            margin-right: 8px;
-        }
-        
-        .table-responsive td:nth-child(6) {
-            color: #6b7280;
-            font-size: 14px;
-        }
-        
-        /* Statut */
-        .table-responsive td:nth-child(7) {
-            text-align: center;
-        }
-        
-        .table-responsive td:nth-child(7) .inline-flex {
-            display: inline-flex;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Référence */
-        .table-responsive td:nth-child(8) {
-            background: #f1f5f9;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 4px solid #3b82f6;
-        }
-        
-        .table-responsive td:nth-child(8)::before {
-            content: "🔖 ";
-            margin-right: 8px;
-        }
-        
-        .table-responsive td:nth-child(8) .font-mono {
-            background: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            color: #1e40af;
-            border: 1px solid #dbeafe;
-        }
-        
-        /* Date */
-        .table-responsive td:nth-child(9)::before {
-            content: "📅 ";
-            margin-right: 8px;
-        }
-        
-        .table-responsive td:nth-child(9) {
-            color: #374151;
-            font-size: 14px;
-            text-align: right;
-            font-weight: 500;
-        }
-    }
-
-    /* MOBILE LARGE : Cartes 1 colonne (300px - 459px) */
-    @media (min-width: 300px) and (max-width: 499px) {
-        .table-responsive table,
-        .table-responsive thead,
-        .table-responsive tbody,
-        .table-responsive tr,
-        .table-responsive th,
-        .table-responsive td {
-            display: block;
-        }
-        
-        .table-responsive thead {
-            display: none;
-        }
-        
-        /* Container pour affichage en 1x1 */
-        .table-responsive tbody {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            padding: 16px;
-            background: #f8fafc;
-        }
-        
-        /* Style carte compact */
-        .table-responsive tr {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-radius: 12px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-            padding: 16px;
-            padding-right: 60px;
-            margin: 0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .table-responsive tr:hover {
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Badge ID compact */
-        .table-responsive tr::before {
-            content: "#" attr(data-id);
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 15px;
-            font-size: 10px;
-            font-weight: bold;
-            max-width: 45px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        .table-responsive td {
-            display: none;
-            padding: 0;
-            margin: 0;
-            background: transparent;
-            border: none;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        /* Affichage adapté pour mobile */
-        .table-responsive td:nth-child(3),
-        .table-responsive td:nth-child(4),
-        .table-responsive td:nth-child(5),
-        .table-responsive td:nth-child(7),
-        .table-responsive td:nth-child(8),
-        .table-responsive td:nth-child(9) {
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        /* Styles compacts */
-        .table-responsive td:nth-child(3) .font-semibold {
-            font-size: 16px;
-            color: #1e40af;
-            line-height: 1.3;
-        }
-        
-        .table-responsive td:nth-child(3) .font-medium {
-            font-size: 14px;
-            color: #374151;
-            line-height: 1.3;
-        }
-        
-        .table-responsive td:nth-child(3) .text-xs {
-            font-size: 12px;
-            color: #6b7280;
-            line-height: 1.3;
-        }
-        
-        /* Pack */
-        .table-responsive td:nth-child(4)::before {
-            content: "📦 ";
-            margin-right: 6px;
-        }
-        
-        .table-responsive td:nth-child(4) {
-            color: #7c3aed;
-            font-weight: 600;
-            font-size: 13px;
-        }
-        
-        /* Montant */
-        .table-responsive td:nth-child(5)::before {
-            content: "💰 ";
-            margin-right: 6px;
-        }
-        
-        .table-responsive td:nth-child(5) {
-            font-size: 16px;
-            font-weight: bold;
-            color: #059669;
-        }
-        
-        /* Statut */
-        .table-responsive td:nth-child(7) .inline-flex {
-            padding: 4px 12px;
-            font-size: 10px;
-            border-radius: 20px;
-        }
-        
-        /* Référence */
-        .table-responsive td:nth-child(8) {
-            background: #f1f5f9;
-            padding: 10px;
-            border-radius: 6px;
-            border-left: 3px solid #3b82f6;
-            margin-top: 6px;
-        }
-        
-        .table-responsive td:nth-child(8)::before {
-            content: "🔖 ";
-            margin-right: 6px;
-        }
-        
-        .table-responsive td:nth-child(8) .font-mono {
-            background: white;
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-size: 10px;
-            color: #1e40af;
-            border: 1px solid #dbeafe;
-            word-break: break-all;
-        }
-        
-        /* Date */
-        .table-responsive td:nth-child(9) {
-            font-size: 11px;
-            color: #6b7280;
-            text-align: right;
-            margin-top: 6px;
-        }
-    }
-
-    /* MOBILE PETIT : Cartes ultra-compactes (≤299px) */
+    /* MOBILE TRÈS PETIT : ≤299px */
     @media (max-width: 299px) {
         .table-responsive table,
         .table-responsive thead,
@@ -584,7 +102,7 @@
         
         .table-responsive tr:hover {
             transform: translateY(-1px);
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 12px rgb(255, 255, 255);
         }
         
         .table-responsive tr::before {
@@ -592,7 +110,7 @@
             position: absolute;
             top: 4px;
             right: 4px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            background: wheat;
             color: white;
             padding: 2px 6px;
             border-radius: 8px;
@@ -686,9 +204,938 @@
             text-align: right;
             margin-top: 3px;
         }
+
+        .action-btns {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 8px !important; 
+        }
+        .action-btns > .flex.flex-wrap.gap-2,
+        .action-btns > .flex.flex-wrap.gap-2.justify-end {
+            justify-content: center !important;
+            gap: 0.15rem !important; 
+            width: 100%;
+        }
+        }
+        .action-btns button {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.75rem;
+        margin-top: 0.15rem;   
+        margin-right: 0.25rem; 
+        }
+    
+
+    /* MOBILE PETIT : 300px - 399px */
+    @media (min-width: 300px) and (max-width: 399px) {
+        .main-grid {
+            display: flex;
+            flex-direction: column;
+            max-width: 350px;
+        }
+        
+        .statistics-cards {
+            order: 1;
+            margin-top: 1rem;
+        }
+        
+        .info-box {
+            order: 2;
+            margin-top: 1rem;
+        }
+        
+        .main-grid1 {
+            display: flex;
+            flex-direction: column;
+            max-width: 350px;
+        }
+        
+        .action-btns button {
+            padding: 0.4rem;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .formulaire-grid {
+            grid-template-columns: 1fr;
+        } 
+        .formulaire-grid label,
+        .formulaire-grid input,
+        .statistics-cards,
+        .info-box {
+            font-size: 0.75rem;
+        }
+        
+        .formulaire-grid label {
+            margin-bottom: 0.5rem;
+        }
+
+        .formulaire-grid input,
+        .formulaire-grid select {
+            padding: 0.5rem;
+        }
+        
+        .formulaire-grid button {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+        
+        .formulaire-grid .text-xs {
+            font-size: 0.65rem;
+        }
+        
+        .formulaire-grid .text-sm {
+            font-size: 0.75rem;
+        }
+
+        .formulaire-grid .text-lg {
+            font-size: 0.85rem;
+        }
+        
+        .formulaire-grid .text-xl {
+            font-size: 1rem;
+        }
+
+        /* Table responsive pour mobile petit */
+        .table-responsive table,
+        .table-responsive thead,
+        .table-responsive tbody,
+        .table-responsive tr,
+        .table-responsive th,
+        .table-responsive td {
+            display: block;
+        }
+        
+        .table-responsive thead {
+            display: none;
+        }
+        
+        .table-responsive tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+            background: #f8fafc;
+        }
+        
+        .table-responsive tr {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            padding-right: 60px;
+            margin: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .table-responsive tr:hover {
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-responsive tr::before {
+            content: "#" attr(data-id);
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: wheat;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: bold;
+            max-width: 45px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .table-responsive td {
+            display: none;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .table-responsive td:nth-child(3),
+        .table-responsive td:nth-child(4),
+        .table-responsive td:nth-child(5),
+        .table-responsive td:nth-child(7),
+        .table-responsive td:nth-child(8),
+        .table-responsive td:nth-child(9) {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .table-responsive td:nth-child(3) .font-semibold {
+            font-size: 16px;
+            color: #1e40af;
+            line-height: 1.3;
+        }
+        
+        .table-responsive td:nth-child(3) .font-medium {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.3;
+        }
+        
+        .table-responsive td:nth-child(3) .text-xs {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.3;
+        }
+        
+        .table-responsive td:nth-child(4)::before {
+            content: "📦 ";
+            margin-right: 6px;
+        }
+        
+        .table-responsive td:nth-child(4) {
+            color: #7c3aed;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .table-responsive td:nth-child(5)::before {
+            content: "💰 ";
+            margin-right: 6px;
+        }
+        
+        .table-responsive td:nth-child(5) {
+            font-size: 16px;
+            font-weight: bold;
+            color: #059669;
+        }
+        
+        .table-responsive td:nth-child(7) .inline-flex {
+            padding: 4px 12px;
+            font-size: 10px;
+            border-radius: 20px;
+        }
+        
+        .table-responsive td:nth-child(8) {
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #3b82f6;
+            margin-top: 6px;
+        }
+        
+        .table-responsive td:nth-child(8)::before {
+            content: "🔖 ";
+            margin-right: 6px;
+        }
+        
+        .table-responsive td:nth-child(8) .font-mono {
+            background: white;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            color: #1e40af;
+            border: 1px solid #dbeafe;
+            word-break: break-all;
+        }
+        
+        .table-responsive td:nth-child(9) {
+            font-size: 11px;
+            color: #6b7280;
+            text-align: right;
+            margin-top: 6px;
+        }
+        
+        .action-btns {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 8px !important; 
+        }
+        .action-btns > .flex.flex-wrap.gap-2,
+        .action-btns > .flex.flex-wrap.gap-2.justify-end {
+            justify-content: center !important;
+            gap: 0.15rem !important; 
+            width: 100%;
+        }
+        }
+        .action-btns button {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.75rem;
+        margin-top: 0.15rem;   
+        margin-right: 0.25rem; 
+        }
+        .grp-btn2 button
+        {
+            padding: 0.3rem 0.55rem;
+            font-size: 0.75rem;
+            margin-top: 0.15rem;   
+            margin-right: 0.25rem; 
+            
+        }
+
+    /* MOBILE MOYEN : 400px - 499px */
+    @media (min-width: 400px) and (max-width: 499px) {
+        .formulaire-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .formulaire-grid label,
+        .formulaire-grid input {
+            font-size: 0.85rem;
+        }
+
+        /* Même style que 300-399px pour le tableau */
+        .table-responsive table,
+        .table-responsive thead,
+        .table-responsive tbody,
+        .table-responsive tr,
+        .table-responsive th,
+        .table-responsive td {
+            display: block;
+        }
+        
+        .table-responsive thead {
+            display: none;
+        }
+        
+        .table-responsive tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+            background: #f8fafc;
+        }
+        
+        .table-responsive tr {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            padding-right: 60px;
+            margin: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .table-responsive tr:hover {
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-responsive tr::before {
+            content: "#" attr(data-id);
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: wheat;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: bold;
+            max-width: 45px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .table-responsive td {
+            display: none;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .table-responsive td:nth-child(3),
+        .table-responsive td:nth-child(4),
+        .table-responsive td:nth-child(5),
+        .table-responsive td:nth-child(7),
+        .table-responsive td:nth-child(8),
+        .table-responsive td:nth-child(9) {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .table-responsive td:nth-child(3) .font-semibold {
+            font-size: 16px;
+            color: #1e40af;
+            line-height: 1.3;
+        }
+        
+        .table-responsive td:nth-child(3) .font-medium {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.3;
+        }
+        
+        .table-responsive td:nth-child(3) .text-xs {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.3;
+        }
+        
+        .table-responsive td:nth-child(4)::before {
+            content: "📦 ";
+            margin-right: 6px;
+        }
+        
+        .table-responsive td:nth-child(4) {
+            color: #7c3aed;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .table-responsive td:nth-child(5)::before {
+            content: "💰 ";
+            margin-right: 6px;
+        }
+        
+        .table-responsive td:nth-child(5) {
+            font-size: 16px;
+            font-weight: bold;
+            color: #059669;
+        }
+        
+        .table-responsive td:nth-child(7) .inline-flex {
+            padding: 4px 12px;
+            font-size: 10px;
+            border-radius: 20px;
+        }
+        
+        .table-responsive td:nth-child(8) {
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #3b82f6;
+            margin-top: 6px;
+        }
+        
+        .table-responsive td:nth-child(8)::before {
+            content: "🔖 ";
+            margin-right: 6px;
+        }
+        
+        .table-responsive td:nth-child(8) .font-mono {
+            background: white;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            color: #1e40af;
+            border: 1px solid #dbeafe;
+            word-break: break-all;
+        }
+        
+        .table-responsive td:nth-child(9) {
+            font-size: 11px;
+            color: #6b7280;
+            text-align: right;
+            margin-top: 6px;
+        }
     }
 
-    </style>
+    /* TABLETTE : 500px - 959px */
+    @media (min-width: 500px) and (max-width: 959px) {
+        .formulaire-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .formulaire-grid label,
+        .formulaire-grid input {
+            font-size: 0.85rem;
+        }
+
+        .table-responsive table,
+        .table-responsive thead,
+        .table-responsive tbody,
+        .table-responsive tr,
+        .table-responsive th,
+        .table-responsive td {
+            display: block;
+        }
+        
+        .table-responsive thead {
+            display: none;
+        }
+        
+        .table-responsive tbody {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        
+        .table-responsive tr {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            margin: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .table-responsive tr:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border-color: #3b82f6;
+        }
+        
+        .table-responsive tr::before {
+            content: "#" attr(data-id);
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: wheat;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+        }
+        
+        .table-responsive td {
+            display: none;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+        }
+        
+        .table-responsive td:nth-child(3),
+        .table-responsive td:nth-child(4),
+        .table-responsive td:nth-child(5),
+        .table-responsive td:nth-child(6),
+        .table-responsive td:nth-child(7),
+        .table-responsive td:nth-child(8),
+        .table-responsive td:nth-child(9) {
+            display: block;
+            margin-bottom: 12px;
+        }
+        
+        .table-responsive td:nth-child(3) {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .table-responsive td:nth-child(3) .font-semibold {
+            font-size: 18px;
+            color: #1e40af;
+            margin-bottom: 4px;
+        }
+        
+        .table-responsive td:nth-child(3) .font-medium {
+            font-size: 16px;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+        
+        .table-responsive td:nth-child(3) .text-xs {
+            color: #6b7280;
+            font-size: 13px;
+        }
+        
+        .table-responsive td:nth-child(4)::before {
+            content: "📦 ";
+            margin-right: 8px;
+        }
+        
+        .table-responsive td:nth-child(4) {
+            color: #7c3aed;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .table-responsive td:nth-child(5)::before {
+            content: "💰 ";
+            margin-right: 8px;
+        }
+        
+        .table-responsive td:nth-child(5) {
+            font-size: 20px;
+            font-weight: bold;
+            color: #059669;
+        }
+        
+        .table-responsive td:nth-child(6)::before {
+            content: "💳 ";
+            margin-right: 8px;
+        }
+        
+        .table-responsive td:nth-child(6) {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .table-responsive td:nth-child(7) {
+            text-align: center;
+        }
+        
+        .table-responsive td:nth-child(7) .inline-flex {
+            display: inline-flex;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-responsive td:nth-child(8) {
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .table-responsive td:nth-child(8)::before {
+            content: "🔖 ";
+            margin-right: 8px;
+        }
+        
+        .table-responsive td:nth-child(8) .font-mono {
+            background: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #1e40af;
+            border: 1px solid #dbeafe;
+        }
+        
+        .table-responsive td:nth-child(9)::before {
+            content: "📅 ";
+            margin-right: 8px;
+        }
+        
+        .table-responsive td:nth-child(9) {
+            color: #374151;
+            font-size: 14px;
+            text-align: right;
+            font-weight: 500;
+        }
+    }
+
+    /* DESKTOP MOYEN : 960px - 999px */
+    @media (min-width: 960px) and (max-width: 999px) {
+        .formulaire-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .formulaire-grid label,
+        .formulaire-grid input {
+            font-size: 0.85rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-responsive table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-responsive th,
+        .table-responsive td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+    }
+
+    /* RÉORGANISATION VERTICALE : 1000px */
+    @media (max-width: 1000px) {
+        .main-grid {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .statistics-cards {
+            order: 1;
+            margin-top: 1rem;
+        }
+        
+        .info-box {
+            order: 2;
+            margin-top: 1rem;
+        }
+    }
+
+    /* DESKTOP GRAND : 1000px - 1022px */
+    @media (min-width: 1000px) and (max-width: 1022px) {
+        .formulaire-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .formulaire-grid label,
+        .formulaire-grid input {
+            font-size: 0.85rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-responsive table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-responsive th,
+        .table-responsive td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+    }
+
+    /* ========================================
+    NOUVELLE PLAGE CRITIQUE : 1023px - 1313px
+    ======================================== */
+    /* Fix for media query 1023px - 1313px: 2x2 grid with labels on top */
+    @media (min-width: 1023px) and (max-width: 1313px) {
+        /* Container principal */
+        .container {
+            max-width: 100%;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            overflow-x: hidden;
+        }
+
+        .main-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        /* Section du formulaire et tableau */
+        .lg\:col-span-8,
+        .lg\:col-span-4 {
+            grid-column: span 1 / span 1;
+            width: 100%;
+            min-width: 0;
+        }
+
+        /* Formulaire - grille 2x2 avec labels au-dessus */
+        .formulaire-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Chaque groupe label+input en colonne */
+        .formulaire-grid > div {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Labels en haut avec espacement */
+        .formulaire-grid label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            width: 100%;
+        }
+
+        /* Inputs et selects en dessous */
+        .formulaire-grid input,
+        .formulaire-grid select {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background-color: white;
+        }
+
+        /* Focus states */
+        .formulaire-grid input:focus,
+        .formulaire-grid select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Boutons d'action */
+        .action-btns {
+           display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start; /* Alignement en haut pour les blocs */
+        padding: 1rem 1.5rem;
+        gap: 2rem;
+        background: #cbd5e1; /* bg-slate-300 */
+        min-height: 120px
+        }
+
+        .action-btns > div {
+            width: 100%;
+        }
+
+        .action-btns button {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Tableau responsive */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-responsive table {
+            min-width: 800px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-responsive th,
+        .table-responsive td {
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            vertical-align: top;
+        }
+        
+        .table-responsive th {
+            background-color: #fef3c7;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+    }
+
+    /* DESKTOP NORMAL : 1314px et plus */
+    @media (min-width: 1314px) {
+        .formulaire-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .formulaire-grid label,
+        .formulaire-grid input {
+            font-size: 0.85rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-responsive table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto;
+        }
+        
+        .table-responsive th,
+        .table-responsive td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+    }
+
+    /* ========================================
+    OPTIMISATIONS GÉNÉRALES POUR TOUS LES ÉCRANS
+    ======================================== */
+    
+    /* Éviter les débordements sur tous les écrans */
+    .relative {
+        overflow: hidden;
+    }
+    
+    .flex-1 {
+        min-width: 0;
+    }
+    
+    .grid {
+        min-width: 0;
+    }
+    
+    .grid > * {
+        min-width: 0;
+        overflow-wrap: break-word;
+    }
+    
+    /* Amélioration du responsive des images et contenus */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Amélioration des tableaux en général */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    /* Styles pour les écrans haute résolution */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .table-responsive {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+
+    /* ========================================
+    CORRECTIONS FINALES ET OPTIMISATIONS
+    ======================================== */
+    
+    /* Assurer une bonne lisibilité sur tous les écrans */
+    @media (max-width: 1313px) {
+        .text-xs {
+            font-size: max(0.65rem, 10px);
+        }
+        
+        .text-sm {
+            font-size: max(0.75rem, 12px);
+        }
+        
+        .text-base {
+            font-size: max(0.85rem, 14px);
+        }
+    }
+    
+    /* Amélioration de l'accessibilité */
+    @media (prefers-reduced-motion: reduce) {
+        .table-responsive tr,
+        .action-btns button {
+            transition: none;
+        }
+    }
+    
+    /* Mode sombre (optionnel) */
+    @media (prefers-color-scheme: white) {
+        .table-responsive tr {
+            background: wheat;
+            border-color: #374151;
+            color: #f9fafb;
+        }
+        
+        .table-responsive th {
+            background-color: #374151;
+            color: #f9fafb;
+        }
+    }
+
+</style>
 </head>
 <body class="font-sans bg-gray-100">
    
@@ -1282,60 +1729,56 @@
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 main-grid">
                         <div class="lg:col-span-8 space-y-6">  
                             <div class="w-full px-4 py-6 bg-white shadow-md rounded-md">
-                                <h2 class="text-xl font-bold text-gray-700 mb-4">Formulaire d'exemple</h2>
+                                <h2 class="text-xl font-bold text-gray-700 mb-4">FILTRER LES PAIEMENTS</h2>
                                 <form class="formulaire-grid">
-                                    <!-- Champs du formulaire -->
-                                
                                     <!-- Ligne 1 -->
                                         <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Paiement Par</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
+                                            <option>marques</option>
                                             <option>Groupe 1</option>
                                             <option>Groupe 2</option>
                                         </select>
                                     </div>
                             
                                     <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Date Paiement</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
+                                            <option>aucun</option>
                                             <option>Groupe 1</option>
                                             <option>Groupe 2</option>
                                         </select>
                                     </div>
                                     <!-- Ligne 2 -->
                                     <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
+                                            <option></option>
                                             <option>Groupe 1</option>
                                             <option>Groupe 2</option>
                                         </select>
                                     </div>
 
-                                        <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
-                                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
-                                            <option>Groupe 1</option>
-                                            <option>Groupe 2</option>
-                                        </select>
+                                    <div class="mb-6 flex flex-col">
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Rechercher un utilisateur</label>
+                                        <input type="text" id="entreprise" class="px-4 py-3.5 text-sm border rounded-md w-full" />
                                     </div>
+
+                                    
                                     <!-- Ligne 3 -->
                                     <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
+                                        <label class="block text-base font-medium text-gray-700 mb-2">Rechercher un produits/services</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
+                                            <option aria-placeholder="produit/services"></option>
                                             <option>Groupe 1</option>
                                             <option>Groupe 2</option>
                                         </select>
                                     </div>
                                     <!-- Ligne 4 -->
                                         <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
+                                        <label class="block text-base font-medium text-gray-700 mb-2">Rechercher un produits/services</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
+                                            <option aria-placeholder="produit/services"></option>
                                             <option>Groupe 1</option>
                                             <option>Groupe 2</option>
                                         </select>
@@ -1343,26 +1786,34 @@
 
                                     <!-- Ligne 5 -->
                                     <div class="mb-6 flex flex-col">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Choisissez le groupe tarifaire</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Paiement Par</label>
                                         <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white">
-                                            <option>-- Sélectionnez un Groupe tarifaire --</option>
+                                            <option>marques</option>
                                             <option>Groupe 1</option>
                                             <option>Groupe 2</option>
                                         </select>
                                     </div>
 
-                                    <div class="flex flex-col">
-                                    <label for="entreprise" class="mb-1 text-sm font-medium text-gray-600">Entreprise</label>
-                                    <input type="text" id="entreprise" class="px-3 py-2 text-sm border rounded-md w-full" />
+                                     <div class="mb-6 flex flex-col">
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Rechercher un utilisateur</label>
+                                        <input type="text" id="entreprise" class="px-4 py-3.5 text-sm border rounded-md w-full" />
                                     </div>
+
                                 </form>
+                                <div class="flex flex-wrap gap-2 justify-center grp-btn2">
+                                    <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-semibold">
+                                        Annuler le filtre
+                                    </button>
+                                    <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
+                                        Appliquer le filtre
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                         <div class="lg:col-span-4 space-y-6">
                             <!-- Conteneur du tableau -->
-                            <div class="bg-white rounded-lg shadow-sm border p-4">
-                                <h3 class="text-lg font-semibold mb-4">Taux de conversion</h3>
+                            <div class="bg-white rounded-lg shadow-sm border p-4 border-t-2 border-t-yellow-500">
                                 <!-- Tableau avec overflow pour le responsive -->
                                 <div class="overflow-x-auto">
                                     <table class="w-full min-w-max">
@@ -1405,7 +1856,7 @@
                                 </div>
                                 <div class="text-sm text-cyan-700">
                                 <i class="fas fa-circle text-red-500 mr-1"></i>
-                                Les prix reportoriés dans le tableau ci-dessus sont ceux relatifs à tous les statuts de transactions...
+                               Les prix repertoriés dans le tableau ci dessus sont ceux relatif à tous les status de transactions (Payé, En cours, Echoué...), à moins que vous précisiez un statut particulier dans le filtre.
                                 </div>
                             </div>
                         </div>
@@ -1413,8 +1864,8 @@
                     <!-- Action Buttons and Table -->
                     <div class="mt-6 space-y-6 main-grid1 ">
                         <!-- Action Buttons -->
-                        <div class="flex justify-between items-center mb-4 bg-slate-300 p-4 action-btns">
-                                <div class="flex flex-wrap gap-2">
+                        <div class="flex justify-between items-center bg-slate-300 p-4 action-btns">
+                            <div class="flex flex-wrap gap-2 mt-1">
                                 <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
                                     NEW PAIEMENT
                                 </button>
@@ -1424,7 +1875,7 @@
                                 <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
                                     SUPPRIMER
                                 </button>
-                                </div>
+                            </div>
                             <!-- Bottom Buttons -->
                             <div class="flex flex-wrap gap-2 justify-end">
                                 <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm">
