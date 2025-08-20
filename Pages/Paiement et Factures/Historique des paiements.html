@@ -39,6 +39,20 @@
     body {
         overflow-x: hidden;
     }
+    
+    /* Ensure popup containers allow overflow */
+    .profile-popup-container {
+        overflow: visible !important;
+    }
+    
+    /* Fix popup visibility issues */
+    #profile-popup {
+        position: fixed !important;
+        top: 60px !important;
+        right: 20px !important;
+        z-index: 9999 !important;
+        transform: none !important;
+    }
     /* Animation pour le popup */
         .popup-enter {
             opacity: 0;
@@ -274,17 +288,61 @@
             gap: 0.15rem !important; 
             width: 100%;
         }
-        }
+        
         .action-btns button {
-        padding: 0.3rem 0.55rem;
-        font-size: 0.75rem;
-        margin-top: 0.15rem;   
-        margin-right: 0.25rem; 
+            padding: 0.3rem 0.55rem;
+            font-size: 0.75rem;
+            margin-top: 0.15rem;   
+            margin-right: 0.25rem; 
         }
+    }
     
-
-    /* MOBILE PETIT : 300px - 399px */
-    @media (min-width: 300px) and (max-width: 399px) {
+    @media (min-width: 512px) and (max-width: 600px) {
+        .buttons-container button{
+            padding: 0.75rem 1.50rem;
+            font-size: 0.85rem;
+        }
+    }
+    /* MOBILE PETIT : 260px - 399px */
+    @media (min-width: 260px) and (max-width: 399px) {
+        .buttons-container {
+            flex-direction: column;
+            align-items: stretch;
+           
+        }
+        
+        .left-buttons, .right-buttons {
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 12px;
+            grid-template-columns: 1fr;
+           grid-template-rows: 1fr;
+           gap: 12px;
+        }
+        .left-buttons button{
+            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: block;
+        }
+        .right-buttons button{
+            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: block;
+        }
+        .action-button {
+            flex: 1;
+            min-width: 140px;
+            padding: 10px 16px;
+        }
+        .page-title {
+            text-align: center;
+            margin: 16px 0;
+            order: -1;
+        }
+        
+        /* Grid and other layout styles */
         .main-grid {
             display: flex;
             flex-direction: column;
@@ -305,12 +363,6 @@
             display: flex;
             flex-direction: column;
             max-width: 350px;
-        }
-        
-        .action-btns button {
-            padding: 0.4rem;
-            font-size: 0.75rem;
-            margin-bottom: 0.5rem;
         }
         
         .formulaire-grid {
@@ -426,21 +478,59 @@
     /**************************/
     /*   TABLEAU RESPONSIVE   */
     /**************************/
-       .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .table-responsive table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        .table-responsive th, .table-responsive td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
-        .card-view { display: none; }
-        @media (max-width: 359px) {
-            .table-responsive table { display: none !important; }
-            .card-view { display: grid !important; grid-template-columns: 1fr; gap: 8px; padding: 8px; background: #f8fafc; }
+       .table-responsive { 
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; 
+    }
+        .table-responsive table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 800px; 
         }
-        @media (min-width: 360px) and (max-width: 600px) {
-            .table-responsive table { display: none !important; }
-            .card-view { display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; background: #f8fafc; }
+        .table-responsive th, .table-responsive td { 
+            padding: 12px 16px; 
+            text-align: left; 
+            border-bottom: 1px solid #e2e8f0; 
+            white-space: nowrap; 
         }
-        @media (min-width: 601px) and (max-width: 959px) {
-            .table-responsive table { display: none !important; }
-            .card-view { display: grid !important; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px; background: #f8fafc; }
+        .card-view { 
+            display: none; 
+        }
+        @media (max-width: 479px) {
+            .table-responsive table { 
+                display: none !important; 
+            }
+            .card-view { 
+                display: grid !important; 
+                grid-template-columns: 1fr; 
+                gap: 8px; 
+                padding: 8px; 
+                background: #f8fafc; 
+            }
+        }
+        @media (min-width: 480px) and (max-width: 700px) {
+            .table-responsive table { 
+                display: none !important; 
+            }
+            .card-view { 
+                display: grid !important; 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px; 
+                padding: 12px; 
+                background: #f8fafc; 
+            }
+        }
+        @media (min-width: 701px) and (max-width: 959px) {
+            .table-responsive table { 
+                display: none !important; 
+            }
+            .card-view { 
+                display: grid !important; 
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 12px; 
+                padding: 16px; 
+                background: #f8fafc; 
+            }
         }
         @media (min-width: 960px) {
             .table-responsive table { display: table !important; }
@@ -457,27 +547,147 @@
             position: relative;
             height: fit-content;
         }
-        .payment-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); border-color: #3b82f6; }
-        .payment-card.expanded { transform: none; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); border-color: #1d4ed8; }
-        .card-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; position: relative; min-height: 120px; }
-        .card-id { position: absolute; top: 12px; right: 16px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); z-index: 10; }
-        .card-main-info { flex: 1; padding-right: 60px; }
-        .card-user-name { font-size: 16px; font-weight: 600; color: #1e40af; margin-bottom: 4px; line-height: 1.2; word-break: break-word; }
-        .card-amount { font-size: 20px; font-weight: bold; color: #059669; margin-bottom: 8px; }
-        .card-status { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-        .expand-indicator { position: absolute; bottom: 8px; right: 16px; width: 24px; height: 24px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: #64748b; font-size: 12px; }
-        .payment-card.expanded .expand-indicator { transform: rotate(180deg); background: #3b82f6; color: white; }
-        .card-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; background: rgba(248, 250, 252, 0.5); border-top: 1px solid #e2e8f0; }
-        .payment-card.expanded .card-details { max-height: 500px; padding: 20px; }
-        .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e2e8f0; }
-        .detail-row:last-child { border-bottom: none; }
-        .detail-label { font-size: 13px; color: #6b7280; font-weight: 500; display: flex; align-items: center; flex: 1; }
-        .detail-label i { margin-right: 8px; width: 16px; text-align: center; }
-        .detail-value { font-size: 14px; color: #374151; font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
-        .detail-value.code { font-family: 'Courier New', monospace; font-size: 11px; background: white; padding: 4px 8px; border-radius: 4px; border: 1px solid #dbeafe; color: #1e40af; }
-        .status-initialise { background-color: #fef3c7; color: #d97706; }
-        .status-valide { background-color: #d1fae5; color: #065f46; }
-        .status-echoue { background-color: #fee2e2; color: #dc2626; }
+        .payment-card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); 
+            border-color: #3b82f6; 
+        }
+        .payment-card.expanded { 
+            transform: none; 
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
+            border-color: #1d4ed8; 
+        }
+        .card-header { 
+            padding: 16px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            position: relative; 
+            min-height: 120px; 
+        }
+        .card-id { 
+            position: absolute; 
+            top: 12px; 
+            right: 16px; 
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8); 
+            color: white; 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); 
+            z-index: 10; 
+        }
+        .card-main-info { 
+            flex: 1; 
+            padding-right: 60px; 
+        }
+        .card-user-name { 
+            font-size: 16px; 
+            font-weight: 600; 
+            color: #1e40af; 
+            margin-bottom: 4px; 
+            line-height: 1.2; 
+            word-break: break-word; 
+        }
+        .card-amount { 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: #059669; 
+            margin-bottom: 8px; 
+        }
+        .card-status { 
+            display: inline-flex; 
+            align-items: center; 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-size: 11px; 
+            font-weight: 600; 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+        }
+        .expand-indicator { 
+            position: absolute; 
+            bottom: 8px; 
+            right: 16px; 
+            width: 24px; 
+            height: 24px; 
+            background: #f1f5f9; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.3s ease; 
+            color: #64748b; 
+            font-size: 12px; 
+        }
+        .payment-card.expanded .expand-indicator { 
+            transform: rotate(180deg); 
+            background: #3b82f6; 
+            color: white; 
+        }
+        .card-details { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.4s ease, padding 0.4s ease; 
+            background: rgba(248, 250, 252, 0.5); 
+            border-top: 1px solid #e2e8f0; 
+        }
+        .payment-card.expanded .card-details { 
+            max-height: 500px; 
+            padding: 20px; 
+        }
+        .detail-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 8px 0; 
+            border-bottom: 1px solid #e2e8f0; 
+        }
+        .detail-row:last-child { 
+            border-bottom: none; 
+        }
+        .detail-label { 
+            font-size: 13px; 
+            color: #6b7280; 
+            font-weight: 500; 
+            display: flex; 
+            align-items: center; 
+            flex: 1; 
+        }
+        .detail-label i { 
+            margin-right: 8px; 
+            width: 16px; 
+            text-align: center; 
+        }
+        .detail-value { 
+            font-size: 14px; 
+            color: #374151; 
+            font-weight: 600; 
+            text-align: right; 
+            max-width: 60%; 
+            word-break: break-word; 
+        }
+        .detail-value.code { 
+            font-family: 'Courier New', monospace; 
+            font-size: 11px; 
+            background: white; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            border: 1px solid #dbeafe; 
+            color: #1e40af; 
+        }
+        .status-initialise { 
+            background-color: #fef3c7; 
+            color: #d97706; 
+        }
+        .status-valide { 
+            background-color: #d1fae5; 
+            color: #065f46; 
+        }
+        .status-echoue { 
+            background-color: #fee2e2; 
+            color: #dc2626; 
+        }
         
         /* Styles pour le formulaire */
         .form-container {
@@ -498,6 +708,66 @@
         .btn-disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        /* Pagination responsive styles */
+        .pagination-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pagination-nav-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* For screens larger than 560px, show pagination horizontally */
+        @media (min-width: 561px) {
+            .pagination-container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .pagination-nav-container {
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .pagination-nav-container nav {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        /* Hamburger button positioning and visibility */
+        .hamburger-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Center hamburger for screens ≤439px */
+        @media (max-width: 439px) {
+            .hamburger-container {
+                justify-content: start;
+                transform: translate(-50%, -50%) !important;
+                padding-left: 1rem;
+                
+            }
+            .hamburger-container button {
+                font-size: 1rem;
+                padding: 0.40rem;
+                border-radius: 20%;
+            }
+        }
+
+        /* Hide hamburger when mobile sidebar is open */
+        .mobile-sidebar-open .hamburger-container {
+            display: none;
         }
         
         /* Media Queries pour les boutons responsives */
@@ -531,29 +801,8 @@
             margin-right: 6px;
         }
         
-        /* Écrans très petits (≤400px) */
+        /* Écrans très petits (≤400px) - Extended from ≤399px rule */
         @media (max-width: 400px) {
-            .buttons-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .left-buttons, .right-buttons {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .left-buttons {
-                margin-bottom: 12px;
-            }
-            
-            .action-button {
-                flex: 1;
-                min-width: 120px;
-                padding: 10px 12px;
-                font-size: 14px;
-            }
-            
             .page-title {
                 text-align: center;
                 margin: 16px 0;
@@ -561,8 +810,8 @@
             }
         }
         
-        /* Écrans petits (401px à 930px) */
-        @media (min-width: 401px) and (max-width: 930px) {
+        /* Écrans petits (400px à 930px) */
+        @media (min-width: 300px) and (max-width: 930px) {
             .buttons-container {
                 flex-direction: column;
                 align-items: stretch;
@@ -664,6 +913,75 @@
                 margin: 0 24px;
             }
         }
+        
+    /* ========================================
+    CUSTOM LAYOUT : 1024px - 1160px
+    ======================================== */
+    /* Form on top, info section below for 1024px - 1160px */
+    @media (min-width: 1024px) and (max-width: 1160px) {
+        /* Main grid - single column layout */
+        .main-grid {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem;
+        }
+
+        /* Form section - full width on top */
+        .main-grid .lg\:col-span-8 {
+            grid-column: 1 / -1;
+            order: 1;
+        }
+
+        /* Info section - full width below form */
+        .main-grid .lg\:col-span-4 {
+            grid-column: 1 / -1;
+            order: 2;
+        }
+
+        /* Formulaire - grille 2x2 avec labels au-dessus */
+        .formulaire-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Chaque groupe label+input en colonne */
+        .formulaire-grid > div {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Labels en haut avec espacement */
+        .formulaire-grid label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            width: 100%;
+        }
+
+        /* Inputs et selects en dessous */
+        .formulaire-grid input,
+        .formulaire-grid select {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background-color: white;
+        }
+
+        /* Focus states */
+        .formulaire-grid input:focus,
+        .formulaire-grid select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    }
         
     /* ========================================
     NOUVELLE PLAGE CRITIQUE : 1023px - 1313px
@@ -1181,16 +1499,11 @@
             </div>
         </div>
         <!-- Mobile sidebar overlay -->
-        <div id="mobile-sidebar" class="fixed inset-0 z-40 text-white transition-transform duration-300 transform -translate-x-full bg-gray-800 lg:hidden">
+        <div id="mobile-sidebar" class="fixed inset-0 z-40 text-white transition-transform duration-300 transform -translate-x-full bg-gray-800 lg:hidden overflow-y-auto">
             <div class="p-6 border-b border-gray-700">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-orange-400">
-                            <div class="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-                                <div class="w-4 h-4 bg-gray-800 rounded-full"></div>
-                            </div>
-                        </div>
-                        <span class="text-xl font-semibold text-orange-300">Kiro'o World</span>
+                    <div class="flex items-center justify-center p-3 border-b border-gray-700">
+                        <img src="https://kirooworld.com/img/font-img/logo_horizontal.png" alt="logo-kirooworld" class="w-40 h-16">
                     </div>
                     <button id="close-mobile-menu" class="text-2xl">×</button>
                 </div>
@@ -1462,16 +1775,16 @@
         </div>
         <!-- Main content -->
         <div class="relative flex-1 min-h-screen pl-0 lg:pl-80 flex-shrink-0">
-            <!-- Hamburger sur la barre latérale du main content -->
-            <div class="absolute left-0 z-50 items-start justify-center ml-5 top-4 lg:hidden" >
-                <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
-                    ☰
-                </button>
-            </div>
-            <div class="flex-1 min-h-screen bg-white ">
+            <div class="flex-1 min-h-screen bg-white overflow-visible">
                 
                 <!-- Top bar -->
-                <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 ">
+                <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 relative overflow-visible">
+                    <!-- Hamburger button inside header -->
+                    <div class="hamburger-container absolute left-4 top-1/2 transform -translate-y-1/2 z-50 lg:hidden">
+                        <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
+                            ☰
+                        </button>
+                    </div>
                     <div class="ml-10 text-lg font-semibold text-white lg:hidden sm:">
                         <a href="../dashboard.html">DASHBOARD</a>
                     </div>
@@ -1482,7 +1795,7 @@
                         </div>
                         
                         <!-- Popup Menu -->
-                        <div id="profile-popup" class="absolute right-0 mt-2 w-64 sm:w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-50 hidden">
+                        <div id="profile-popup" class="absolute right-0 mt-2 w-64 sm:w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-[9999] hidden">
                             <!-- Flèche du popup -->
                             <div class="absolute -top-2 right-4 w-4 h-4 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
                             
@@ -1619,6 +1932,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- infos section -->
 
                         <div class="lg:col-span-4 space-y-6">
                             <!-- Conteneur du tableau -->
@@ -1672,7 +1986,7 @@
                     </div>
                     <!-- Action Buttons and Table -->
                     <div class="mt-6 space-y-6 main-grid1 ">
-                       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                       <div class="w-full px-4 sm:px-6 lg:px-8">
                             <!-- Conteneur des boutons avec structure responsive -->
                             <div class="buttons-container">
                                 <!-- Boutons de gauche -->
@@ -1688,7 +2002,7 @@
                                     </button>
                                 </div>
                                 
-                            <!-- Boutons de droite -->
+                                <!-- Boutons de droite -->
                                 <div class="right-buttons">
                                     <button class="action-button bg-gray-300 hover:bg-gray-400 text-gray-800">
                                         <i class="fas fa-download"></i> Exporter
@@ -1782,10 +2096,10 @@
                             </div>
                             <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
                                 <!-- Pagination Top -->
-                                <div class="p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                    <div class="text-sm text-gray-600">*IRL: In Real Life</div>
-                                    <div class="flex items-center gap-2">
-                                        <nav class="flex items-center gap-1">
+                                <div class="p-4 border-b pagination-container">
+                                    <div class="text-sm text-gray-600 mb-4">*IRL: In Real Life</div>
+                                    <div class="pagination-nav-container">
+                                        <nav class="flex items-center gap-1 justify-center mb-3">
                                             <button class="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded text-sm">1</button>
                                             <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">2</button>
                                             <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-sm">3</button>
@@ -1796,7 +2110,7 @@
                                                 <i class="fas fa-chevron-right"></i>
                                             </button>
                                         </nav>
-                                        <div class="flex items-center gap-2 ml-4">
+                                        <div class="flex items-center gap-2 justify-center">
                                             <span class="text-sm text-gray-600">Aller à la page</span>
                                             <input type="text" class="w-16 px-2 py-1 border border-gray-300 rounded text-sm">
                                             <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">Go</button>
@@ -1886,8 +2200,21 @@
             }
             
             init() {
+                // Check if elements exist
+                if (!this.profileBtn) {
+                    console.error('Profile button not found!');
+                    return;
+                }
+                if (!this.profilePopup) {
+                    console.error('Profile popup not found!');
+                    return;
+                }
+                
+                console.log('ProfilePopup initialized successfully');
+                
                 // Event listeners
                 this.profileBtn.addEventListener('click', (e) => {
+                    console.log('Profile button clicked');
                     e.stopPropagation();
                     this.toggle();
                 });
@@ -1977,7 +2304,7 @@
                 popup.style.transform = '';
                 
                 // Sur mobile, centrer le popup
-                if (windowWidth < 140) {
+                if (windowWidth < 640) {
                     const popupWidth = 288; // w-72 = 18rem = 288px
                     const leftPosition = Math.max(16, (windowWidth - popupWidth) / 2);
                     popup.style.left = `${leftPosition - rect.right}px`;
@@ -2027,16 +2354,19 @@
 
         mobileMenuBtn.addEventListener('click', () => {
             mobileSidebar.classList.remove('-translate-x-full');
+            document.body.classList.add('mobile-sidebar-open');
         });
 
         closeMobileMenu.addEventListener('click', () => {
             mobileSidebar.classList.add('-translate-x-full');
+            document.body.classList.remove('mobile-sidebar-open');
         });
 
         // Close mobile menu when clicking outside
         mobileSidebar.addEventListener('click', (e) => {
             if (e.target === mobileSidebar) {
                 mobileSidebar.classList.add('-translate-x-full');
+                document.body.classList.remove('mobile-sidebar-open');
             }
         });
     </script>
