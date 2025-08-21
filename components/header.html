@@ -1,18 +1,109 @@
-<!-- Top bar -->
-<div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 ">
-    <div class="ml-10 text-lg font-semibold text-white lg:hidden sm:">
-        Dashboard
-    </div>
-    <div class="ml-auto">
-        <div class="flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer bg-opacity-20">
-            <span class="text-xl text-white">👤</span>
-        </div>
-    </div>
-</div>
+<style>
+/* Hamburger button positioning and visibility */
+        .hamburger-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    <!-- Hamburger sur la barre latérale du main content -->
-<div class="absolute left-0 z-50 items-start justify-center ml-5 top-4 lg:hidden" >
-<button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
-    ☰
-</button>
-</div>
+        /* Center hamburger for screens ≤439px */
+        @media (max-width: 439px) {
+            .hamburger-container {
+                justify-content: start;
+                transform: translate(-50%, -50%) !important;
+                padding-left: 1rem;
+                
+            }
+            .hamburger-container button {
+                font-size: 1rem;
+                padding: 0.40rem;
+                border-radius: 20%;
+            }
+        }
+
+        /* Hide hamburger when mobile sidebar is open */
+        .mobile-sidebar-open .hamburger-container {
+            display: none;
+        }
+</style>
+
+        <div class="relative flex-1 min-h-screen pl-0 lg:pl-80 flex-shrink-0">
+            <div class="flex-1 min-h-screen bg-white overflow-visible">
+                
+                <!-- Top bar -->
+                <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 relative overflow-visible">
+                    <!-- Hamburger button inside header -->
+                    <div class="hamburger-container absolute left-4 top-1/2 transform -translate-y-1/2 z-50 lg:hidden">
+                        <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
+                            ☰
+                        </button>
+                    </div>
+                    <div class="ml-10 text-lg font-semibold text-white lg:hidden sm:">
+                        <a href="../dashboard.html">DASHBOARD</a>
+                    </div>
+                     <!-- Profile section with popup -->
+                    <div class="relative ml-auto">
+                        <div id="profile-btn" class="flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer bg-opacity-20 hover:bg-opacity-30 transition-all duration-200">
+                            <span class="text-xl text-white">👤</span>
+                        </div>
+                        
+                        <!-- Popup Menu -->
+                        <div id="profile-popup" class="absolute right-0 mt-2 w-64 sm:w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-[9999] hidden">
+                            <!-- Flèche du popup -->
+                            <div class="absolute -top-2 right-4 w-4 h-4 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                            
+                            <!-- Contenu du popup -->
+                            <div class="py-2">
+                                <!-- Header du popup avec avatar -->
+                                <div class="px-4 py-3 border-b border-gray-100">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full">
+                                            <span class="text-xl text-blue-600">👤</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">John Doe</p>
+                                            <p class="text-xs text-gray-500">john.doe@example.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Menu items -->
+                                <div class="py-1">
+                                    <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150">
+                                        <span class="icon-profile text-base"></span>
+                                        <span>Mise à jour de mon profil</span>
+                                    </a>
+                                    
+                                    <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150">
+                                        <span class="icon-home text-base"></span>
+                                        <span>Accueil</span>
+                                    </a>
+                                    
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    
+                                    <a href="#" class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
+                                        <span class="icon-logout text-base"></span>
+                                        <span>Sign Out</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <script>
+            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const menu = this.parentElement.querySelector('.dropdown-menu');
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        if (m !== menu) m.classList.add('hidden');
+                    });
+                    menu.classList.toggle('hidden');
+                });
+            });
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+            });
+        </script>

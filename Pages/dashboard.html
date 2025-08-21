@@ -62,6 +62,32 @@
             background-repeat: no-repeat;
         }
         /*header*/
+        /* Hamburger button positioning and visibility */
+        .hamburger-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Center hamburger for screens ≤439px */
+        @media (max-width: 439px) {
+            .hamburger-container {
+                justify-content: start;
+                transform: translate(-50%, -50%) !important;
+                padding-left: 1rem;
+                
+            }
+            .hamburger-container button {
+                font-size: 1rem;
+                padding: 0.40rem;
+                border-radius: 20%;
+            }
+        }
+
+        /* Hide hamburger when mobile sidebar is open */
+        .mobile-sidebar-open .hamburger-container {
+            display: none;
+        }
         /* Animation pour le popup */
         .popup-enter {
             opacity: 0;
@@ -1549,26 +1575,25 @@
             
             
             <!-- Main content -->
-            <div class="relative flex-1 min-h-screen pl-0 lg:pl-80">
-                <!-- Hamburger sur la barre latérale du main content -->
-               <div class="absolute left-0 z-50 items-start justify-center ml-5 top-4 lg:hidden">
-                    <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
-                        ☰
-                    </button>
-                </div>
-                <div class="flex-1 min-h-screen bg-white ">
+            <div class="relative flex-1 min-h-screen pl-0 lg:pl-80 flex-shrink-0">
+                <div class="flex-1 min-h-screen bg-white overflow-visible">
                     
-                <!-- Top bar -->
-                <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4">
-                    <div class="ml-10 text-lg font-semibold text-white lg:hidden">
-                    <a href="dashboard.html">DASHBOARD</a> 
-                    </div>
-                    
-                    <!-- Profile section with popup -->
-                    <div class="relative ml-auto">
-                        <div id="profile-btn" class="flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer bg-opacity-20 hover:bg-opacity-30 transition-all duration-200">
-                            <span class="text-xl text-white">👤</span>
+                    <!-- Top bar -->
+                    <div class="flex items-center justify-between px-6 py-2 bg-blue-600 sm:py-4 relative overflow-visible">
+                        <!-- Hamburger button inside header -->
+                        <div class="hamburger-container absolute left-4 top-1/2 transform -translate-y-1/2 z-50 lg:hidden">
+                            <button id="mobile-menu-btn" class="p-2 text-white bg-gray-800 rounded-lg shadow">
+                                ☰
+                            </button>
                         </div>
+                        <div class="ml-10 text-lg font-semibold text-white lg:hidden sm:">
+                            <a href="../dashboard.html">DASHBOARD</a>
+                        </div>
+                         <!-- Profile section with popup -->
+                        <div class="relative ml-auto">
+                            <div id="profile-btn" class="flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer bg-opacity-20 hover:bg-opacity-30 transition-all duration-200">
+                                <span class="text-xl text-white">👤</span>
+                            </div>
                         
                         <!-- Popup Menu -->
                         <div id="profile-popup" class="absolute right-0 mt-2 w-64 sm:w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-50 hidden">
@@ -2830,11 +2855,6 @@
             new ProfilePopup();
         });
         
-        // Fonctionnalité du menu hamburger (si nécessaire)
-        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
-            console.log('Menu hamburger cliqué');
-            // Ajouter ici la logique pour ouvrir/fermer le menu latéral
-        });
     </script>
     <!---  script pour le graph circulaire -->
    <script>
@@ -2981,16 +3001,19 @@
 
         mobileMenuBtn.addEventListener('click', () => {
             mobileSidebar.classList.remove('-translate-x-full');
+            document.body.classList.add('mobile-sidebar-open');
         });
 
         closeMobileMenu.addEventListener('click', () => {
             mobileSidebar.classList.add('-translate-x-full');
+            document.body.classList.remove('mobile-sidebar-open');
         });
 
         // Close mobile menu when clicking outside
         mobileSidebar.addEventListener('click', (e) => {
             if (e.target === mobileSidebar) {
                 mobileSidebar.classList.add('-translate-x-full');
+                document.body.classList.remove('mobile-sidebar-open');
             }
         });
     </script>
